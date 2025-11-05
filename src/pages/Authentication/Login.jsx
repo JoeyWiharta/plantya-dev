@@ -13,6 +13,7 @@ import {
 import { ReactSession } from "react-client-session";
 import { useNavigate } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
+import axiosInstance from "../../utils/AxiosInstance";
 
 const Login = () => {
 
@@ -21,17 +22,33 @@ const Login = () => {
     const [message, setMessage] = useState("");
 
 
-    const handleLogin = (values) => {
+    // const handleLogin = (values) => {
+    //     debugger
+    //     if (values.username === "admin" && values.password === "1234") {
+    //         const userData = { username: values.username, token: "dummy-token" };
+    //         ReactSession.set("authUser", userData);
+    //         navigate("/test");
+    //     } else {
+    //         debugger
+    //         setMessage("Username atau password salah!");
+    //     }
+    // }
+    const handleLogin = async (values) => {
         debugger
-        if (values.username === "admin" && values.password === "1234") {
-            const userData = { username: values.username, token: "dummy-token" };
-            ReactSession.set("authUser", userData);
-            navigate("/test");
-        } else {
-            debugger
-            setMessage("Username atau password salah!");
+        try {
+            console.log("Test Login API")
+            const response = await axiosInstance().post("/api/auth/login", {
+                username: values.username,
+                password: values.password
+            })
+
+            console.log("Response:", response);
+        } catch (error) {
+            console.log("Test Login API Error")
+            setMessage("API ERROR")
         }
     }
+
 
     const formik = useFormik({
         initialValues:
@@ -60,16 +77,16 @@ const Login = () => {
 
 
 
+
+
     return (
         <React.Fragment>
-
-
             <PageLoading
                 open={loadingSpinner}
                 text="Memproses login..."
             />
 
-            <Paper elevation={6} sx={{ p: 4, borderRadius: 3, maxWidth: 400, mx: "auto", mt: 8 }}>
+            <Paper elevation={6} sx={{ p: 4, borderRadius: 3, maxWidth: 400, mx: "auto" }}>
 
                 <Typography variant="h5" textAlign="center" fontWeight="bold" mb={3}>
                     Login
