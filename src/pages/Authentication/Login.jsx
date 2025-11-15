@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
 import axiosInstance from "../../utils/AxiosInstance";
 import useTextFieldSx from "../../themes/textFieldDark";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
 
@@ -34,16 +35,21 @@ const Login = () => {
     //         setMessage("Username atau password salah!");
     //     }
     // }
+    const { login } = useAuth();
     const handleLogin = async (values) => {
         debugger
         try {
+            debugger
             console.log("Test Login API")
             const response = await axiosInstance().post("/api/auth/login", {
                 username: values.username,
                 password: values.password
+            }, {
+                withCredentials: true,
             })
+            login(response.data.data)
+            navigate("/"); // redirect setelah login sukses
 
-            console.log("Response:", response);
         } catch (error) {
             console.log("Test Login API Error")
             setMessage("API ERROR")

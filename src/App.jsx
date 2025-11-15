@@ -5,10 +5,11 @@ import { AuthProtectedRoutes, PublicRoutes } from "./routes/Index";
 import Authmiddleware from "./routes/route";
 import AuthLayout from "./layout/AuthLayout";
 import NonAuthLayout from "./layout/NonAuthLayout";
+import { useAuth } from "./context/AuthContext";
 
 const App = () => {
   debugger
-  const token = ReactSession.get("authUser");
+  const { loginStatus } = useAuth();
 
 
   return (
@@ -16,11 +17,8 @@ const App = () => {
       <Route
         path="/"
         element={
-          token?.token ? (
-            <Navigate to="/test" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          loginStatus ?
+            (<Navigate to="/test" replace />) : (<Navigate to="/login" replace />)
         }
       />
 

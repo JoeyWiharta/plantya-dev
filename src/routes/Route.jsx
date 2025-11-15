@@ -1,12 +1,17 @@
 import React from 'react';
 import { Navigate } from "react-router-dom";
 import { ReactSession } from 'react-client-session';
+import { useAuth } from "../context/AuthContext";
+
 
 // Authmiddleware Function
 
 const Authmiddleware = (props) => {
+
     debugger
-    if (!ReactSession.get("authUser")) {
+    const loginStatus = useAuth();
+
+    if (!loginStatus) {
         return (
             <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
         )
