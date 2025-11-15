@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ReactSession } from 'react-client-session';
 import { AuthProtectedRoutes, PublicRoutes } from "./routes/Index";
 import Authmiddleware from "./routes/route";
-import VerticalLayout from "./layout/VerticalLayout";
+import AuthLayout from "./layout/AuthLayout";
 import NonAuthLayout from "./layout/NonAuthLayout";
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
           path={route.path}
           element={
             <Authmiddleware>
-              <VerticalLayout>{route.component}</VerticalLayout>
+              <AuthLayout>{route.component}</AuthLayout>
             </Authmiddleware>
           }
         />

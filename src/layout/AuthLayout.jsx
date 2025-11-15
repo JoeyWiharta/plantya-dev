@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
-const VerticalLayout = ({ children }) => {
+const AuthLayout = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false); // State untuk collapse sidebar
 
     const toggleSidebar = () => {
@@ -71,4 +71,4 @@ const VerticalLayout = ({ children }) => {
     );
 };
 
-export default VerticalLayout;
+export default AuthLayout;
