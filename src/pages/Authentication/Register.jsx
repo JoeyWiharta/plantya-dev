@@ -16,7 +16,7 @@ import {
     Col,
     Container
 } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
 import axiosInstance from "../../utils/AxiosInstance";
 import { useAuth } from "../../context/AuthContext";
@@ -27,7 +27,6 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Register = () => {
-    const navigate = useNavigate();
     const { login } = useAuth();
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -77,10 +76,6 @@ const Register = () => {
     //     }
     // }
 
-
-    const loginPage = () => {
-        navigate("/login")
-    }
 
     // Validation Form
     const formik = useFormik({
@@ -468,6 +463,8 @@ const Register = () => {
                                 className="my-0 mx-2">
                                 Have an account?
                                 <Button
+                                    component={Link}
+                                    to="/login"
                                     sx={{
                                         fontWeight: 'bold',
                                         color: '#636CCB',
@@ -477,7 +474,6 @@ const Register = () => {
                                             backgroundColor: 'transparent'
                                         }
                                     }}
-                                    onClick={() => loginPage()}
                                 >
                                     Sign In
                                 </Button>

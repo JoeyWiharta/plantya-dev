@@ -16,7 +16,7 @@ import {
     Col,
     Container
 } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
 import axiosInstance from "../../utils/AxiosInstance";
 import { useAuth } from "../../context/AuthContext";
@@ -27,12 +27,12 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
-    const navigate = useNavigate();
     const { login } = useAuth();
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
+    const navigate = useNavigate()
     // Function Handle Login
     // Login with API
     const handleLogin = async (values) => {
@@ -381,6 +381,8 @@ const Login = () => {
                                 className="my-0 mx-2">
                                 Don't have an account?
                                 <Button
+                                    component={Link}
+                                    to="/register"
                                     sx={{
                                         fontWeight: 'bold',
                                         color: '#636CCB',
