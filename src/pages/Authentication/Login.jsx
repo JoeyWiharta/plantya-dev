@@ -44,7 +44,7 @@ const Login = () => {
             console.log("Test Login API")
 
             const response = await axiosInstance().post(ListApi.auth.login, {
-                username: values.username,
+                username_or_email: values.username,
                 password: values.password
             }, {
                 withCredentials: true,

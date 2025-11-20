@@ -6,7 +6,7 @@ export default function TestBootstrap() {
     return (
         <React.Fragment>
             <Container
-                className="bg-info p-0"
+                className="bg-secondary p-0"
                 maxWidth={false} // Menghilangkan batasan lebar
             >
                 <Row>

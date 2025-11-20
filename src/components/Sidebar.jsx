@@ -37,6 +37,7 @@ const Sidebar = () => {
                 zIndex: 1200,
                 boxShadow: "none",
             }}
+            className='bg-dark'
         >
             {/* Header Sidebar */}
             <Box
@@ -46,7 +47,7 @@ const Sidebar = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     borderBottom: "1px solid #e0e0e0",
-                    backgroundColor: "#1976d2",
+                    backgroundColor: "#2f5174ff",
                     color: "#fff",
                     fontWeight: "bold",
                     fontSize: "1.1rem",

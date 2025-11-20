@@ -9,7 +9,7 @@ const NonAuthLayout = ({ children }) => {
                 style={{
                     minHeight: "100vh", // minimal 100vh
                     alignItems: "stretch", // <— KUNCI UTAMA
-                    backgroundColor: "#0F1624",
+                    // backgroundColor: "#0F1624",
                 }}
             >
                 {/* LEFT */}

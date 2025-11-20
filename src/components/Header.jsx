@@ -16,7 +16,7 @@ const Header = ({ toggleSidebar, isCollapsed }) => {
         <AppBar
             position="sticky"
             sx={{
-                bgcolor: "#1976d2",
+                backgroundColor: "#2f5174ff",
                 zIndex: 1201, // pastikan tetap di atas sidebar
                 boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
             }}

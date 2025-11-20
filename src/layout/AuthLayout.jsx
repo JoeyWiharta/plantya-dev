@@ -40,6 +40,7 @@ const AuthLayout = ({ children }) => {
                     flexDirection: "column",
                     transition: "margin-left 0.3s ease", // Animasi saat buka/tutup
                 }}
+                className=""
             >
                 {/* Header */}
                 <header
@@ -63,6 +64,7 @@ const AuthLayout = ({ children }) => {
                         backgroundColor: "#f8f9fa",
                         boxSizing: "border-box",
                     }}
+                    className="bg-dark"
                 >
                     {children}
                 </main>
