@@ -25,6 +25,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import IconButton from '@mui/material/IconButton';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ListApi from "../../utils/ListApi";
+import { textFieldCustom } from "../../themes/theme"
 
 const Login = () => {
     const { login } = useAuth();
@@ -41,7 +43,7 @@ const Login = () => {
             debugger
             console.log("Test Login API")
 
-            const response = await axiosInstance().post("/api/auth/login", {
+            const response = await axiosInstance().post(ListApi.auth.login, {
                 username: values.username,
                 password: values.password
             }, {
@@ -77,11 +79,6 @@ const Login = () => {
     //     }
     // }
 
-
-    const registerPage = () => {
-        navigate("/register")
-    }
-
     // Validation Form
     const formik = useFormik({
         initialValues:
@@ -108,106 +105,7 @@ const Login = () => {
         },
     });
 
-    // Custom Style TextField
-    const textFieldDarkSx = {
-        // jika FormControl memiliki OutlinedInput.error → ubah margin bottom
-        "&:has(.MuiOutlinedInput-root.Mui-error)": {
-            marginBottom: "-5px",
-        },
-        "& .MuiOutlinedInput-root": {
-            color: "white",
-            borderRadius: "15px",
 
-            "& fieldset": {
-                borderColor: "#352F44",
-                borderWidth: "2px",
-                transition: "border-color 0.25s ease, box-shadow 0.25s ease",
-            },
-            "&:hover fieldset": {
-                borderColor: "#C7FCEB",
-            },
-            "&.Mui-focused fieldset": {
-                borderColor: "#C7FCEB",
-            },
-            "&.Mui-autofilled": {
-                "& fieldset": {
-                    borderColor: "#C7FCEB",
-                },
-            },
-        },
-
-        // Base placeholder style
-        "& .MuiInputBase-input::placeholder": {
-            color: "#ffffff",
-            opacity: 1,
-            fontSize: "1rem",
-        },
-
-        "& input:-webkit-autofill::placeholder": {
-            fontSize: "1rem !important",
-            color: "#ffffff !important",
-            opacity: "1 !important",
-        },
-        "& input:-webkit-autofill:hover::placeholder": {
-            fontSize: "1rem !important",
-            color: "#ffffff !important",
-            opacity: "1 !important",
-        },
-        "& input:-webkit-autofill:focus::placeholder": {
-            fontSize: "1rem !important",
-            color: "#ffffff !important",
-            opacity: "1 !important",
-        },
-
-        "& .MuiSvgIcon-root": {
-            color: "white",
-        },
-
-        "& input": {
-            backgroundColor: "transparent !important",
-            WebkitTextFillColor: "white !important",
-            color: "white !important",
-            caretColor: "white",
-            borderRadius: "15px",
-            transition: "background-color 5000s ease-in-out 0s",
-            fontSize: "1rem",
-            fontFamily: "inherit",
-        },
-
-        "& input:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-            WebkitTextFillColor: "white !important",
-            borderRadius: "15px",
-            transition: "background-color 5000s ease-in-out 0s",
-            fontSize: "1rem !important",
-            fontFamily: "inherit !important",
-        },
-        "& input:-webkit-autofill:hover": {
-            WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-            WebkitTextFillColor: "white !important",
-            fontSize: "1rem !important",
-            fontFamily: "inherit !important",
-        },
-        "& input:-webkit-autofill:focus": {
-            WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-            WebkitTextFillColor: "white !important",
-            outline: "none !important",
-            fontSize: "1rem !important",
-            fontFamily: "inherit !important",
-        },
-        "& input:-webkit-autofill:active": {
-            WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-            WebkitTextFillColor: "white !important",
-            fontSize: "1rem !important",
-            fontFamily: "inherit !important",
-        },
-
-        "& input:-webkit-autofill::first-line": {
-            color: "white !important",
-            fontSize: "1rem !important",
-            fontFamily: "inherit !important",
-        },
-    };
 
     return (
         <React.Fragment>
@@ -259,7 +157,7 @@ const Login = () => {
                                 </Alert>}
                             </Row>
 
-                            <Row className="">
+                            <Row className="mb-2">
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -282,7 +180,7 @@ const Login = () => {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.username && Boolean(formik.errors.username)}
                                     helperText={formik.touched.username && formik.errors.username}
-                                    sx={textFieldDarkSx}
+                                    sx={textFieldCustom}
                                     slotProps={{
                                         input: {
                                             startAdornment: (
@@ -296,7 +194,7 @@ const Login = () => {
                                 />
                             </Row>
 
-                            <Row className="">
+                            <Row className="mb-2">
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -321,7 +219,7 @@ const Login = () => {
                                     onBlur={formik.handleBlur}
                                     error={formik.touched.password && Boolean(formik.errors.password)}
                                     helperText={formik.touched.password && formik.errors.password}
-                                    sx={textFieldDarkSx}
+                                    sx={textFieldCustom}
                                     slotProps={{
                                         input: {
                                             startAdornment: (
@@ -397,7 +295,6 @@ const Login = () => {
                                             backgroundColor: 'transparent'
                                         }
                                     }}
-                                    onClick={() => registerPage()}
                                 >
                                     Sign Up
                                 </Button>
