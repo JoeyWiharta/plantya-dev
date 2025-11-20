@@ -40,9 +40,6 @@ const Login = () => {
     const handleLogin = async (values) => {
         debugger
         try {
-            debugger
-            console.log("Test Login API")
-
             const response = await axiosInstance().post(ListApi.auth.login, {
                 username_or_email: values.username,
                 password: values.password
@@ -50,11 +47,17 @@ const Login = () => {
                 withCredentials: true,
             })
             login(response.data.data)
-            navigate("/");
 
+            debugger
+            if (response.status == 200) {
+                navigate("/");
+                console.log("Login Succeed")
+            } else {
+                setMessage(response.message)
+                console.log("Login Failed")
+            }
         } catch (error) {
-            console.log("Test Login API Error")
-            setMessage("API ERROR")
+            setMessage(error.response.data.message)
         }
     }
     // Login With dummy
