@@ -85,11 +85,12 @@ const Login = () => {
             } finally {
                 setSubmitting(false);
                 setLoadingSpinner(false);
+                resetForm()
+
                 setTimeout(() => {
                     setShowAlert(false);
                     setMessage("");
                 }, 3000);
-                resetForm()
             }
         },
     });

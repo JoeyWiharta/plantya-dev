@@ -16,7 +16,7 @@ import {
     Col,
     Container
 } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
 import axiosInstance from "../../utils/AxiosInstance";
 import { useAuth } from "../../context/AuthContext";
@@ -26,57 +26,64 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { textFieldCustom } from "../../themes/theme"
+import ListApi from "../../utils/ListApi";
+import PopupModal from "../../common/PopupModal";
 
 const Register = () => {
-    const { login } = useAuth();
-    const [message, setMessage] = useState("");
+    const [typeModal, setTypeModal] = useState("");
+    const [messageModal, setMessageModal] = useState("Test");
+    const [headerMessageModal, setHeaderMessageModal] = useState("");
+    const [showModal, setShowModal] = useState(false)
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
 
-    // Function Handle Login
-    // Login with API
-    const handleLogin = async (values) => {
+    const navigate = useNavigate()
+
+    // Function Handle Register
+    const handleRegister = async (values) => {
         debugger
         try {
             debugger
-            console.log("Test Login API")
+            const response = await axiosInstance().post(ListApi.auth.register,
+                {
+                    username: values.username,
+                    email: values.email,
+                    password: values.password,
+                    confirm_password: values.rePassword
+                },
+                {
+                    withCredentials: true,
+                })
+            console.log(response)
 
-            const response = await axiosInstance().post("/api/auth/login", {
-                username: values.username,
-                password: values.password
-            }, {
-                withCredentials: true,
-            })
-            login(response.data.data)
-            navigate("/");
+            if (response.status == 200) {
+                setShowModal(true)
+                setTypeModal("success")
+                setHeaderMessageModal("Register Success!")
+                setMessageModal(response.message)
 
+                setTimeout(() => {
+                    setShowModal(false)
+                    setTypeModal("")
+                    setHeaderMessageModal("")
+                    setMessageModal("")
+
+                    navigate("/");
+                }, 3000)
+            }
         } catch (error) {
-            console.log("Test Login API Error")
-            setMessage("API ERROR")
+            setShowModal(true)
+            setHeaderMessageModal("Register Failed!")
+            setTypeModal("error")
+            if (error.response) {
+                debugger
+                setMessageModal(error.response.data.message)
+            } else {
+                setMessageModal(error.message)
+            }
         }
     }
-    // Login With dummy
-    // const handleLogin = (values) => {
-    //     const dummyUser = {
-    //         username: "admin",
-    //         password: "123456",
-    //     };
-    //     debugger
-    //     // validasi input
-    //     if (values.username === dummyUser.username && values.password === dummyUser.password) {
-    //         // simpan data user ke state auth
-    //         debugger
-    //         login(dummyUser);
-
-    //         // redirect
-    //         navigate("/");
-    //     }
-    //     else {
-    //         debugger
-    //         setMessage("Username atau password salah!");
-    //     }
-    // }
 
 
     // Validation Form
@@ -113,15 +120,25 @@ const Register = () => {
                     .oneOf([Yup.ref("password"), null], "Password do not match"),
             }),
 
-        onSubmit: async (values, { setSubmitting }) => {
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             debugger
-            setMessage("");
             setLoadingSpinner(true);
             try {
-                // handleLogin(values);
+                await handleRegister(values);
             } finally {
+                debugger
                 setSubmitting(false);
                 setLoadingSpinner(false);
+                resetForm()
+                setShowPassword(false)
+                setShowRePassword(false)
+
+                setTimeout(() => {
+                    setShowModal(false)
+                    setMessageModal("");
+                    setHeaderMessageModal("")
+                    setTypeModal("")
+                }, 3000)
             }
         },
     });
@@ -131,6 +148,14 @@ const Register = () => {
             <PageLoading
                 open={loadingSpinner}
                 text="Processing..."
+            />
+
+            <PopupModal
+                open={showModal}
+                type={typeModal}
+                headerMessageModal={headerMessageModal}
+                messageModal={messageModal}
+                onClose={() => setShowModal(false)}
             />
 
             <Container fluid className="" style={{ width: '65%' }}>
@@ -159,23 +184,6 @@ const Register = () => {
                             onSubmit={formik.handleSubmit}
                             className="w-75 d-flex flex-column gap-1"
                         >
-                            <Row>
-                                {message && <Alert
-                                    severity="error"
-                                    fullWidth
-                                    sx={{
-                                        backgroundColor: "rgba(255, 76, 76, 0.12)",
-                                        color: "#FF6B6B",
-                                        border: "1px solid rgba(255, 107, 107, 0.3)",
-                                        backdropFilter: "blur(4px)",
-                                        borderRadius: "10px",
-                                    }}
-                                    className="p-0 m-0 w-100"
-                                >
-                                    {message}
-                                </Alert>}
-                            </Row>
-
                             <Row className="mb-2">
                                 <Typography
                                     variant="body2"
@@ -359,7 +367,6 @@ const Register = () => {
                                         minHeight: 56,
                                         borderColor: '#352F44',
                                         color: 'white',
-                                        // py: 1.2,
                                         borderWidth: '2px',
                                         borderRadius: '15px',
                                         "&:hover": {
