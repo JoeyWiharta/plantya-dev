@@ -69,8 +69,8 @@ const Register = () => {
         {
             username: "",
             email: "",
-            password: "Admin1234",
-            rePassword: "Admin1234",
+            password: "",
+            rePassword: "",
         },
         validationSchema: Yup.object
             ({

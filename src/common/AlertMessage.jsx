@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Alert, Collapse, IconButton, Slide } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const AlertMessage = (props) => {
     return (
@@ -22,10 +23,14 @@ const AlertMessage = (props) => {
                     <Alert
                         variant="filled"
                         severity={props.severity || "info"}
+                        icon={<CancelIcon />}
                         sx={{
+                            display: "flex",
+                            alignItems: "center",
                             borderRadius: "10px",
                             color: '#FAFAFA',
                             opacity: '90%',
+                            fontSize: '16px',
                         }}
                         action={
                             props.onClose && (

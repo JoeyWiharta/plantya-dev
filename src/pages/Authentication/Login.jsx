@@ -80,7 +80,7 @@ const Login = () => {
                 if (error.response) {
                     setMessage(error.response.data.message);
                 } else {
-                    setMessage(error.message);
+                    setMessage("System is Unavailable. Please Try Again Later.");
                 }
 
             } finally {
