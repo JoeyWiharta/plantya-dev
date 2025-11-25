@@ -31,8 +31,8 @@ const Sidebar = (props) => {
     // Mapping dari index.jsx route path
     const menuItems = [
         {
-            text: "Test",
-            path: "/test",
+            text: "Dashboard",
+            path: "/dashboard",
             icon: <DashboardCustomizeIcon />
         },
         {
@@ -228,6 +228,7 @@ const Sidebar = (props) => {
                                                             to={sub.path}
                                                             selected={location.pathname === sub.path}
                                                             sx={{
+                                                                borderRadius: 35,
                                                                 "&.Mui-selected": {
                                                                     bgcolor: "#323347",
                                                                     borderRadius: 35,
