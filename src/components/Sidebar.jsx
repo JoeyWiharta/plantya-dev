@@ -36,20 +36,20 @@ const Sidebar = (props) => {
             icon: <DashboardCustomizeIcon />
         },
         {
-            text: "Reports",
-            icon: <PeopleIcon />,
-
-            sub: [
-                { text: "Dashboard", path: "/dashboard", icon: <PersonIcon /> },
-                { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
-            ],
-        },
-        {
             text: "Master Data",
             icon: <PeopleIcon />,
 
             sub: [
                 { text: "User", path: "/master-data/user", icon: <PersonIcon /> },
+                { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
+            ],
+        },
+        {
+            text: "Reports",
+            icon: <PeopleIcon />,
+
+            sub: [
+                { text: "Dashboard", path: "/dashboard", icon: <PersonIcon /> },
                 { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
             ],
         },
