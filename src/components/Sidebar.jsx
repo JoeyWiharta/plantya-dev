@@ -138,7 +138,8 @@ const Sidebar = (props) => {
                 </Typography>
 
                 <List sx={{
-                    flex: 1, p: 0, color: '#64748B', my: 1,
+                    flex: 1, p: 0, color: '#64748B', 
+                    // my: 1,
                 }} className="d-flex flex-column" >
                     {menuItems.map((item, index) => {
                         const isParent = !!item.sub;
@@ -154,6 +155,7 @@ const Sidebar = (props) => {
                                         selected={location.pathname === item.path}
                                         sx={{
                                             borderRadius: 35,
+                                            mb: 1,
                                             "&.Mui-selected": {
                                                 bgcolor: "#323347",
                                                 borderRadius: 35,
@@ -195,6 +197,7 @@ const Sidebar = (props) => {
 
                                             sx={{
                                                 borderRadius: 35,
+                                                mb:1,
                                                 "&.Mui-selected": {
                                                     bgcolor: "#323347",
                                                     borderRadius: 35,
@@ -251,7 +254,7 @@ const Sidebar = (props) => {
                                                         ml: '20%',
                                                         borderLeft: '3px solid #352F44',
                                                         pl: 1,
-                                                        my: 1,
+                                                        // my: 1,
 
                                                     }}
                                                     className="d-flex flex-column"
@@ -263,6 +266,7 @@ const Sidebar = (props) => {
                                                             to={sub.path}
                                                             selected={location.pathname === sub.path}
                                                             sx={{
+                                                                mb: 1,
                                                                 borderRadius: 35,
                                                                 "&.Mui-selected": {
                                                                     bgcolor: "#323347",
