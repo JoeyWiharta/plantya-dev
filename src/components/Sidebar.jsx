@@ -60,6 +60,7 @@ const Sidebar = (props) => {
             sub: [
                 { text: "Test", path: "/test", icon: <PersonIcon /> },
                 { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
+                { text: "Test", path: "/test", icon: <PersonIcon /> },
             ],
         },
 
@@ -138,7 +139,7 @@ const Sidebar = (props) => {
                 </Typography>
 
                 <List sx={{
-                    flex: 1, p: 0, color: '#64748B', 
+                    flex: 1, p: 0, color: '#64748B',
                     // my: 1,
                 }} className="d-flex flex-column" >
                     {menuItems.map((item, index) => {
@@ -197,7 +198,7 @@ const Sidebar = (props) => {
 
                                             sx={{
                                                 borderRadius: 35,
-                                                mb:1,
+                                                mb: 1,
                                                 "&.Mui-selected": {
                                                     bgcolor: "#323347",
                                                     borderRadius: 35,
@@ -244,6 +245,7 @@ const Sidebar = (props) => {
                                         <Collapse in={openMenuIndex === index} timeout={500} unmountOnExit>
                                             <Box
                                                 sx={{
+                                                    mb: 1,
                                                     opacity: openMenuIndex === index ? 1 : 0,
                                                     transition: "opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
                                                 }}
@@ -254,10 +256,10 @@ const Sidebar = (props) => {
                                                         ml: '20%',
                                                         borderLeft: '3px solid #352F44',
                                                         pl: 1,
-                                                        // my: 1,
+                                                        // pt:1,
 
                                                     }}
-                                                    className="d-flex flex-column"
+                                                    className="d-flex flex-column gap-2"
                                                 >
                                                     {item.sub.map((sub, subIndex) => (
                                                         <ListItemButton
@@ -266,7 +268,7 @@ const Sidebar = (props) => {
                                                             to={sub.path}
                                                             selected={location.pathname === sub.path}
                                                             sx={{
-                                                                mb: 1,
+                                                                // mb: 1,
                                                                 borderRadius: 35,
                                                                 "&.Mui-selected": {
                                                                     bgcolor: "#323347",
@@ -275,6 +277,7 @@ const Sidebar = (props) => {
                                                                 },
                                                                 "&:hover": { bgcolor: "#323347", borderRadius: 35, color: '#FFFFFF', transition: "all 0.5s ease" },
                                                             }}
+                                                        // className="bg-success"
 
                                                         >
                                                             <ListItemIcon sx={{ minWidth: 36, color: "#64748B" }} >
