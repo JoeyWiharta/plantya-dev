@@ -83,15 +83,15 @@ const Sidebar = (props) => {
             ],
         },
         {
-            text: "Test",
+            text: "Header Test",
             icon: <FactCheckOutlinedIcon />,
 
             sub: [
-                { text: "Test", path: "/test", icon: <PersonIcon /> },
-                { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
-                { text: "Test", path: "/test", icon: <PersonIcon /> },
-                { text: "Test", path: "/test", icon: <PersonIcon /> },
-                { text: "Test", path: "/test", icon: <PersonIcon /> },
+                { text: "Test 1", path: "/test", icon: <PersonIcon /> },
+                { text: "Test 2", path: "/master-data/team", icon: <GroupIcon /> },
+                { text: "Test 3", path: "/test", icon: <PersonIcon /> },
+                { text: "Test 4", path: "/test", icon: <PersonIcon /> },
+                { text: "Test 5", path: "/test", icon: <PersonIcon /> },
             ],
         },
 
@@ -116,8 +116,7 @@ const Sidebar = (props) => {
     useEffect(() => {
         debugger
         setOpenMenuIndex(null)
-        setPopoverParentIndex(null);
-        setAnchorEl(null);
+        handleClosePopover()
         if (props.isCollapsed == false) {
 
 
@@ -339,17 +338,27 @@ const Sidebar = (props) => {
                                                 vertical: 'center',
                                                 horizontal: 'left',
                                             }}
-                                            PaperProps={{
-                                                sx: {
-                                                    bgcolor: "#0F1624",
-                                                    borderRadius: 3,
-                                                    p: 1,
-                                                    border: "3px solid #352F44",
-                                                    width: '15%'
+                                            slotProps={{
+                                                paper: {
+                                                    onMouseLeave: () => {
+                                                        setTimeout(handleClosePopover, 100);
+                                                    },
+                                                    sx: {
+                                                        bgcolor: "#0F1624",
+                                                        borderRadius: 3,
+                                                        p: 1,
+                                                        border: "3px solid #352F44",
+                                                        width: '10%',
+                                                        ml: 1,
+                                                        transition: "opacity 0.3s ease, transform 0.3s ease"
+                                                    }
                                                 }
                                             }}
                                         >
-                                            <List sx={{ p: 0 }}>
+                                            <List
+                                                sx={{ p: 0 }}
+                                                className="d-flex flex-column gap-2"
+                                            >
                                                 {item.sub?.map((sub, subIndex) => (
                                                     <ListItemButton
                                                         key={subIndex}
