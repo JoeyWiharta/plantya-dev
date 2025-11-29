@@ -8,7 +8,6 @@ import NonAuthLayout from "./layout/NonAuthLayout";
 import { useAuth } from "./context/AuthContext";
 
 const App = () => {
-  debugger
   const { loginStatus } = useAuth();
 
 

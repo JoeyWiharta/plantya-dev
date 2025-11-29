@@ -6,20 +6,25 @@ const Dashboard = () => {
     return (
         <React.Fragment>
             <Container
-                className="bg-secondary p-0"
+                className="bg-secondary p-0 "
                 maxWidth={false} // Menghilangkan batasan lebar
+                style={{
+                    backgroundColor: '#1A2333'
+                }}
             >
-                <Row style={{ height: '120vh' }}>
+                <Row style={{
+                    height: '120vh', backgroundColor: '#1A2333'
+                }} >
                     <Col>
                         {/* <Alert color="primary">Tab 🎉</Alert> */}
-                        <Alert color="primary">Graph || Table</Alert>
+                        < Alert color="primary">Graph || Table</Alert>
                         <Button color="success">Test Button</Button>
                     </Col>
                 </Row>
 
 
-            </Container>
-        </React.Fragment>
+            </Container >
+        </React.Fragment >
     );
 }
 export default Dashboard;

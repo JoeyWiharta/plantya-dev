@@ -9,7 +9,7 @@ import CodeIcon from '@mui/icons-material/Code';
 
 const SIDEBAR_COLLAPSE_WIDTH = 75;
 const SIDEBAR_WIDTH = 280;
-const HEADER_HEIGHT = 70;
+const HEADER_HEIGHT = 75;
 
 const AuthLayout = ({ children }) => {
 
@@ -95,7 +95,10 @@ const AuthLayout = ({ children }) => {
                         zIndex: 1100,
                     }}
                 >
-                    <Header toggleSidebar={toggleSidebar} isCollapsed={isCollapsed} />
+                    <Header
+                        toggleSidebar={toggleSidebar}
+                        isCollapsed={isCollapsed}
+                    />
                 </header>
 
 

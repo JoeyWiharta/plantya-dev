@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
     Box,
@@ -14,34 +14,38 @@ import {
     Fade
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PersonIcon from "@mui/icons-material/Person";
-import GroupIcon from "@mui/icons-material/Group";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
-import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
-import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { appMenuStructure } from "../routes/Index";
 
 
 const Sidebar = (props) => {
     const location = useLocation();
-
-    // State and Function Sidebar Expand
     const [openMenuIndex, setOpenMenuIndex] = useState(null)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [popoverParentIndex, setPopoverParentIndex] = useState(null);
+
+    // Mapping Menu Main and Footer dari index.jsx
+    const menuItems = useMemo(() =>
+        appMenuStructure.filter(item => item.section === "main"),
+        [appMenuStructure]
+    )
+
+    const footerItems = useMemo(() =>
+        appMenuStructure.filter(item => item.section === "footer"),
+        [appMenuStructure]
+    )
+
+    useEffect(() => {
+        console.log(menuItems)
+        console.log(footerItems)
+    }, [menuItems, footerItems])
+
+    // Function Sidebar Expand
     const handleToggleMenu = (index) => {
         setOpenMenuIndex(prev => prev === index ? null : index)
     }
 
-    // State and Function Sidebar Collapse
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [popoverParentIndex, setPopoverParentIndex] = useState(null);
-
+    // Function Sidebar Collapse
     const handleOpenPopover = (event, index) => {
         setAnchorEl(event.currentTarget);
         setPopoverParentIndex(index);
@@ -56,61 +60,6 @@ const Sidebar = (props) => {
         if (!item.sub) return false
         return item.sub.some(sub => location.pathname === sub.path)
     }
-
-    // Mapping dari index.jsx route path
-    const menuItems = [
-        {
-            text: "Dashboard",
-            path: "/dashboard",
-            icon: <DashboardCustomizeIcon />
-        },
-        {
-            text: "Master Data",
-            icon: <PeopleIcon />,
-
-            sub: [
-                { text: "User", path: "/user", icon: <PersonIcon /> },
-                { text: "Teams", path: "/master-data/team", icon: <GroupIcon /> },
-            ],
-        },
-        {
-            text: "Reports",
-            icon: <AnalyticsOutlinedIcon />,
-
-            sub: [
-                { text: "Table", path: "/testing", icon: <BackupTableOutlinedIcon /> },
-                { text: "Graph", path: "/master-data/team", icon: <ShowChartOutlinedIcon /> },
-            ],
-        },
-        {
-            text: "Header Test",
-            icon: <FactCheckOutlinedIcon />,
-
-            sub: [
-                { text: "Test 1", path: "/test", icon: <PersonIcon /> },
-                { text: "Test 2", path: "/master-data/team", icon: <GroupIcon /> },
-                { text: "Test 3", path: "/test", icon: <PersonIcon /> },
-                { text: "Test 4", path: "/test", icon: <PersonIcon /> },
-                { text: "Test 5", path: "/test", icon: <PersonIcon /> },
-            ],
-        },
-
-        { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
-    ];
-    const footerItems = [
-        {
-            text: "Support",
-            path: "/dashboard",
-            icon: <SupportAgentOutlinedIcon />
-        },
-        {
-            text: "About",
-            icon: <InfoOutlinedIcon />,
-            path: "/about",
-        },
-
-        // { text: "Settings", path: "/settings", icon: <SettingsIcon /> },
-    ];
 
     // Expand Parent Jika Child Menu Active Sesuai Path
     useEffect(() => {
@@ -130,8 +79,6 @@ const Sidebar = (props) => {
             });
         }
     }, [location.pathname, props.isCollapsed]);
-
-
 
 
     return (

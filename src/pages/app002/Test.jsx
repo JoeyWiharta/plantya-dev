@@ -9,7 +9,7 @@ const Test = () => {
                 className="bg-secondary p-0"
                 maxWidth={false} // Menghilangkan batasan lebar
             >
-                <Row style={{ height: '120vh' }}>
+                <Row style={{ height: 'auto' }}>
                     <Col>
                         {/* <Alert color="primary">Tab 🎉</Alert> */}
                         <Alert color="primary">GTest Page</Alert>

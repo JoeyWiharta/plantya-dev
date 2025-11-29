@@ -20,7 +20,7 @@ const checkExpiredToken = (key) => {
 
 // Function Helper Axios
 
-const ENV = import.meta.env.VITE_ENV; 
+const ENV = import.meta.env.VITE_ENV;
 
 const BASE_URL = {
     local: import.meta.env.VITE_BASE_URL_LOCAL,
@@ -29,7 +29,6 @@ const BASE_URL = {
 };
 
 const axiosInstance = (additionalConfig = {}) => {
-    debugger
     const token = checkExpiredToken("token");
 
     return axios.create({

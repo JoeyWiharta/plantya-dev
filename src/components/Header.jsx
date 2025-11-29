@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close"; // ❌ Icon untuk tutup sidebar
-import LogoutIcon from "@mui/icons-material/Logout"; // 🔒 Tambahan agar lebih konsisten
+import PropTypes from "prop-types";
+import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 
-const Header = ({ toggleSidebar, isCollapsed }) => {
+const Header = (props) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -19,32 +19,71 @@ const Header = ({ toggleSidebar, isCollapsed }) => {
                 backgroundColor: "#0F1624",
                 zIndex: 1201, // pastikan tetap di atas sidebar
                 boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                height: '100%',
             }}
         >
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Toolbar
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: 'center',
+                    height: "100%"
+                }}
+            // className="bg-success"
+            >
 
-                {/* Judul Header */}
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                    Template Dashboard
-                </Typography>
+                <Box>
+                    {/* Judul Header */}
+                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                        Welcome Back
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 'light' }}>
+                        Plantya - Admin User Dari Local Storage
+                    </Typography>
+                </Box>
 
-                {/* Tombol Logout */}
-                <IconButton
-                    color="inherit"
-                    onClick={handleLogout}
+                <Box
                     sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        fontSize: "0.9rem",
+                        display:'flex',
+                        flexDirection:'row',
                     }}
                 >
-                    <LogoutIcon fontSize="small" />
-                    Logout
-                </IconButton>
+                    <IconButton
+                        color="inherit"
+                        onClick={handleLogout}
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "0.9rem",
+                        }}
+                    >
+                        <NotificationsNoneOutlinedIcon fontSize="small" />
+                    </IconButton>
+
+                    <IconButton
+                        color="inherit"
+                        onClick={handleLogout}
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "0.9rem",
+                        }}
+                    >
+                        <LogoutIcon fontSize="small" />
+                        Logout
+                    </IconButton>
+                </Box>
+
             </Toolbar>
         </AppBar>
     );
+};
+
+Header.PropTypes = {
+    ToggleSidebar: PropTypes.any,
+    isCollapsed: PropTypes.any,
 };
 
 export default Header;
