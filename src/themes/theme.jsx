@@ -9,7 +9,7 @@ const theme = createTheme({
       default: "#121314",
     },
     text: {
-      primary: "#FFFFFF",
+      primary: "#FAFAFA",
     },
   },
 });
@@ -20,7 +20,7 @@ export const textFieldCustom = {
 
   position: 'relative',
   "& .MuiOutlinedInput-root": {
-    color: "#FFFFFF",
+    color: "#FAFAFA",
     borderRadius: "15px",
 
     "& fieldset": {
@@ -48,9 +48,9 @@ export const textFieldCustom = {
     fontSize: "1rem",
   },
   "& input:not(:placeholder-shown)": {
-    WebkitTextFillColor: "#FFFFFF !important",
-    color: "#FFFFFF !important",
-    caretColor: "#FFFFFF",
+    WebkitTextFillColor: "#FAFAFA !important",
+    color: "#FAFAFA !important",
+    caretColor: "#FAFAFA",
   },
 
   "& input:-webkit-autofill::placeholder": {
@@ -86,7 +86,7 @@ export const textFieldCustom = {
 
   "& input:-webkit-autofill": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "#FFFFFF !important",
+    WebkitTextFillColor: "#FAFAFA !important",
     borderRadius: "15px",
     transition: "background-color 5000s ease-in-out 0s",
     fontSize: "1rem !important",
@@ -94,26 +94,26 @@ export const textFieldCustom = {
   },
   "& input:-webkit-autofill:hover": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "#FFFFFF !important",
+    WebkitTextFillColor: "#FAFAFA !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
   "& input:-webkit-autofill:focus": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "#FFFFFF !important",
+    WebkitTextFillColor: "#FAFAFA !important",
     outline: "none !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
   "& input:-webkit-autofill:active": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "#FFFFFF !important",
+    WebkitTextFillColor: "#FAFAFA !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
 
   "& input:-webkit-autofill::first-line": {
-    color: "#FFFFFF !important",
+    color: "#FAFAFA !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },

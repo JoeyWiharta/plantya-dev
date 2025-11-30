@@ -82,7 +82,7 @@ const AuthLayout = ({ children }) => {
                     flexDirection: "column",
                     transition: "margin-left 0.5s ease-in-out",
                     minHeight: "100vh",
-                    backgroundColor: "#inherit",
+                    backgroundColor: "#121314",
                     overflow: "visible",
                 }}
             >
@@ -93,7 +93,7 @@ const AuthLayout = ({ children }) => {
                     component="header"
                     sx={{
                         height: HEADER_HEIGHT,
-                        backgroundColor: "#inherit",
+                        backgroundColor: "#121314",
                         borderBottom: "2px solid #383B42",
                         position: "sticky",
                         top: 0,
@@ -113,7 +113,7 @@ const AuthLayout = ({ children }) => {
                     sx={{
                         flex: 1,
                         p: 3,
-                        backgroundColor: "#inherit",
+                        backgroundColor: "#121314",
                         color: "#fff",
                         overflowY: "auto",
                     }}

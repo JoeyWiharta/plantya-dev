@@ -144,7 +144,7 @@ const Sidebar = (props) => {
                             mx: props.isCollapsed ? 0 : 1,
                             flex: 1,
                             my: 1,
-                            color: '#64748B',
+                            color: '#383B42',
                             transition: "all 0.5s ease"
 
 
@@ -158,7 +158,7 @@ const Sidebar = (props) => {
                     <List
                         className="d-flex flex-column"
                         sx={{
-                            flex: 1, p: 0, color: '#64748B',
+                            flex: 1, p: 0, color: '#383B42',
                         }}
                     >
 
@@ -180,7 +180,7 @@ const Sidebar = (props) => {
                                             tooltip: {
                                                 sx: {
                                                     bgcolor: "#1F1F1F",
-                                                    color: '#FFFFFF',
+                                                    color: '#FAFAFA',
                                                     fontSize: '1rem'
                                                 }
                                             },
@@ -217,17 +217,17 @@ const Sidebar = (props) => {
                                                 "&.Mui-selected": {
                                                     bgcolor: "#1F1F1F",
                                                     borderRadius: 35,
-                                                    color: '#FFFFFF'
+                                                    color: '#FAFAFA'
                                                 },
                                                 "&:hover": {
                                                     bgcolor: "#1F1F1F",
                                                     borderRadius: 35,
-                                                    color: '#FFFFFF',
+                                                    color: '#FAFAFA',
                                                     transition: "background-color 0.4s ease-in-out, color 0.4s ease-in-out"
                                                 },
                                                 "&.Mui-selected:hover": {
                                                     bgcolor: "#1F1F1F", // Pastikan warnanya tetap sama
-                                                    color: '#FFFFFF',
+                                                    color: '#FAFAFA',
                                                 },
 
                                             }}
@@ -327,16 +327,16 @@ const Sidebar = (props) => {
                                                             px: 0,                      // Dari `px: 0`
                                                             "&.Mui-selected": {
                                                                 bgcolor: "#1F1F1F",
-                                                                color: '#FFFFFF'
+                                                                color: '#FAFAFA'
                                                             },
                                                             "&:hover": {
                                                                 bgcolor: "#1F1F1F",
-                                                                color: '#FFFFFF',
+                                                                color: '#FAFAFA',
                                                                 transition: "background-color 0.4s ease-in-out, color 0.4s ease-in-out"
                                                             },
                                                             "&.Mui-selected:hover": {
                                                                 bgcolor: "#1F1F1F", // Pastikan warnanya tetap sama
-                                                                color: '#FFFFFF',
+                                                                color: '#FAFAFA',
                                                             },
                                                         }}
                                                     >
@@ -394,16 +394,16 @@ const Sidebar = (props) => {
                                                                 px: 0,
                                                                 "&.Mui-selected": {
                                                                     bgcolor: "#1F1F1F",
-                                                                    color: '#FFFFFF'
+                                                                    color: '#FAFAFA'
                                                                 },
                                                                 "&:hover": {
                                                                     bgcolor: "#1F1F1F",
-                                                                    color: '#FFFFFF',
+                                                                    color: '#FAFAFA',
                                                                     transition: "background-color 0.4s ease-in-out, color 0.4s ease-in-out"
                                                                 },
                                                                 "&.Mui-selected:hover": {
                                                                     bgcolor: "#1F1F1F", // Pastikan warnanya tetap sama
-                                                                    color: '#FFFFFF',
+                                                                    color: '#FAFAFA',
                                                                 },
                                                             }}
                                                         >
@@ -456,7 +456,7 @@ const Sidebar = (props) => {
                             mx: props.isCollapsed ? -1 : 1,
                             flex: 1,
                             my: 1,
-                            color: '#64748B',
+                            color: '#383B42',
                             transition: "all 0.5s ease-in-out",
                             width: "auto"
 
@@ -472,7 +472,7 @@ const Sidebar = (props) => {
                         sx={{
                             flex: 1,
                             p: 0,
-                            color: '#64748B',
+                            color: '#383B42',
                         }}
                         className="d-flex flex-column"
                     >
@@ -493,7 +493,7 @@ const Sidebar = (props) => {
                                             tooltip: {
                                                 sx: {
                                                     bgcolor: "#16181A",
-                                                    color: "#ffffff",
+                                                    color: "#FAFAFA",
                                                     fontSize: "14px",
                                                     fontWeight: 600,
                                                     borderRadius: "8px",
@@ -517,18 +517,18 @@ const Sidebar = (props) => {
                                                 "&.Mui-selected": {
                                                     bgcolor: "#1F1F1F",
                                                     borderRadius: 35,
-                                                    color: '#FFFFFF'
+                                                    color: '#FAFAFA'
                                                 },
                                                 "&:hover":
                                                 {
                                                     bgcolor: "#1F1F1F",
                                                     borderRadius: 35,
-                                                    color: '#FFFFFF',
+                                                    color: '#FAFAFA',
                                                     transition: "background-color 0.4s ease-in-out, color 0.4s ease-in-out"
                                                 },
                                                 "&.Mui-selected:hover": {
                                                     bgcolor: "#1F1F1F", // Pastikan warnanya tetap sama
-                                                    color: '#FFFFFF',
+                                                    color: '#FAFAFA',
                                                 },
                                                 ...(props.isCollapsed && {
                                                     px: 0,
