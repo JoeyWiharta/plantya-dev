@@ -89,7 +89,7 @@ const Sidebar = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 // overflow: "hidden",
-                backgroundColor: "#0F1624",
+                backgroundColor: "#16181A",
                 color: "#fff",
             }}
         >
@@ -101,7 +101,7 @@ const Sidebar = (props) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    borderBottom: "3px solid #352F44",
+                    borderBottom: "3px solid #383B42",
                 }}
             // className="bg-info"
             >
@@ -134,7 +134,7 @@ const Sidebar = (props) => {
                     sx={{
                         p: 2,
                         pb: 0,
-                        borderBottom: "3px solid #352F44",
+                        borderBottom: "3px solid #383B42",
                     }}
                 // className="bg-success"
                 >
@@ -179,7 +179,7 @@ const Sidebar = (props) => {
                                         slotProps={{
                                             tooltip: {
                                                 sx: {
-                                                    bgcolor: "#323347",
+                                                    bgcolor: "#16181A",
                                                     color: '#FFFFFF',
                                                     fontSize: '1rem'
                                                 }
@@ -295,10 +295,10 @@ const Sidebar = (props) => {
                                                         setTimeout(handleClosePopover, 100);
                                                     },
                                                     sx: {
-                                                        bgcolor: "#0F1624",
+                                                        bgcolor: "#16181A",
                                                         borderRadius: 3,
                                                         p: 1,
-                                                        border: "3px solid #352F44",
+                                                        border: "3px solid #383B42",
                                                         width: '10%',
                                                         ml: 1,
                                                         transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out"
@@ -370,7 +370,7 @@ const Sidebar = (props) => {
                                                     sx={{
                                                         width: '80%',
                                                         ml: '20%',
-                                                        borderLeft: '3px solid #352F44',
+                                                        borderLeft: '3px solid #383B42',
                                                         pl: 1,
                                                     }}
                                                     className="d-flex flex-column gap-2"
@@ -480,7 +480,7 @@ const Sidebar = (props) => {
                                             transition: { timeout: 500 },
                                             tooltip: {
                                                 sx: {
-                                                    bgcolor: "#323347",
+                                                    bgcolor: "#16181A",
                                                     color: "#ffffff",
                                                     fontSize: "14px",
                                                     fontWeight: 600,
@@ -489,7 +489,7 @@ const Sidebar = (props) => {
                                             },
                                             arrow: {
                                                 sx: {
-                                                    color: "#323347",
+                                                    color: "#16181A",
                                                 }
                                             }
                                         }}

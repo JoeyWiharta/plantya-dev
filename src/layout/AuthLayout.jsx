@@ -32,7 +32,7 @@ const AuthLayout = ({ children }) => {
                     left: 0,
                     height: '100vh',
                     backgroundColor: "#inherit",
-                    borderRight: "3px solid #352F44",
+                    borderRight: "3px solid #383B42",
                     overflow: "visible",
                     transition: "width 0.5s ease-in-out",
                     zIndex: 1200,
@@ -58,8 +58,8 @@ const AuthLayout = ({ children }) => {
                     width: 35,
                     height: 35,
                     borderRadius: '5px',
-                    backgroundColor: "#0F1624",
-                    border: "3px solid #352F44",
+                    backgroundColor: "#121314",
+                    border: "3px solid #383B42",
                     transition: "left 0.5s ease-in-out",
                     "&:hover": {
                         bgcolor: "#323347",
@@ -94,7 +94,7 @@ const AuthLayout = ({ children }) => {
                     sx={{
                         height: HEADER_HEIGHT,
                         backgroundColor: "#inherit",
-                        borderBottom: "3px solid #352F44",
+                        borderBottom: "3px solid #383B42",
                         position: "sticky",
                         top: 0,
                         zIndex: 1100,

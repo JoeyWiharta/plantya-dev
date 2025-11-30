@@ -369,13 +369,14 @@ const Register = () => {
                                     sx={{
                                         mt: 1,
                                         minHeight: 56,
-                                        borderColor: '#352F44',
+                                        borderColor: '#16181A',
                                         color: 'white',
+                                        bgcolor: '#24427D',
                                         borderWidth: '2px',
                                         borderRadius: '15px',
                                         "&:hover": {
-                                            backgroundColor: "#ffffffff",
-                                            color: '#000000',
+                                            backgroundColor: "#1976D2",
+                                            // color: '#000000',
                                             transition: "0.7s ease",
                                         }
                                     }}

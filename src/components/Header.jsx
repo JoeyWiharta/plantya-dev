@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 const Header = (props) => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Header = (props) => {
         <AppBar
             position="sticky"
             sx={{
-                backgroundColor: "#0F1624",
+                backgroundColor: "#121314",
                 zIndex: 1201, // pastikan tetap di atas sidebar
                 boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                 height: '100%',
@@ -44,36 +45,45 @@ const Header = (props) => {
 
                 <Box
                     sx={{
-                        display:'flex',
-                        flexDirection:'row',
+                        display: 'flex',
+                        flexDirection: 'row',
                     }}
+                    className="bg-warning"
                 >
-                    <IconButton
-                        color="inherit"
-                        onClick={handleLogout}
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            fontSize: "0.9rem",
-                        }}
-                    >
-                        <NotificationsNoneOutlinedIcon fontSize="small" />
-                    </IconButton>
+                    <Box>
+                        <IconButton
+                            color="inherit"
+                            onClick={handleLogout}
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                fontSize: "0.9rem",
+                            }}
+                        >
+                            <NotificationsNoneOutlinedIcon fontSize="medium" />
+                        </IconButton>
+                    </Box>
 
-                    <IconButton
-                        color="inherit"
-                        onClick={handleLogout}
+                    <Box
                         sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px",
-                            fontSize: "0.9rem",
-                        }}
-                    >
-                        <LogoutIcon fontSize="small" />
-                        Logout
-                    </IconButton>
+                            borderLeft: '3px solid #383B42',
+                        }}>
+
+                        <IconButton
+                            color="inherit"
+                            onClick={handleLogout}
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                fontSize: "0.9rem",
+                            }}
+                        >
+                            <AccountCircleOutlinedIcon fontSize="medium" />
+                            Logout
+                        </IconButton>
+                    </Box>
                 </Box>
 
             </Toolbar>

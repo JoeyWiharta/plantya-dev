@@ -260,14 +260,14 @@ const Login = () => {
                                     sx={{
                                         mt: 1,
                                         minHeight: 56,
-                                        borderColor: '#352F44',
+                                        borderColor: '#16181A',
                                         color: 'white',
                                         borderWidth: '2px',
-                                        // py: 1.2,
+                                        bgcolor: '#24427D',
                                         borderRadius: '15px',
                                         "&:hover": {
-                                            backgroundColor: "#ffffffff",
-                                            color: '#000000',
+                                            backgroundColor: "#1976D2",
+                                            // color: '#000000',
                                             transition: "0.7s ease",
                                         }
                                     }}

@@ -6,7 +6,7 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: "#0F1624",
+      default: "#121314",
     },
     text: {
       primary: "#FFFFFF",
@@ -20,59 +20,59 @@ export const textFieldCustom = {
 
   position: 'relative',
   "& .MuiOutlinedInput-root": {
-    color: "white",
+    color: "#676767",
     borderRadius: "15px",
 
     "& fieldset": {
-      borderColor: "#352F44",
+      borderColor: "#16181A",
       borderWidth: "2px",
       transition: "border-color 0.25s ease, box-shadow 0.25s ease",
     },
     "&:hover fieldset": {
-      borderColor: "#C7FCEB",
+      borderColor: "#676767",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#C7FCEB",
+      borderColor: "#676767",
     },
     "&.Mui-autofilled": {
       "& fieldset": {
-        borderColor: "#C7FCEB",
+        borderColor: "#676767",
       },
     },
   },
 
   // Base placeholder style
   "& .MuiInputBase-input::placeholder": {
-    color: "#ffffff",
+    color: "#676767",
     opacity: 1,
     fontSize: "1rem",
   },
 
   "& input:-webkit-autofill::placeholder": {
     fontSize: "1rem !important",
-    color: "#ffffff !important",
+    color: "#676767 !important",
     opacity: "1 !important",
   },
   "& input:-webkit-autofill:hover::placeholder": {
     fontSize: "1rem !important",
-    color: "#ffffff !important",
+    color: "#676767 !important",
     opacity: "1 !important",
   },
   "& input:-webkit-autofill:focus::placeholder": {
     fontSize: "1rem !important",
-    color: "#ffffff !important",
+    color: "#676767 !important",
     opacity: "1 !important",
   },
 
   "& .MuiSvgIcon-root": {
-    color: "white",
+    color: "#676767",
   },
 
   "& input": {
     backgroundColor: "transparent !important",
-    WebkitTextFillColor: "white !important",
-    color: "white !important",
-    caretColor: "white",
+    WebkitTextFillColor: "#676767 !important",
+    color: "#676767 !important",
+    caretColor: "#676767",
     borderRadius: "15px",
     transition: "background-color 5000s ease-in-out 0s",
     fontSize: "1rem",
@@ -81,7 +81,7 @@ export const textFieldCustom = {
 
   "& input:-webkit-autofill": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "white !important",
+    WebkitTextFillColor: "#676767 !important",
     borderRadius: "15px",
     transition: "background-color 5000s ease-in-out 0s",
     fontSize: "1rem !important",
@@ -89,26 +89,26 @@ export const textFieldCustom = {
   },
   "& input:-webkit-autofill:hover": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "white !important",
+    WebkitTextFillColor: "#676767 !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
   "& input:-webkit-autofill:focus": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "white !important",
+    WebkitTextFillColor: "#676767 !important",
     outline: "none !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
   "& input:-webkit-autofill:active": {
     WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-    WebkitTextFillColor: "white !important",
+    WebkitTextFillColor: "#676767 !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
 
   "& input:-webkit-autofill::first-line": {
-    color: "white !important",
+    color: "#676767 !important",
     fontSize: "1rem !important",
     fontFamily: "inherit !important",
   },
