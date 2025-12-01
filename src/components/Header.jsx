@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
@@ -12,6 +12,7 @@ import {
     ListItemButton,
     ListItemText,
     ListItemIcon,
+    ClickAwayListener
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
@@ -80,6 +81,7 @@ const Header = (props) => {
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "flex-start",
+                        textWrap: 'nowrap'
                     }}
                 >
                     {/* Judul Header */}
@@ -158,6 +160,7 @@ const Header = (props) => {
                             </Typography> */}
 
                         </IconButton>
+
 
                         <Popover
                             id={id}

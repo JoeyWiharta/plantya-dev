@@ -54,7 +54,7 @@ const AuthLayout = ({ children }) => {
                         ? SIDEBAR_COLLAPSE_WIDTH - 18
                         : SIDEBAR_WIDTH - 18,
                     transform: "translateY(-50%)",
-                    zIndex: 2001,
+                    zIndex: 1300,
                     width: 35,
                     height: 35,
                     borderRadius: '5px',

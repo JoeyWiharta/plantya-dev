@@ -12,7 +12,7 @@ const User = () => {
                 <Row style={{ height: '120vh' }}>
                     <Col>
                         {/* <Alert color="primary">Tab 🎉</Alert> */}
-                        <Alert color="primary">User Page</Alert>
+                        <Alert color="primary">Create User Page</Alert>
                         <Button color="success">User Page</Button>
                     </Col>
                 </Row>

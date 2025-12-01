@@ -303,8 +303,9 @@ const Sidebar = (props) => {
                                                         borderRadius: 3,
                                                         p: 1,
                                                         border: "2px solid #383B42",
-                                                        width: '10%',
+                                                        minWidth: '160px',
                                                         ml: 1,
+                                                        overflow: 'visible',
                                                         transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out"
                                                     }
                                                 }
