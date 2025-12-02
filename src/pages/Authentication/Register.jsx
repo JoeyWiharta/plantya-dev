@@ -160,19 +160,14 @@ const Register = () => {
             {/* Main Grid */}
             <Grid
                 container
-                size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                size={10}
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
-                sx={{
-                    height: '100%',
-                    // bgcolor: 'darkRed'
-                }}
-
             >
                 {/* Header Grid */}
                 <Grid
-                    size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                    size={12}
                     sx={{
                         textAlign: 'center',
                         mt: 2,
@@ -190,12 +185,11 @@ const Register = () => {
 
                 {/* Body and Footer Grid */}
                 <Grid
-                    size={{ xs: 12, sm: 10, md: 8, lg: 6, xl: 4.5 }}
+                    size={{ xs: 10, sm: 10, md: 8, lg: 7, xl: 7 }}
                     alignItems="center"
                     sx={{
-                        // textAlign: 'center',
                         mt: 1,
-                        mb: 4,
+                        mb: 2,
                         // bgcolor: 'darkBlue',
                         display: 'flex',
                         flexDirection: 'column'
@@ -220,7 +214,7 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            gap: 2,
+                            gap: 1.5,
                             color: "#FAFAFA",
                             // bgcolor: 'darkGreen'
                         }}
@@ -425,26 +419,30 @@ const Register = () => {
                                 />
                             </Box>
 
-                            <Typography
-                                variant="body2"
-                                className="my-0 mx-2">
-                                Have an account?
-                                <Button
-                                    component={Link}
-                                    to="/login"
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        color: '#636CCB',
-                                        textTransform: "none",
-                                        "&:hover": {
-                                            textDecoration: 'underline',
-                                            backgroundColor: 'transparent'
-                                        }
-                                    }}
-                                >
-                                    Sign In
-                                </Button>
-                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+                                <Typography
+                                    variant="body2"
+                                    className="my-0 mx-2">
+                                    Have an account?
+                                    <Button
+                                        component={Link}
+                                        to="/login"
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            color: '#636CCB',
+                                            textTransform: "none",
+                                            "&:hover": {
+                                                textDecoration: 'underline',
+                                                backgroundColor: 'transparent'
+                                            }
+                                        }}
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Typography>
+                            </Box>
+                            
                         </Box>
                     </Box>
                 </Grid>

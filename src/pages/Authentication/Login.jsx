@@ -137,18 +137,15 @@ const Login = () => {
             {/* Main Grid */}
             <Grid
                 container
-                size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                size={10}
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
-                sx={{
-                    height: '100%',
-                }}
             >
 
                 {/* Header Grid */}
                 <Grid
-                    size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                    size={12}
                     sx={{
                         textAlign: 'center',
                         mb: 5,
@@ -165,11 +162,10 @@ const Login = () => {
 
                 {/* Body and Footer Grid */}
                 <Grid
-                    size={{ xs: 12, sm: 10, md: 8, lg: 6, xl: 4.5 }}
+                    size={{ xs: 10, sm: 10, md: 8, lg: 7, xl: 7 }}
                     alignItems="center"
                     sx={{
-                        // textAlign: 'center',
-                        mb: 3,
+                        // mb: 3,
                         // bgcolor: 'darkBlue',
                         display: 'flex',
                         flexDirection: 'column'
@@ -193,7 +189,7 @@ const Login = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            gap: 2,
+                            gap: 1.5,
                             color: "#FAFAFA"
                             // bgcolor: 'darkGreen'
                         }}
@@ -323,28 +319,31 @@ const Login = () => {
                                 />
                             </Box>
 
-                            <Typography
-                                variant="body2"
-                                sx={{ color: 'white' }}
-                            >
-                                Don't have an account?
-                                <Button
-                                    component={Link}
-                                    to="/register"
-                                    sx={{
-                                        fontWeight: 'bold',
-                                        color: '#636CCB',
-                                        textTransform: "none",
-                                        ml: 1,
-                                        "&:hover": {
-                                            textDecoration: 'underline',
-                                            backgroundColor: 'transparent'
-                                        }
-                                    }}
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+                                <Typography
+                                    variant="body2"
+                                    sx={{ color: 'white' }}
                                 >
-                                    Sign Up
-                                </Button>
-                            </Typography>
+                                    Don't have an account?
+                                    <Button
+                                        component={Link}
+                                        to="/register"
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            color: '#636CCB',
+                                            textTransform: "none",
+                                            // ml: 1,
+                                            "&:hover": {
+                                                textDecoration: 'underline',
+                                                backgroundColor: 'transparent'
+                                            }
+                                        }}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </Typography>
+                            </Box>
                         </Box>
                     </Box>
                 </Grid>

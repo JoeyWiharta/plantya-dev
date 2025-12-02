@@ -130,7 +130,6 @@ const Header = (props) => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            alignItems: "center",
                             borderLeft: '2px solid #383B42',
 
 
