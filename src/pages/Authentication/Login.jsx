@@ -25,7 +25,7 @@ import AlertMessage from "../../common/AlertMessage";
 
 const Login = () => {
     const { login } = useAuth();
-    const [showAlert, setShowAlert] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
