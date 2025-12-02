@@ -17,11 +17,12 @@ export default theme;
 
 // Custom Style TextField
 export const textFieldCustom = {
-
   position: 'relative',
+  marginTop: 1,
   "& .MuiOutlinedInput-root": {
     color: "#FAFAFA",
     borderRadius: "15px",
+
 
     "& fieldset": {
       borderColor: "#16181A",
@@ -118,6 +119,7 @@ export const textFieldCustom = {
     fontFamily: "inherit !important",
   },
   "& .MuiFormHelperText-root": {
+    textWrap:"nowrap",
     position: 'absolute',
     bottom: -20,
     left: 14,

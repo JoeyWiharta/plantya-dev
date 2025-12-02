@@ -47,6 +47,9 @@ const Header = (props) => {
     const open = Boolean(anchorEl);
     const id = open ? 'profile-popover' : undefined;
 
+    const userName = props.userData.username
+    const userRole = props.userData?.role
+
     return (
         <AppBar
             position="sticky"
@@ -85,11 +88,11 @@ const Header = (props) => {
                     }}
                 >
                     {/* Judul Header */}
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
                         Welcome Back
                     </Typography>
                     <Typography variant="body2" sx={{ fontWeight: 'light' }}>
-                        Plantya - Admin User Dari Local Storage
+                        Plantya - {userRole} User
                     </Typography>
                 </Box>
 
@@ -219,10 +222,10 @@ const Header = (props) => {
 
                                 <Box sx={{ display: "flex", flexDirection: "column", textAlign: 'center' }} >
                                     <Typography sx={{ fontSize: "1rem", fontWeight: 600, color: "#FAFAFA" }} >
-                                        Mekon (Local Storage)
+                                        {userName}
                                     </Typography>
                                     <Typography sx={{ fontSize: "0.8rem", color: "#FAFAFA" }}>
-                                        Tumbal Sinarmas (Local Storage)
+                                        {userRole}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -329,6 +332,7 @@ const Header = (props) => {
 Header.PropTypes = {
     ToggleSidebar: PropTypes.any,
     isCollapsed: PropTypes.any,
+    userData: PropTypes.any,
 };
 
 export default Header;

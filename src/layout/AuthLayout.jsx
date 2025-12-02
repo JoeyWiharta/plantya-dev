@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ReactSession } from 'react-client-session';
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
@@ -13,10 +14,17 @@ const HEADER_HEIGHT = 75;
 
 const AuthLayout = ({ children }) => {
 
+
     const [isCollapsed, setIsCollapsed] = useState(false);
     const toggleSidebar = () => {
         setIsCollapsed((prev) => !prev);
     };
+
+    
+    const userData = JSON.parse(localStorage.getItem("user"));
+    console.log(userData)
+
+
 
     return (
         // Container
@@ -41,6 +49,7 @@ const AuthLayout = ({ children }) => {
                 <Sidebar
                     isCollapsed={isCollapsed}
                     heightHeader={HEADER_HEIGHT}
+                    userData={userData}
                 />
             </Box>
 
@@ -103,6 +112,7 @@ const AuthLayout = ({ children }) => {
                     <Header
                         toggleSidebar={toggleSidebar}
                         isCollapsed={isCollapsed}
+                        userData={userData}
                     />
                 </Box>
 

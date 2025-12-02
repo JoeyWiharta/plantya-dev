@@ -1,53 +1,61 @@
 import React from "react";
-import { Col, Container, Row } from "reactstrap";
+// import { Col, Container, Row } from "reactstrap";
+import { Box, Grid, Container } from "@mui/material"
 
 const NonAuthLayout = ({ children }) => {
     return (
-        <Container fluid className="p-0 m-0 " style={{ minHeight: "100vh" }}>
-            <Row
-                className="p-0 m-0 d-flex"
-                style={{
-                    minHeight: "100vh", // minimal 100vh
-                    alignItems: "stretch", // <— KUNCI UTAMA
-                    // backgroundColor: "#0F1624",
+        <Container
+            maxWidth={false}
+            disableGutters
+            sx={{
+                minHeight: '100vh',
+                p: 0,
+                m: 0,
+            }}
+        >
+            <Grid
+                container
+                sx={{
+                    minHeight: "100vh",
+                    alignItems: "stretch",
                 }}
             >
-                {/* LEFT */}
-                <Col
-                    lg="6" md="6" sm="6"
-                    className="d-flex flex-column justify-content-center align-items-center p-4"
-                    style={{
-                        padding: 32,
+                <Grid
+                    size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
                 >
                     {children}
-                </Col>
-
-                {/* RIGHT */}
-                <Col
-                    lg="6"
-                    md="6"
-                    sm="6"
-                    className="p-0 position-relative"
-                    style={{
-                        padding: 0,
-                        display: "flex",
+                </Grid>
+                <Grid
+                    size={{ xs: 12, sm: 6, md: 6, lg: 6 }}
+                    sx={{
+                        p: 0,
+                        position: "relative",
+                        display: {
+                            xs: 'none',
+                            sm: "flex",
+                        },
                         flexDirection: "column",
                     }}
                 >
-                    {/* WRAPPER → inilah yang mengontrol height, BUKAN gambar */}
-                    <div
-                        style={{
-                            flex: 1,          // <— INI KUNCI
+                    <Box
+                        sx={{
+                            flex: 1,
                             position: "relative",
                             width: "100%",
                             height: "100%",
                         }}
                     >
-                        <img
+                        <Box
+                            component="img"
                             src="/NonAuthBackground.png"
                             alt="Background"
-                            style={{
+                            sx={{
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
@@ -56,21 +64,21 @@ const NonAuthLayout = ({ children }) => {
                                 objectFit: "cover",
                             }}
                         />
-                    </div>
-
-                    <img
-                        src="/BaseLogo.png"
-                        alt="Logo"
-                        style={{
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            maxWidth: "50%",
-                        }}
-                    />
-                </Col>
-            </Row>
+                        <Box
+                            component="img"
+                            src="/BaseLogo.png"
+                            alt="Logo"
+                            sx={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                maxWidth: "50%",
+                            }}
+                        />
+                    </Box>
+                </Grid>
+            </Grid>
         </Container>
     );
 };

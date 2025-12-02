@@ -6,16 +6,10 @@ import {
     TextField,
     Button,
     Typography,
-    Paper,
-    Alert,
-    Snackbar,
     InputAdornment,
+    Grid,
+    Divider
 } from "@mui/material";
-import {
-    Row,
-    Col,
-    Container
-} from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import PageLoading from "../../common/PageLoading";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -58,6 +52,7 @@ const Login = () => {
             login({
                 username: usrn,
                 password: pass,
+                role: 'Admin'
             })
             navigate("/")
         } else {
@@ -139,159 +134,199 @@ const Login = () => {
                 onClose={() => setShowAlert(false)}
             />
 
-            <Container fluid className="" style={{ width: '65%' }}>
+            {/* Main Grid */}
+            <Grid
+                container
+                size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                    height: '100%',
+                }}
+            >
 
-                <Col lg="12" md="12" sm="12" className="justify-content-center ">
+                {/* Header Grid */}
+                <Grid
+                    size={{ sm: 12, md: 12, lg: 12, xl: 12 }}
+                    sx={{
+                        textAlign: 'center',
+                        mb: 5,
+                        color: "#FAFAFA",
+                    }}
+                >
+                    <Typography variant="h3" fontWeight="bold" >
+                        Welcome Back!
+                    </Typography>
+                    <Typography variant="h5" fontWeight="light">
+                        Let's connect your devices.
+                    </Typography>
+                </Grid>
 
-                    <Row className="mb-4" style={{ color: '#DEF2FF' }}>
-                        <div className="text-center mb-4">
-                            <Typography variant="h3" fontWeight="bold" >
-                                Welcome Back!
+                {/* Body and Footer Grid */}
+                <Grid
+                    size={{ sm: 12, md: 8, lg: 6, xl: 4.5 }}
+                    alignItems="center"
+                    sx={{
+                        // textAlign: 'center',
+                        mb: 3,
+                        // bgcolor: 'darkBlue',
+                        display: 'flex',
+                        flexDirection: 'column'
+
+                    }}
+                >
+                    {/* Body Section */}
+                    <Typography variant="h4" fontWeight="medium" color="#FAFAFA"
+                        sx={{
+                            mb: 4,
+                            textAlign: 'center'
+                        }}>
+                        Sign In
+                    </Typography>
+
+                    <Box
+                        component="form"
+                        onSubmit={formik.handleSubmit}
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: 2,
+                            color: "#FAFAFA"
+                            // bgcolor: 'darkGreen'
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="body2" fontWeight="medium"
+                            >
+                                Email or Username
                             </Typography>
-                            <Typography variant="h5" fontWeight="light" sx={{ marginTop: '-10px' }}>
-                                Let's connect your devices.
-                            </Typography>
-                        </div>
-
-                        <div className="text-center">
-                            <Typography variant="h5" fontWeight="medium" className="mt-3">
-                                Sign In
-                            </Typography>
-                        </div>
-                    </Row>
-
-                    <Row className="d-flex justify-content-center text-white">
-                        <Box
-                            component="form"
-                            onSubmit={formik.handleSubmit}
-                            className="w-75 d-flex flex-column gap-1"
-                        >
-                            <Row className="mb-2">
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        mb: "-10px",
-                                        fontWeight: "medium"
-                                    }}
-                                    className="p-0"
-                                >
-                                    Email or Username
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Email or username"
-                                    name="username"
-                                    size="medium"
-                                    fullWidth
-                                    margin="normal"
-                                    value={formik.values.username}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.username && Boolean(formik.errors.username)}
-                                    helperText={formik.touched.username && formik.errors.username}
-                                    sx={textFieldCustom}
-                                    slotProps={{
-                                        input: {
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <MailOutlineOutlinedIcon />
-                                                </InputAdornment>
-                                            ),
-                                        },
-                                    }}
-
-                                />
-                            </Row>
-
-                            <Row className="mb-2">
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        mb: "-10px",
-                                        fontWeight: "medium"
-                                    }}
-
-                                    className="p-0"
-                                >
-                                    Password
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Password"
-                                    name="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    size="medium"
-                                    fullWidth
-                                    margin="normal"
-                                    value={formik.values.password}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.password && Boolean(formik.errors.password)}
-                                    helperText={formik.touched.password && formik.errors.password}
-                                    sx={textFieldCustom}
-                                    slotProps={{
-                                        input: {
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <LockOutlinedIcon />
-                                                </InputAdornment>
-                                            ),
-                                            endAdornment: (
-                                                <InputAdornment position="start">
-                                                    <IconButton
-                                                        onClick={() => setShowPassword(!showPassword)}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            )
-                                        },
-                                    }}
-                                />
-                            </Row>
-
-                            <Row>
-                                <Button
-                                    type="submit"
-                                    variant="outlined"
-                                    size="large"
-                                    fullWidth
-                                    sx={{
-                                        mt: 1,
-                                        minHeight: 56,
-                                        borderColor: '#16181A',
-                                        color: 'white',
-                                        borderWidth: '2px',
-                                        bgcolor: '#24427D',
-                                        borderRadius: '15px',
-                                        "&:hover": {
-                                            backgroundColor: "#1976D2",
-                                            border: "2px solid #1976D2",
-                                            // color: '#000000',
-                                            transition: "0.7s ease",
-                                        }
-                                    }}
-                                    disabled={formik.isSubmitting}
-                                >
-                                    {formik.isSubmitting ? "Processing..." : "Login"}
-                                </Button>
-                            </Row>
+                            <TextField
+                                variant="outlined"
+                                placeholder="Email or username"
+                                name="username"
+                                size="medium"
+                                fullWidth
+                                margin="normal"
+                                value={formik.values.username}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.username && Boolean(formik.errors.username)}
+                                helperText={formik.touched.username && formik.errors.username}
+                                sx={textFieldCustom}
+                                slotProps={{
+                                    input: {
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <MailOutlineOutlinedIcon />
+                                            </InputAdornment>
+                                        ),
+                                    },
+                                }}
+                            />
                         </Box>
-                    </Row>
 
-                    <Row className="text-white text-center align-items-center justify-content-center mt-4 gap-1">
-                        <Col lg={12} md={12} sm={12} className="d-flex justify-content-center align-items-center w-75">
-                            <hr className="flex-grow-1 text-white my-0 mx-3" />
-                            <p className="my-0 mx-2 ">OR</p>
-                            <hr className="flex-grow-1 text-white my-0 mx-3" />
-                        </Col>
+                        <Box>
+                            <Typography
+                                variant="body2" fontWeight="medium"
+                            >
+                                Password
+                            </Typography>
+                            <TextField
+                                variant="outlined"
+                                placeholder="Password"
+                                name="password"
+                                type={showPassword ? 'text' : 'password'}
+                                size="medium"
+                                fullWidth
+                                margin="normal"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.password && Boolean(formik.errors.password)}
+                                helperText={formik.touched.password && formik.errors.password}
+                                sx={textFieldCustom}
+                                slotProps={{
+                                    input: {
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <LockOutlinedIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    },
+                                }}
+                            />
+                        </Box>
 
-                        <Col lg={12} md={12} sm={12} className="d-flex justify-content-center align-items-center w-75">
+                        <Button
+                            type="submit"
+                            variant="outlined"
+                            size="large"
+                            fullWidth
+                            sx={{
+                                mt: 1,
+                                minHeight: 56,
+                                borderColor: '#16181A',
+                                color: 'white',
+                                borderWidth: '2px',
+                                bgcolor: '#24427D',
+                                borderRadius: '15px',
+                                "&:hover": {
+                                    backgroundColor: "#1976D2",
+                                    border: "2px solid #1976D2",
+                                    transition: "0.7s ease",
+                                }
+                            }}
+                            disabled={formik.isSubmitting}
+                        >
+                            {formik.isSubmitting ? "Processing..." : "Login"}
+                        </Button>
+
+                        {/* Footer Section */}
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            // bgcolor: 'grey'
+                        }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', my: 1, width: '90%' }}>
+                                <Divider
+                                    sx={{
+                                        flexGrow: 1,
+                                        border: 'none',
+                                        borderBottom: '1px solid #FAFAFA',
+                                        opacity: '70%'
+                                    }}
+                                />
+                                <Typography variant="body1" sx={{ mx: 2, color: '#FAFAFA' }}>OR</Typography>
+                                <Divider
+                                    sx={{
+                                        flexGrow: 1,
+                                        border: 'none',
+                                        borderBottom: '1px solid #FAFAFA',
+                                        opacity: '70%'
+                                    }}
+                                />
+                            </Box>
 
                             <Typography
                                 variant="body2"
-                                className="my-0 mx-2">
+                                sx={{ color: 'white' }}
+                            >
                                 Don't have an account?
                                 <Button
                                     component={Link}
@@ -300,6 +335,7 @@ const Login = () => {
                                         fontWeight: 'bold',
                                         color: '#636CCB',
                                         textTransform: "none",
+                                        ml: 1,
                                         "&:hover": {
                                             textDecoration: 'underline',
                                             backgroundColor: 'transparent'
@@ -309,24 +345,11 @@ const Login = () => {
                                     Sign Up
                                 </Button>
                             </Typography>
-                        </Col>
-                    </Row>
+                        </Box>
+                    </Box>
+                </Grid>
 
-
-
-
-
-                </Col>
-            </Container>
-
-
-
-
-
-
-            <Row>
-
-            </Row>
+            </Grid>
 
         </React.Fragment >
     );
