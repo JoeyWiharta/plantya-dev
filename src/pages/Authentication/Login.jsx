@@ -166,7 +166,7 @@ const Login = () => {
                     alignItems="center"
                     sx={{
                         // mb: 3,
-                        bgcolor: 'darkBlue',
+                        // bgcolor: 'darkBlue',
                         display: 'flex',
                         flexDirection: 'column',
                         maxWidth: '420px'
