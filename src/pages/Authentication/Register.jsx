@@ -192,7 +192,9 @@ const Register = () => {
                         mb: 2,
                         // bgcolor: 'darkBlue',
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
+                        maxWidth: '420px'
+
 
                     }}
                 >
