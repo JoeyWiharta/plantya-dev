@@ -11,7 +11,7 @@ import {
     Divider
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import PageLoading from "../../common/PageLoading";
+import PageSpinner from "../../components/common/PageSpinner";
 import axiosInstance from "../../utils/AxiosInstance";
 import { useAuth } from "../../context/AuthContext";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
@@ -21,7 +21,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ListApi from "../../utils/ListApi";
 import { textFieldCustom } from "../../themes/theme"
-import AlertMessage from "../../common/AlertMessage";
+import AlertAuthMessage from "../../components/common/AlertAuthMessage";
 
 const Login = () => {
     const { login } = useAuth();
@@ -122,12 +122,12 @@ const Login = () => {
 
     return (
         <React.Fragment>
-            <PageLoading
+            <PageSpinner
                 open={loadingSpinner}
                 text="Processing..."
             />
 
-            <AlertMessage
+            <AlertAuthMessage
                 open={showAlert}
                 severity="error"
                 message={message}

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
-const ContentLoading = ({ text = "Loading..." }) => {
+const ContentSpinner = (props) => {
     return (
         <Box
             sx={{
@@ -22,10 +23,14 @@ const ContentLoading = ({ text = "Loading..." }) => {
                 size={50}
             />
             <Typography variant="body1" sx={{ color: '#64748B' }}>
-                {text}
+                {props.text}
             </Typography>
         </Box>
     );
 };
 
-export default ContentLoading;
+ContentSpinner.propTypes = {
+    text: PropTypes.any,
+};
+
+export default ContentSpinner;

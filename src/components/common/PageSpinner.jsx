@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Backdrop, CircularProgress, Typography } from "@mui/material";
 
-const PageLoading = (props) => {
+const PageSpinner = (props) => {
     return (
         <Backdrop
             open={props.open}
@@ -25,9 +25,9 @@ const PageLoading = (props) => {
     );
 };
 
-PageLoading.propTypes = {
+PageSpinner.propTypes = {
     open: PropTypes.any,
     text: PropTypes.any,
 };
 
-export default PageLoading;
+export default PageSpinner;

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, suspense } from 'react';
-import ContentLoading from '../common/ContentLoading';
+import ContentSpinner from '../components/common/ContentSpinner';
 
 // Lazy Function
 const LazyLoadRoutes = (importFunc) => {
@@ -9,7 +9,7 @@ const LazyLoadRoutes = (importFunc) => {
         <Suspense
             fallback=
             {
-                <ContentLoading text='Loading...' />
+                <ContentSpinner text='Loading...' />
             }
         >
             <LazyElement />

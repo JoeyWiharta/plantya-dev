@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ReactSession } from 'react-client-session';
+import PropTypes from "prop-types";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { IconButton, Box, useTheme, useMediaQuery, Backdrop } from "@mui/material";
@@ -11,7 +12,7 @@ const SIDEBAR_COLLAPSE_WIDTH = 75;
 const SIDEBAR_WIDTH = 280;
 const HEADER_HEIGHT = 75;
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = (props) => {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -112,7 +113,7 @@ const AuthLayout = ({ children }) => {
                         overflowY: "auto",
                     }}
                 >
-                    {children}
+                    {props.children}
                 </Box>
             </Box>
 
@@ -144,6 +145,10 @@ const AuthLayout = ({ children }) => {
         </Box >
 
     );
+};
+
+AuthLayout.propTypes = {
+    children: PropTypes.any,
 };
 
 export default AuthLayout;

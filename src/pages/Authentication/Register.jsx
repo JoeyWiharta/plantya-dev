@@ -11,7 +11,7 @@ import {
     Divider
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import PageLoading from "../../common/PageLoading";
+import PageSpinner from "../../components/common/PageSpinner";
 import axiosInstance from "../../utils/AxiosInstance";
 import { useAuth } from "../../context/AuthContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -22,7 +22,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { textFieldCustom } from "../../themes/theme"
 import ListApi from "../../utils/ListApi";
-import PopupModal from "../../common/PopupModal";
+import PopupModal from "../../components/common/PopupModal";
 
 const Register = () => {
     const [textLoading, setTextLoading] = useState("")
@@ -144,7 +144,7 @@ const Register = () => {
 
     return (
         <React.Fragment>
-            <PageLoading
+            <PageSpinner
                 open={loadingSpinner}
                 text={textLoading}
             />

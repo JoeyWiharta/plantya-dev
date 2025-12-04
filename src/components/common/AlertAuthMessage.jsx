@@ -4,7 +4,7 @@ import { Alert, Box, IconButton, Slide } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const AlertMessage = (props) => {
+const AlertAuthMessage = (props) => {
     return (
         <Box
             sx={{
@@ -63,11 +63,11 @@ const AlertMessage = (props) => {
     );
 };
 
-AlertMessage.propTypes = {
+AlertAuthMessage.propTypes = {
     open: PropTypes.bool,
     severity: PropTypes.oneOf(["error", "warning", "info", "success"]),
     message: PropTypes.string,
     onClose: PropTypes.func,
 };
 
-export default AlertMessage;
+export default AlertAuthMessage;
