@@ -111,7 +111,7 @@ export const appMenuStructure = [
     },
     {
         path: "/support",
-        component: "",
+        component: "/test",
         text: "Support",
         icon: <SupportAgentOutlinedIcon />,
         section: "footer"

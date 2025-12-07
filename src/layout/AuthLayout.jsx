@@ -92,7 +92,7 @@ const AuthLayout = (props) => {
                     display: "flex",
                     flexDirection: "column",
                     minHeight: "100vh",
-                    backgroundColor: "#121314",
+                    backgroundColor: "background.default",
                     transition: "margin-left 0.3s ease",
                 }}
             >
@@ -113,8 +113,7 @@ const AuthLayout = (props) => {
                     sx={{
                         flex: 1,
                         p: 3,
-                        backgroundColor: "#121314",
-                        color: "#FAFAFA",
+                        backgroundColor: "background.default",
                         overflowY: "auto",
                     }}
                 >

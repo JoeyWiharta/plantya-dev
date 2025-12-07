@@ -216,9 +216,7 @@ const Register = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            gap: 1.5,
-                            color: "#FAFAFA",
-                            // bgcolor: 'darkGreen'
+                            gap: 3,
                         }}
                     >
                         <Box>
@@ -233,7 +231,6 @@ const Register = () => {
                                 name="username"
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.username}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -268,7 +265,6 @@ const Register = () => {
                                 name="email"
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -304,7 +300,6 @@ const Register = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -352,7 +347,6 @@ const Register = () => {
                                 type={showRePassword ? 'text' : 'password'}
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.rePassword}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -391,19 +385,10 @@ const Register = () => {
                             variant="outlined"
                             size="large"
                             fullWidth
+                            className="auth-button"
                             sx={{
                                 mt: 1,
                                 minHeight: 56,
-                                borderColor: '#16181A',
-                                color: 'white',
-                                bgcolor: '#24427D',
-                                borderWidth: '2px',
-                                borderRadius: '15px',
-                                "&:hover": {
-                                    backgroundColor: "#1976D2",
-                                    border: "2px solid #1976D2",
-                                    transition: "0.7s ease",
-                                }
                             }}
                             disabled={formik.isSubmitting}
                         >
@@ -416,24 +401,22 @@ const Register = () => {
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            // bgcolor: 'grey'
                         }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', my: 1, width: '90%' }}>
                                 <Divider
+                                    className="auth-divider"
+
                                     sx={{
                                         flexGrow: 1,
-                                        border: 'none',
-                                        borderBottom: '1px solid #FAFAFA',
-                                        opacity: '70%'
+                                        opacity: '100%'
                                     }}
                                 />
-                                <Typography variant="body1" sx={{ mx: 2, color: '#FAFAFA' }}>OR</Typography>
+                                <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
                                 <Divider
+                                    className="auth-divider"
                                     sx={{
                                         flexGrow: 1,
-                                        border: 'none',
-                                        borderBottom: '1px solid #FAFAFA',
-                                        opacity: '70%'
+                                        opacity: '100%'
                                     }}
                                 />
                             </Box>
@@ -447,15 +430,7 @@ const Register = () => {
                                     <Button
                                         component={Link}
                                         to="/login"
-                                        sx={{
-                                            fontWeight: 'bold',
-                                            color: '#636CCB',
-                                            textTransform: "none",
-                                            "&:hover": {
-                                                textDecoration: 'underline',
-                                                backgroundColor: 'transparent'
-                                            }
-                                        }}
+                                        className="linkto-button"
                                     >
                                         Sign In
                                     </Button>

@@ -148,15 +148,9 @@ const Login = () => {
                     sx={{
                         textAlign: 'center',
                         mb: 5,
-                        color: "#FAFAFA",
-                    }}
-                >
-                    <Typography variant="h3" fontWeight="bold" >
-                        Welcome Back!
-                    </Typography>
-                    <Typography variant="h5" fontWeight="light">
-                        Let's connect your devices.
-                    </Typography>
+                    }}>
+                    <Typography variant="h3" fontWeight="bold" >Welcome Back!</Typography>
+                    <Typography variant="h5" fontWeight="light">Let's connect your devices.</Typography>
                 </Grid>
 
                 {/* Body and Footer Grid */}
@@ -164,16 +158,12 @@ const Login = () => {
                     size={{ xs: 10, sm: 10, md: 8, lg: 7, xl: 7 }}
                     alignItems="center"
                     sx={{
-                        // mb: 3,
-                        // bgcolor: 'darkBlue',
                         display: 'flex',
                         flexDirection: 'column',
                         maxWidth: '420px'
-
-                    }}
-                >
+                    }}>
                     {/* Body Section */}
-                    <Typography variant="h4" fontWeight="medium" color="#FAFAFA"
+                    <Typography variant="h4" fontWeight="medium"
                         sx={{
                             mb: 4,
                             textAlign: 'center'
@@ -189,17 +179,11 @@ const Login = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            gap: 1.5,
-                            color: "#FAFAFA"
-                            // bgcolor: 'darkGreen'
+                            gap: 3,
                         }}
                     >
                         <Box>
-                            <Typography
-                                variant="body2" fontWeight="medium"
-                            >
-                                Email or Username
-                            </Typography>
+                            <Typography variant="body2" fontWeight="medium">Email or Username</Typography>
                             <TextField
                                 className="auth-field"
                                 variant="outlined"
@@ -207,7 +191,6 @@ const Login = () => {
                                 name="username"
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.username}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -243,7 +226,6 @@ const Login = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 size="medium"
                                 fullWidth
-                                margin="normal"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -282,19 +264,10 @@ const Login = () => {
                             variant="outlined"
                             size="large"
                             fullWidth
+                            className="auth-button"
                             sx={{
                                 mt: 1,
-                                minHeight: 56,
-                                borderColor: '#16181A',
-                                color: 'white',
-                                borderWidth: '2px',
-                                bgcolor: '#24427D',
-                                borderRadius: '15px',
-                                "&:hover": {
-                                    backgroundColor: "#1976D2",
-                                    border: "2px solid #1976D2",
-                                    transition: "0.7s ease",
-                                }
+                                minHeight: 56
                             }}
                             disabled={formik.isSubmitting}
                         >
@@ -307,24 +280,21 @@ const Login = () => {
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            // bgcolor: 'grey'
                         }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', my: 1, width: '90%' }}>
                                 <Divider
+                                    className="auth-divider"
                                     sx={{
                                         flexGrow: 1,
-                                        border: 'none',
-                                        borderBottom: '1px solid #FAFAFA',
-                                        opacity: '70%'
+                                        opacity: '100%'
                                     }}
                                 />
-                                <Typography variant="body1" sx={{ mx: 2, color: '#FAFAFA' }}>OR</Typography>
+                                <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
                                 <Divider
+                                    className="auth-divider"
                                     sx={{
                                         flexGrow: 1,
-                                        border: 'none',
-                                        borderBottom: '1px solid #FAFAFA',
-                                        opacity: '70%'
+                                        opacity: '100%'
                                     }}
                                 />
                             </Box>
@@ -338,16 +308,7 @@ const Login = () => {
                                     <Button
                                         component={Link}
                                         to="/register"
-                                        sx={{
-                                            fontWeight: 'bold',
-                                            color: '#636CCB',
-                                            textTransform: "none",
-                                            // ml: 1,
-                                            "&:hover": {
-                                                textDecoration: 'underline',
-                                                backgroundColor: 'transparent'
-                                            }
-                                        }}
+                                        className="linkto-button"
                                     >
                                         Sign Up
                                     </Button>
