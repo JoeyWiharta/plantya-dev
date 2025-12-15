@@ -55,13 +55,11 @@ const Login = () => {
             })
             navigate("/")
         } else {
-            // misal mau munculkan error
             formik.setErrors({
                 username: "Username atau password salah",
                 password: "Username atau password salah",
             });
 
-            // reset password saja
             formik.resetForm();
         }
     }
@@ -91,8 +89,8 @@ const Login = () => {
 
             try {
                 debugger
-                const response = await handleLogin(values)
-                // const response = await handeLoginState(values)
+                // const response = await handleLogin(values)
+                const response = await handeLoginState(values)
 
                 login(response.data.data)
                 navigate("/")
