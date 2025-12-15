@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Container, Box, Typography, Grid, Paper, Card, CardHeader, CardContent, TextField, IconButton } from "@mui/material";
+import { Container, Box, Typography, Grid, Paper, Card, CardHeader, CardContent, TextField, IconButton, Stack, Select, MenuItem } from "@mui/material";
 import { Button } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
@@ -51,6 +51,8 @@ const MasterUser = () => {
 
     // Call API
     useEffect(() => {
+        setApp002p01UserData([])
+        setApp002p01UserTotalData(0)
         getAllUser();
     }, [app002p01UserDataParam]);
 
@@ -67,6 +69,8 @@ const MasterUser = () => {
             console.error("Gagal mengambil data:", error);
             setApp002p01UserData([]);
             setApp002p01UserTotalData(0);
+            setTotalPage(1);
+
         } finally {
             setLoadingData(false);
         }
@@ -97,6 +101,29 @@ const MasterUser = () => {
         }));
     };
 
+    // Search and Filtering
+    const [role, setRole] = useState("")
+    const roleOptions = [
+        { value: "", label: "All" },
+        { value: "ADMIN", label: "Admin" },
+        { value: "USER", label: "User" },
+        { value: "STAFF", label: "Staff" },
+    ];
+
+    const handleRoleChange = (event) => {
+        debugger
+        setRole(event.target.value)
+
+        setApp002p01UserDataParam(prev => ({
+            ...prev,
+            "page": 1,
+            "size": 10,
+            "sort": "",
+            "order": "asc",
+            "role": event.target.value
+        }))
+    }
+
     return (
         <React.Fragment>
             <RootPageCustom
@@ -106,19 +133,46 @@ const MasterUser = () => {
                 setFirstRender={setFirstRender}
             >
                 <Container disableGutters maxWidth={false} sx={{ display: app002p01Page ? "block" : "none" }}>
-                    <Card sx={{ bgcolor: 'background.default', color: 'text.primary' }}>
-                        <CardHeader sx={{ backgroundColor: 'background.paper', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }} title="Master User" />
-                        <CardContent sx={{ bgcolor: 'background.paper', color: 'text.primary' }}>
+                    <Stack px={2}>
+                        <Typography>Master User</Typography>
+                        <Box>
                             <Grid container justifyContent="start" alignItems="center" sx={{ mb: 2 }}>
                                 <Grid justifyContent="start" alignItems="center" sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
                                     <TextField placeholder="Search" sx={{ width: '200px' }} />
-                                    <TextField placeholder="Role" sx={{ width: '200px' }} />
-                                    <TextField placeholder="Status" sx={{ width: '200px' }} />
+
+                                    <Select
+                                        value={role}
+                                        onChange={handleRoleChange}
+                                        displayEmpty
+                                        renderValue={(selected) => {
+                                            if (selected === "") {
+                                                return "Role";
+                                            }
+                                            const selectedOption = roleOptions.find((opt) => opt.value === selected);
+                                            return selectedOption ? selectedOption.label : "";
+                                        }}
+                                        sx={{
+                                            height: 40,
+                                            minWidth: 100,
+                                            fontSize: 14,
+                                            color: 'text.secondary',
+                                            '& .MuiSelect-select': { padding: '4px 10px' }
+                                        }}
+                                    >
+                                        {roleOptions.map((obj) => (
+                                            <MenuItem key={obj.value} value={obj.value}>
+                                                {obj.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+
                                     <Button variant="contained" color="primary"><i className="bx bx-plus font-size-16 align-end me-2"></i>Export</Button>
                                     <Button variant="contained" color="primary"><i className="bx bx-plus font-size-16 align-end me-2"></i>Tambah User</Button>
                                 </Grid>
                             </Grid>
+                        </Box>
 
+                        <Box>
                             <TableCustom
                                 keyField="user_id"
                                 loadingData={loadingData}
@@ -138,8 +192,8 @@ const MasterUser = () => {
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                                 onRequestSort={handleRequestSort}
                             />
-                        </CardContent>
-                    </Card>
+                        </Box>
+                    </Stack>
                 </Container>
             </RootPageCustom>
         </React.Fragment >

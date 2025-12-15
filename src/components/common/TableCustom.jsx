@@ -21,6 +21,7 @@ import {
     MenuItem,
 } from "@mui/material";
 import { Icon } from '@iconify/react';
+import ContentSpinner from "./ContentSpinner";
 
 
 
@@ -80,34 +81,52 @@ const TableCustom = (props) => {
 
 
 
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            color: theme.palette.text.primary,
-            backgroundColor: '#807d7dff',
-            borderBottom: `1px solid ${theme.palette.custom.line}`,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-    }));
+    // const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    //     [`&.${tableCellClasses.head}`]: {
+    //         color: theme.palette.text.primary,
+    //         backgroundColor: '#807d7dff',
+    //         borderBottom: `1px solid ${theme.palette.custom.line}`,
+    //     },
+    //     [`&.${tableCellClasses.body}`]: {
+    //         fontSize: 14,
+    //     },
+    // }));
 
     return (
         <>
-            <TableContainer sx={{ borderRadius: 3, overflow: 'hidden', border: '1px solid', position: 'relative' }}>
+            <TableContainer
+                sx={{
+                    borderRadius: 2,
+                    overflow: 'hidden',
+                    border: '1px solid',
+                    position: 'relative'
+                }}
+            >
+
                 {props.loadingData && (
                     <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255, 255, 255, 0.7)', zIndex: 1 }}>
-                        <CircularProgress />
+                        <ContentSpinner text={'Loading...'} />
                     </Box>
                 )}
-                <Table sx={{ tableLayout: 'auto', borderLeft: '1px solid', borderRight: '1px solid', borderColor: 'custom.line' }}>
-                    <TableHead>
+                <Table
+                    size="small"
+                    aria-label="a dense table"
+                    sx={{
+                    }}
+                >
+                    <TableHead
+                        sx={{
+                            bgcolor: 'background.tableHead'
+                        }}
+                    >
                         <TableRow>
                             {props.columns.map((column) => (
-                                <StyledTableCell
+                                <TableCell
                                     key={column.dataField}
                                     align={column.align || 'left'}
                                     style={{ ...column.headerStyle }}
                                     sortDirection={sortField === column.dataField ? sortOrder : false}
+                                    size="medium"
                                 >
                                     {column.sort ? (
                                         <TableSortLabel
@@ -118,17 +137,37 @@ const TableCustom = (props) => {
                                             {column.text}
                                         </TableSortLabel>
                                     ) : (column.text)}
-                                </StyledTableCell>
+                                </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+
+                    <TableBody
+                        sx={{
+                            bgcolor: 'background.paper'
+                        }}
+                    >
                         {props.appdata.map((row) => (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row[props.keyField]} sx={{ borderBottom: '1px solid', borderColor: 'custom.line' }}>
+                            <TableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={row[props.keyField]}
+                                sx={{
+                                    borderBottom: '1px solid',
+                                    borderColor: 'custom.line'
+                                }}>
+
                                 {props.columns.map((column) => {
                                     const value = row[column.dataField];
                                     return (
-                                        <TableCell key={column.dataField} align={column.align || 'left'} sx={{ borderBottom: 'none' }}>
+                                        <TableCell
+                                            key={column.dataField}
+                                            align={column.align || 'left'}
+                                            sx={{ borderBottom: 'none' }}
+                                            size="small"
+                                            padding="normal"
+                                        >
                                             {column.formatter ? column.formatter(value, row) : value}
                                         </TableCell>
                                     );
@@ -146,13 +185,16 @@ const TableCustom = (props) => {
                 </Table>
             </TableContainer>
 
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2, px: 1 }}>
+
+            <Box sx={{
+                display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2, px: 1, visibility: props.loadingData ? 'hidden' : 'visible'
+            }}>
                 <Typography variant="body2">
                     Showing {from} to {to} of {props.appdataTotal} entries
                 </Typography>
 
                 <Pagination
-                    count={props.totalPage}
+                    count={props.totalPage ? props.totalPage : 1}
                     page={page + 1}
                     onChange={(e, value) => handleChangePage(e, value - 1)}
                     showFirstButton

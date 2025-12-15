@@ -9,9 +9,11 @@ const baseColors = {
   grey: '#676767',
   black: '#16181A',
   deepBlack: '#121314',
-  line: '#2c2e31',
   hover: '#1F1F1F',
   yellow: "#ff8c00ff",
+  
+  bgHeaderTable: "#27272A",
+  line: '#2c2e31',
 };
 
 const globalTheme = createTheme({
@@ -41,6 +43,7 @@ const globalTheme = createTheme({
     background: {
       default: baseColors.deepBlack,
       paper: baseColors.black,
+      tableHead: baseColors.bgHeaderTable,
     },
 
     text: {
