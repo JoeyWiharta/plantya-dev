@@ -150,71 +150,93 @@ const MasterUser = () => {
                 msgStateGetStatus={app002MsgStatus}
                 setFirstRender={setFirstRender}
             >
-                <Container disableGutters maxWidth={false} sx={{ display: app002p01Page ? "block" : "none" }}>
-                    <Stack px={2}>
-                        <Typography>Master User</Typography>
-                        <Box>
-                            <Grid container justifyContent="start" alignItems="center" sx={{ mb: 2 }}>
-                                <Grid justifyContent="start" alignItems="center" sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-                                    <TextField
-                                        placeholder="Search"
-                                        value={search}
-                                        onChange={handleSearchInputChange}
-                                        onKeyDown={(event) => {
-                                            if (event.key === 'Enter') {
-                                                updateSearch()
-                                            }
-                                        }}
-                                        size="small"
-                                        sx={{ width: '200px' }}
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: (
-                                                    <IconButton
-                                                        aria-label="search button"
-                                                        onClick={updateSearch} // Panggil fungsi triggerSearch
-                                                        edge="end"
-                                                        size="small"
-                                                    >
-                                                        <Icon icon="mdi:magnify" width={20} />
-                                                    </IconButton>
-                                                ),
-                                            }
-                                        }}
-                                    />
+                <Container
+                    disableGutters
+                    maxWidth={false}
+                    sx={{
+                        display: app002p01Page ? "block" : "none",
+                        py: 1,
+                        px: 2,
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <Grid
+                            container
+                            size={12}
+                        >
+                            <Typography variant="h6" fontWeight="bold">
+                                Master User
+                            </Typography>
+                        </Grid>
 
-                                    <Autocomplete
-                                        options={roleOptions}
-                                        getOptionLabel={(option) => option.label}
-                                        value={roleOptions.find((opt) => opt.value === role) || null}
-                                        onChange={(event, newValue) => {
-                                            handleRoleChange({
-                                                target: { value: newValue ? newValue.value : "" }
-                                            });
-                                        }}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                placeholder="Role"
-                                                size="small"
-                                                sx={{
-                                                    '& .MuiInputBase-root': {
-                                                        height: 40,
-                                                        fontSize: 14
-                                                    }
-                                                }}
-                                            />
-                                        )}
-                                        isOptionEqualToValue={(opt, val) => opt.value === val.value}
-                                        clearOnEscape
-                                    />
+                        <Grid container justifyContent="space-between" alignItems="center">
+                            <Grid item sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                                <TextField
+                                    placeholder="Search"
+                                    value={search}
+                                    onChange={handleSearchInputChange}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter') {
+                                            updateSearch()
+                                        }
+                                    }}
+                                    size="small"
+                                    sx={{ width: '200px' }}
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: (
+                                                <IconButton
+                                                    aria-label="search button"
+                                                    onClick={updateSearch}
+                                                    edge="end"
+                                                    size="small"
+                                                >
+                                                    <Icon icon="mdi:magnify" width={20} />
+                                                </IconButton>
+                                            ),
+                                        }
+                                    }}
+                                />
 
-
-                                    <Button variant="contained" color="primary"><i className="bx bx-plus font-size-16 align-end me-2"></i>Export</Button>
-                                    <Button variant="contained" color="primary"><i className="bx bx-plus font-size-16 align-end me-2"></i>Tambah User</Button>
-                                </Grid>
+                                <Autocomplete
+                                    options={roleOptions}
+                                    getOptionLabel={(option) => option.label}
+                                    value={roleOptions.find((opt) => opt.value === role) || null}
+                                    onChange={(event, newValue) => {
+                                        handleRoleChange({
+                                            target: { value: newValue ? newValue.value : "" }
+                                        });
+                                    }}
+                                    sx={{
+                                        minWidth:'200px'
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Role"
+                                            size="small"
+                                            sx={{
+                                                '& .MuiInputBase-root': {
+                                                    height: 40,
+                                                    fontSize: 14
+                                                }
+                                            }}
+                                        />
+                                    )}
+                                    isOptionEqualToValue={(opt, val) => opt.value === val.value}
+                                    clearOnEscape
+                                />
                             </Grid>
-                        </Box>
+
+                            <Grid item sx={{ display: 'flex', gap: 2 }}>
+                                <Button variant="outlined" startIcon={<Icon icon="mdi:file-export" />}>
+                                    Export
+                                </Button>
+                                <Button variant="contained" startIcon={<Icon icon="mdi:plus" />}>
+                                    Tambah User
+                                </Button>
+                            </Grid>
+                        </Grid>
 
                         <Box>
                             <TableCustom
