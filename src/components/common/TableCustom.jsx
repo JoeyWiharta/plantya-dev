@@ -83,11 +83,12 @@ const TableCustom = (props) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             color: theme.palette.text.primary,
-            backgroundColor: '#807d7dff',
+            backgroundColor: theme.palette.background.tableHead,
             borderBottom: `1px solid ${theme.palette.custom.line}`,
+            whiteSpace: 'nowrap',
         },
         [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
+            whiteSpace: 'nowrap',
         },
     }));
 
@@ -96,18 +97,22 @@ const TableCustom = (props) => {
             <TableContainer
                 sx={{
                     borderRadius: 2,
-                    overflow: 'hidden',
+                    overflowX: 'auto',
                     border: '1px solid',
                     borderColor: 'custom.line',
-                    position: 'relative'
+                    position: 'relative',
+                    overflowX: 'auto',
+
                 }}
             >
 
                 <Table
                     size="small"
                     aria-label="a dense table"
+                    width="100%"
                     sx={{
-                        border: 'none'
+                        border: 'none',
+                        tableLayout: 'fixed',
                     }}
                 >
                     <TableHead
@@ -115,8 +120,11 @@ const TableCustom = (props) => {
                             bgcolor: 'background.tableHead',
                             border: '1px solid',
                             borderColor: 'custom.line',
-                            borderBottom: '1px solid',  // Add this line
-                            borderBottomColor: 'custom.line'  // Add this line
+                            borderBottom: '1px solid',
+                            borderBottomColor: 'custom.line',
+                            position: 'sticky',
+                            top: 0,
+                            zIndex: 1,
                         }}
                     >
                         <TableRow
@@ -128,7 +136,7 @@ const TableCustom = (props) => {
                             }}
                         >
                             {props.columns.map((column) => (
-                                <TableCell
+                                <StyledTableCell
                                     key={column.dataField}
                                     align={column.align || 'left'}
                                     style={{ ...column.headerStyle }}
@@ -147,7 +155,7 @@ const TableCustom = (props) => {
                                             {column.text}
                                         </TableSortLabel>
                                     ) : (column.text)}
-                                </TableCell>
+                                </StyledTableCell>
                             ))}
                         </TableRow>
                     </TableHead>
@@ -171,7 +179,7 @@ const TableCustom = (props) => {
                                 {props.columns.map((column) => {
                                     const value = row[column.dataField];
                                     return (
-                                        <TableCell
+                                        <StyledTableCell
                                             key={column.dataField}
                                             align={column.align || 'left'}
                                             sx={{ borderBottom: 'none', borderTop: 'none' }}
@@ -179,16 +187,16 @@ const TableCustom = (props) => {
                                             padding="normal"
                                         >
                                             {column.formatter ? column.formatter(value, row) : value}
-                                        </TableCell>
+                                        </StyledTableCell>
                                     );
                                 })}
                             </TableRow>
                         ))}
                         {props.appdata.length === 0 && !props.loadingData && (
                             <TableRow>
-                                <TableCell colSpan={props.columns.length} align="center">
+                                <StyledTableCell colSpan={props.columns.length} align="center">
                                     <Typography variant="body2">No records to display</Typography>
-                                </TableCell>
+                                </StyledTableCell>
                             </TableRow>
                         )}
                     </TableBody>

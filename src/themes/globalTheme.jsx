@@ -11,8 +11,9 @@ const baseColors = {
   deepBlack: '#121314',
   hover: '#1F1F1F',
   yellow: "#ff8c00ff",
-  
+
   bgHeaderTable: "#27272A",
+  buttonSuccess: "#007C4F",
   line: '#2c2e31',
 };
 
@@ -58,7 +59,13 @@ const globalTheme = createTheme({
 
     custom: {
       line: baseColors.line,
-    }
+    },
+
+    button: {
+      success: baseColors.buttonSuccess,
+    },
+
+
 
   },
 

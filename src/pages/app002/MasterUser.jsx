@@ -35,12 +35,38 @@ const MasterUser = () => {
 
     // Header Column
     const app002UserColumns = [
-        { dataField: "user_id", text: "User ID", sort: true, align: "center", headerStyle: { textAlign: 'center' } },
-        { dataField: "name", text: "Username", sort: true, headerStyle: { textAlign: 'center' }, align: "center", },
-        { dataField: "role", text: "Role", sort: true, align: "center", headerStyle: { textAlign: 'center' } },
-        { dataField: "email", text: "Email", sort: true, headerStyle: { textAlign: 'center' } },
         {
-            dataField: "action", text: "Action", headerStyle: { textAlign: 'center', width: '120px' },
+            dataField: "user_id",
+            text: "User ID",
+            sort: true,
+            align: "center",
+            headerStyle: { textAlign: 'center', width: 'auto' }
+        },
+        {
+            dataField: "name",
+            text: "Username",
+            sort: true,
+            align: "center",
+            headerStyle: { textAlign: 'center', width: 'auto' },
+        },
+        {
+            dataField: "role",
+            text: "Role",
+            sort: true,
+            align: "center",
+            headerStyle: { textAlign: 'center', width: 'auto' }
+        },
+        {
+            dataField: "email",
+            text: "Email",
+            sort: true,
+            align: "center",
+            headerStyle: { textAlign: 'center', width: 'auto' }
+        },
+        {
+            dataField: "action",
+            text: "Action",
+            headerStyle: { textAlign: 'center', width: 'auto' },
             formatter: (cellContent, row) => (
                 <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
                     <IconButton aria-label="edit" size="small" onClick={() => console.log('Edit user:', row)} color="info"><EditIcon fontSize="inherit" /></IconButton>
@@ -50,17 +76,8 @@ const MasterUser = () => {
         },
     ];
 
-    // Call API
-    useEffect(() => {
-
-        getAllUser();
-    }, [app002p01UserDataParam]);
-
     const getAllUser = useCallback(async () => {
         setLoadingData(true);
-        setApp002p01UserData([]);
-        setApp002p01UserTotalData(0);
-        setTotalPage(0);
         try {
             const response = await getUser(app002p01UserDataParam);
             if (response?.data) {
@@ -75,6 +92,11 @@ const MasterUser = () => {
             setLoadingData(false);
         }
     }, [app002p01UserDataParam]);
+
+    // Call API
+    useEffect(() => {
+        getAllUser();
+    }, [getAllUser]);
 
     // Handle Page, Rows, and Sort Function
     const handleChangePage = (newPage) => {
@@ -152,12 +174,13 @@ const MasterUser = () => {
             >
                 <Container
                     disableGutters
-                    maxWidth={false}
+                    maxWidth="xl"
                     sx={{
                         display: app002p01Page ? "block" : "none",
                         py: 1,
                         px: 2,
                     }}
+                    
                 >
                     <Stack spacing={2}>
                         <Grid
@@ -169,9 +192,15 @@ const MasterUser = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid container justifyContent="space-between" alignItems="center">
-                            <Grid item sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                        <Grid container alignItems="center">
+                            <Grid
+                                size={{ xs: 4, sm: 3 }}
+                                sx={{
+                                    pr: 2
+                                }}
+                            >
                                 <TextField
+                                    fullWidth
                                     placeholder="Search"
                                     value={search}
                                     onChange={handleSearchInputChange}
@@ -181,7 +210,25 @@ const MasterUser = () => {
                                         }
                                     }}
                                     size="small"
-                                    sx={{ width: '200px' }}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: 2,
+                                            '& fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 1.5,
+                                            },
+
+                                            '&:hover fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 2.5
+                                            },
+
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 2.5
+                                            },
+                                        },
+                                    }}
                                     slotProps={{
                                         input: {
                                             endAdornment: (
@@ -197,8 +244,12 @@ const MasterUser = () => {
                                         }
                                     }}
                                 />
+                            </Grid>
 
+
+                            <Grid size={{ xs: 4, sm: 2 }}>
                                 <Autocomplete
+                                    fullWidth
                                     options={roleOptions}
                                     getOptionLabel={(option) => option.label}
                                     value={roleOptions.find((opt) => opt.value === role) || null}
@@ -207,19 +258,30 @@ const MasterUser = () => {
                                             target: { value: newValue ? newValue.value : "" }
                                         });
                                     }}
-                                    sx={{
-                                        minWidth:'200px'
-                                    }}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
                                             placeholder="Role"
                                             size="small"
+                                            fullWidth={true}
                                             sx={{
-                                                '& .MuiInputBase-root': {
-                                                    height: 40,
-                                                    fontSize: 14
-                                                }
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: 2,
+                                                    '& fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 1.5,
+                                                    },
+
+                                                    '&:hover fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+                                                },
                                             }}
                                         />
                                     )}
@@ -228,37 +290,52 @@ const MasterUser = () => {
                                 />
                             </Grid>
 
-                            <Grid item sx={{ display: 'flex', gap: 2 }}>
-                                <Button variant="outlined" startIcon={<Icon icon="mdi:file-export" />}>
-                                    Export
-                                </Button>
-                                <Button variant="contained" startIcon={<Icon icon="mdi:plus" />}>
-                                    Tambah User
+                            <Grid
+                                container
+                                size={{ xs: 4, sm: 7 }}
+                                justifyContent="flex-end"
+                                alignItems="center"
+                            >
+                                <Button
+                                    variant="contained"
+                                    startIcon={<Icon icon="mdi:plus" />}
+                                    sx={{
+                                        textTransform: 'none',
+                                        bgcolor: 'button.success',
+                                        '&:hover': {
+                                            bgcolor: 'button.success',
+                                            opacity: 0.9,
+                                        },
+                                    }}
+                                >
+                                    Add User
                                 </Button>
                             </Grid>
+
+
+
                         </Grid>
 
-                        <Box>
-                            <TableCustom
-                                keyField="user_id"
-                                loadingData={loadingData}
-                                columns={app002UserColumns}
-                                appdata={app002p01UserData}
-                                appdataTotal={app002p01UserTotalData}
-                                totalPage={totalPage}
-                                rowsPerPageOption={[5, 10, 20, 25]}
+                        <TableCustom
+                            keyField="user_id"
+                            loadingData={loadingData}
+                            columns={app002UserColumns}
+                            appdata={app002p01UserData}
+                            appdataTotal={app002p01UserTotalData}
+                            totalPage={totalPage}
+                            rowsPerPageOption={[5, 10, 20, 25]}
 
-                                page={app002p01UserDataParam.page - 1}
-                                rowsPerPage={app002p01UserDataParam.size}
-                                sortField={app002p01UserDataParam.sort}
-                                sortOrder={app002p01UserDataParam.order}
+                            page={app002p01UserDataParam.page - 1}
+                            rowsPerPage={app002p01UserDataParam.size}
+                            sortField={app002p01UserDataParam.sort}
+                            sortOrder={app002p01UserDataParam.order}
 
 
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                onRequestSort={handleRequestSort}
-                            />
-                        </Box>
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            onRequestSort={handleRequestSort}
+                        />
+
                     </Stack>
                 </Container>
             </RootPageCustom>
