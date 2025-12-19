@@ -162,7 +162,7 @@ const MasterUser = () => {
             >
                 <Container
                     disableGutters
-                    maxWidth="xl"
+                    maxWidth={false}
                     sx={{
                         display: app002p01Page ? "block" : "none",
                         py: 1,
