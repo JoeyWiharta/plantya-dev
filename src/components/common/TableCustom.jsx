@@ -317,7 +317,6 @@ const TableCustom = (props) => {
                 mt: 2,
                 px: 1,
                 gap: { xs: 2, lg: 1 },
-                visibility: props.loadingData ? 'hidden' : 'visible'
             }}>
                 <Typography variant="body2" sx={{ order: { xs: 1, lg: 1 } }}>
                     Showing {from} to {to} of {props.appdataTotal} entries
