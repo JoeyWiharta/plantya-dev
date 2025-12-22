@@ -7,3 +7,4 @@ export const registerApi = (res) => axiosInstance("auth").post("/api/auth/regist
 
 // app002 - Master User
 export const getUser = (params, config = {}) => axiosInstance("management").get("/api/users", { params, ...config });
+export const addUser = (res) => axiosInstance("management").post("/api/users", res, { withCredentials: true })

@@ -141,8 +141,8 @@ const TableCustom = (props) => {
                     border: "1px solid",
                     borderColor: pageNum === page + 1 ? 'primary.main' : 'custom.line',
                     borderRadius: 2,
-                    minWidth: 36,
-                    height: 36,
+                    minWidth: { xs: 32, sm: 32, md: 36 },
+                    height: { xs: 32, sm: 32, md: 36 },
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -150,7 +150,7 @@ const TableCustom = (props) => {
                     bgcolor: pageNum === page + 1 ? 'primary.main' : 'background.paper',
                     color: pageNum === page + 1 ? 'primary.contrastText' : 'text.primary',
                     fontWeight: 500,
-                    fontSize: '0.875rem',
+                    fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' },
                     transition: 'all 0.2s ease',
                     '&:hover': {
                         bgcolor: pageNum === page + 1 ? 'primary.dark' : 'action.hover',
@@ -172,6 +172,7 @@ const TableCustom = (props) => {
                 sx={{
                     borderBottom: 'none',
                     width: column.width || 'auto',
+                    padding: { xs: '8px 12px', sm: '8px 12px', md: '8px 16px' },
                 }}
             >
                 {column.sort ? (
@@ -197,6 +198,9 @@ const TableCustom = (props) => {
                             variant="body2"
                             component="span"
                             fontWeight="bold"
+                            sx={{
+                                fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' },
+                            }}
                         >
                             {column.text}
                         </Typography>
@@ -211,12 +215,12 @@ const TableCustom = (props) => {
                         }}>
                             {sortField === column.dataField ? (
                                 sortOrder === 'asc' ? (
-                                    <Icon icon={sortUp} />
+                                    <Icon icon={sortUp} width={10} />
                                 ) : (
-                                    <Icon icon={sortDown} />
+                                    <Icon icon={sortDown} width={10} />
                                 )
                             ) : (
-                                <Icon icon={sort} />
+                                <Icon icon={sort} width={10} />
                             )}
                         </Box>
                     </Box>
@@ -225,6 +229,9 @@ const TableCustom = (props) => {
                         variant="body2"
                         component="span"
                         fontWeight="bold"
+                        sx={{
+                            fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' },
+                        }}
                     >
                         {column.text}
                     </Typography>
@@ -239,7 +246,9 @@ const TableCustom = (props) => {
             return (
                 <TableRow>
                     <StyledTableCell colSpan={props.columns.length} align="center">
-                        <Typography variant="body2">No records to display</Typography>
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' } }}>
+                            No records to display
+                        </Typography>
                     </StyledTableCell>
                 </TableRow>
             );
@@ -266,6 +275,7 @@ const TableCustom = (props) => {
                                 borderBottom: 'none',
                                 borderTop: 'none',
                                 width: column.width || 'auto',
+                                padding: { xs: '8px 12px', sm: '8px 12px', md: '8px 16px' },
                             }}
                             size="small"
                         >
@@ -286,6 +296,7 @@ const TableCustom = (props) => {
                     borderColor: 'custom.line',
                     position: 'relative',
                     overflowX: 'auto',
+                    mx: { xs: -2, sm: -2, md: 0 },
                 }}
             >
                 <Table
@@ -295,6 +306,7 @@ const TableCustom = (props) => {
                     sx={{
                         border: 'none',
                         tableLayout: 'fixed',
+                        minWidth: { xs: 600, sm: 600, md: 'auto' },
                     }}
                 >
                     <TableHead
@@ -322,27 +334,38 @@ const TableCustom = (props) => {
                 </Table>
             </TableContainer>
 
+            {/* FOOTER SECTION */}
             <Box sx={{
                 display: "flex",
-                flexDirection: { xs: 'column', lg: 'row' },
+                flexDirection: { xs: 'column', sm: 'column', md: 'row' },
                 alignItems: "center",
-                justifyContent: "space-between",
+                justifyContent: { xs: 'center', sm: 'space-between', md: 'space-between' },
                 mt: 2,
                 px: 1,
-                gap: { xs: 2, lg: 1 },
+                gap: { xs: 2, sm: 2, md: 1 },
             }}>
-                <Typography variant="body2" sx={{ order: { xs: 1, lg: 1 } }}>
+                {/* Showing entries info */}
+                <Typography
+                    variant="body2"
+                    sx={{
+                        order: { xs: 1, sm: 1, md: 1 },
+                        fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' },
+                        textAlign: { xs: 'center', sm: 'left', md: 'left' },
+                        mb: { xs: 1, sm: 1, md: 0 },
+                    }}
+                >
                     Showing {from} to {to} of {props.appdataTotal} entries
                 </Typography>
 
                 {/* PAGINATION SECTION */}
-                <Box sx={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: 1,
-                    order: { xs: 2, lg: 2 },
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    order: { xs: 2, sm: 2, md: 2 },
+                    flexWrap: { xs: 'wrap', sm: 'wrap', md: 'nowrap' },
+                    justifyContent: { xs: 'center', sm: 'center', md: 'center' },
+                    mb: { xs: 1, sm: 1, md: 0 },
                 }}>
                     {/* First Page Button (<<) */}
                     <Box
@@ -352,8 +375,8 @@ const TableCustom = (props) => {
                             border: "1px solid",
                             borderColor: 'custom.line',
                             borderRadius: 2,
-                            minWidth: 36,
-                            height: 36,
+                            minWidth: { xs: 28, sm: 28, md: 36 },
+                            height: { xs: 28, sm: 28, md: 36 },
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -379,8 +402,8 @@ const TableCustom = (props) => {
                             border: "1px solid",
                             borderColor: 'custom.line',
                             borderRadius: 2,
-                            minWidth: 36,
-                            height: 36,
+                            minWidth: { xs: 28, sm: 28, md: 36 },
+                            height: { xs: 28, sm: 28, md: 36 },
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -399,7 +422,7 @@ const TableCustom = (props) => {
                     </Box>
 
                     {/* Page Numbers */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
                         {renderPageNumbers}
                     </Box>
 
@@ -411,8 +434,8 @@ const TableCustom = (props) => {
                             border: "1px solid",
                             borderColor: 'custom.line',
                             borderRadius: 2,
-                            minWidth: 36,
-                            height: 36,
+                            minWidth: { xs: 28, sm: 28, md: 36 },
+                            height: { xs: 28, sm: 28, md: 36 },
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -438,8 +461,8 @@ const TableCustom = (props) => {
                             border: "1px solid",
                             borderColor: 'custom.line',
                             borderRadius: 2,
-                            minWidth: 36,
-                            height: 36,
+                            minWidth: { xs: 28, sm: 28, md: 36 },
+                            height: { xs: 28, sm: 28, md: 36 },
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -459,32 +482,46 @@ const TableCustom = (props) => {
                 </Box>
 
                 {/* Show entries selector */}
-                <Box sx={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: 1,
-                    order: { xs: 3, lg: 3 },
+                <Box sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    order: { xs: 3, sm: 3, md: 3 },
                 }}>
-                    <Typography variant="body2">Show</Typography>
+                    <Typography variant="body2" sx={{
+                        fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' }
+                    }}>
+                        Show
+                    </Typography>
                     <Select
                         size="small"
                         value={rowsPerPage}
                         onChange={handleChangeRowsPerPage}
                         sx={{
-                            height: 32,
-                            minWidth: 60,
-                            fontSize: 14,
+                            height: { xs: 28, sm: 28, md: 32 },
+                            minWidth: { xs: 50, sm: 50, md: 60 },
+                            fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' },
                             '& .MuiSelect-select': {
-                                padding: '4px 10px',
+                                padding: { xs: '2px 8px', sm: '2px 8px', md: '4px 10px' },
                                 minHeight: 'auto',
                             }
                         }}
                     >
                         {props.rowsPerPageOption.map((opt) => (
-                            <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+                            <MenuItem
+                                key={opt}
+                                value={opt}
+                                sx={{ fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' } }}
+                            >
+                                {opt}
+                            </MenuItem>
                         ))}
                     </Select>
-                    <Typography variant="body2">entries</Typography>
+                    <Typography variant="body2" sx={{
+                        fontSize: { xs: '0.75rem', sm: '0.75rem', md: '0.875rem' }
+                    }}>
+                        entries
+                    </Typography>
                 </Box>
             </Box>
         </>

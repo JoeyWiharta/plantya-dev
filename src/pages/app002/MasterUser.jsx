@@ -25,7 +25,7 @@ const MasterUser = () => {
     const [search, setSearch] = useState("")
     const [role, setRole] = useState("")
 
-    const [modalAdd, setModalAdd] = useState(false);
+    const [modalAddOpen, setModalAddOpen] = useState(false);
 
     // Get All Param
     const [app002p01UserDataParam, setApp002p01UserDataParam] = useState(
@@ -51,7 +51,7 @@ const MasterUser = () => {
         },
         {
             dataField: "name",
-            text: "Username",
+            text: "Name",
             sort: true,
             align: "center",
             width: '200px',
@@ -159,9 +159,16 @@ const MasterUser = () => {
         }));
     }
 
-    const handleModalAdd = () => {
-        setModalAdd(true)
+    const handleModalAddOpen = () => {
+        debugger
+        setModalAddOpen(true)
     }
+
+    const handleModalAddClose = () => {
+        debugger
+        setModalAddOpen(false)
+    }
+
 
 
 
@@ -313,7 +320,7 @@ const MasterUser = () => {
                                             opacity: 0.9,
                                         },
                                     }}
-                                    onClick={() => { handleModalAdd }}
+                                    onClick={handleModalAddOpen}
                                 >
                                     Add User
                                 </Button>
@@ -349,7 +356,10 @@ const MasterUser = () => {
                 </Container>
 
                 <MasterUserAdd
-                    modalAdd={modalAdd}
+                    modalAddOpen={modalAddOpen}
+                    handleModalAddClose={handleModalAddClose}
+                    fullWidth={true}
+                    maxWidth={"xs"}
                 >
                 </MasterUserAdd>
 

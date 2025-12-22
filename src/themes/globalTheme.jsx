@@ -14,6 +14,7 @@ const baseColors = {
 
   bgHeaderTable: "#27272A",
   buttonSuccess: "#007C4F",
+  buttonGrey: "#27272A",
   line: '#2c2e31',
 };
 
@@ -63,6 +64,7 @@ const globalTheme = createTheme({
 
     button: {
       success: baseColors.buttonSuccess,
+      grey: baseColors.buttonGrey,
     },
 
 
@@ -77,6 +79,7 @@ const globalTheme = createTheme({
         root: ({ theme }) => ({
           // Styling Textfield for Login and Register
           "&.auth-field": {
+
             "& .MuiOutlinedInput-root": {
               marginTop: 1,
               backgroundColor: theme.palette.background.paper,
@@ -84,37 +87,42 @@ const globalTheme = createTheme({
               transition: "all 0.3s ease",
 
               "& fieldset": {
-                borderColor: "transparent",
-                borderWidth: "1px",
+                borderColor: theme.palette.custom.line,
+                borderWidth: "0.7px",
               },
 
               "&:hover": {
                 backgroundColor: "transparent !important",
 
                 "& fieldset": {
-                  borderColor: theme.palette.text.secondary,
+                  borderColor: theme.palette.custom.line,
+                  borderWidth: "2px",
                 },
               },
               "&.Mui-focused": {
                 backgroundColor: "transparent !important",
 
                 "& fieldset": {
-                  borderColor: theme.palette.text.secondary,
+                  borderColor: theme.palette.custom.line,
+                  borderWidth: "2px",
                 },
               },
               "&.Mui-focused fieldset": {
-                borderColor: theme.palette.text.secondary,
+                borderColor: theme.palette.custom.line,
+                borderWidth: "2px",
                 backgroundColor: "transparent"
               },
 
               "&.Mui-autofilled": {
                 "& fieldset": {
-                  borderColor: theme.palette.text.secondary,
+                  borderColor: theme.palette.custom.line,
+                  borderWidth: "2px",
                   backgroundColor: "transparent"
                 }
               },
               "& .MuiInputBase-input::placeholder": {
-                borderColor: theme.palette.text.secondary,
+                borderColor: theme.palette.custom.line,
+                borderWidth: "2px",
                 backgroundColor: "transparent"
               },
               "& input:-webkit-autofill": {

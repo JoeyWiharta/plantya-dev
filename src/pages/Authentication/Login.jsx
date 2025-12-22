@@ -75,7 +75,7 @@ const Login = () => {
         },
         validationSchema: Yup.object
             ({
-                username: Yup.string().required("Email or Username is required."),
+                username: Yup.string().required("Email or user id is required."),
                 password: Yup.string().required("Password is required."),
             }),
 
@@ -187,7 +187,7 @@ const Login = () => {
                             <TextField
                                 className="auth-field"
                                 variant="outlined"
-                                placeholder="Email or username"
+                                placeholder="Email or user id"
                                 name="username"
                                 size="medium"
                                 fullWidth
