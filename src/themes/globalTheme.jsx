@@ -10,7 +10,7 @@ const baseColors = {
   black: '#16181A',
   deepBlack: '#121314',
   hover: '#1F1F1F',
-  yellow: "#ff8c00ff",
+  yellow: "#FFC107",
 
   bgHeaderTable: "#27272A",
   buttonSuccess: "#007C4F",

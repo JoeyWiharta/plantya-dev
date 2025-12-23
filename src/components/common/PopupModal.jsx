@@ -78,8 +78,4 @@ PopupModal.propTypes = {
     messageModal: PropTypes.string,
 };
 
-PopupModal.defaultProps = {
-    type: "success",
-};
-
 export default PopupModal;

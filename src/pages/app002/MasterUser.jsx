@@ -11,6 +11,7 @@ import plusIcon from "@iconify/icons-mdi/plus";
 import magnifyIcon from "@iconify/icons-mdi/magnify";
 import UserAdd from "./UserAdd";
 import UserEdit from "./UserEdit";
+import PopupDelete from "../../components/common/PopupDelete";
 
 
 
@@ -28,6 +29,7 @@ const MasterUser = () => {
     const [role, setRole] = useState("")
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(true);
     const [app002p01UserDataParam, setApp002p01UserDataParam] = useState(
         {
             page: 1,
@@ -431,6 +433,25 @@ const MasterUser = () => {
                         setApp002setMsg={setApp002setMsg}
                         app002MsgStatus={app002MsgStatus}
                         setApp002setMsgStatus={setApp002setMsgStatus}
+                    />
+                )}
+
+                {modalDeleteOpen && (
+                    <PopupDelete
+                        modalDeleteOpen={modalDeleteOpen}
+                        setModalDeleteOpen={setModalDeleteOpen}
+                        headerMessageModal={"Are you sure you want to continue?"}
+                        messageModal={"Deleted data will not be permanently deleted immediately and can still be restored via the data archive menu"}
+                        fullWidth={true}
+                        maxWidth={"sm"}
+                    // refreshTable={refreshTable}
+
+                    // // Props for message and data
+                    // app002p03UserData={app002p03UserData}
+                    // app002Msg={app002Msg}
+                    // setApp002setMsg={setApp002setMsg}
+                    // app002MsgStatus={app002MsgStatus}
+                    // setApp002setMsgStatus={setApp002setMsgStatus}
                     />
                 )}
 
