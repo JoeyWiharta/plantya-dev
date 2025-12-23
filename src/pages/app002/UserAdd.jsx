@@ -15,11 +15,17 @@ import FormSpinner from "../../components/common/FormSpinner";
 
 
 
-const MasterUserAdd = (props) => {
+const UserAdd = (props) => {
 
   // State for Loading Spinner
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [textLoading, setTextLoading] = useState("")
+
+  useEffect(() => {
+    if (props.modalAddOpen) {
+      app002p02ValidInput.resetForm()
+    }
+  }, [props.modalAddOpen])
 
 
   // Role 
@@ -32,12 +38,11 @@ const MasterUserAdd = (props) => {
   // Function Close, Reset, and Refresh After Submitting
   const handleClose = () => {
     debugger
-    formik.resetForm();
-    props.handleModalAddClose();
+    props.setModalAddOpen(false);
   }
 
   // Validation Form
-  const formik = useFormik({
+  const app002p02ValidInput = useFormik({
     initialValues:
     {
       email: "",
@@ -82,23 +87,12 @@ const MasterUserAdd = (props) => {
         setSubmitting(false)
         setLoadingSpinner(false)
         setTextLoading("")
-        setTimeout(() => {
-          props.setApp002setMsg("")
-          props.setApp002setMsgStatus("")
-        }, 3000);
       }
     },
   });
 
-
-
-
   return (
     <React.Fragment>
-
-
-
-
       <Dialog
         open={props.modalAddOpen}
         onClose={(event, reason) => {
@@ -114,11 +108,8 @@ const MasterUserAdd = (props) => {
             borderRadius: 2
           }
         }}
-      // aria-labelledby="scroll-dialog-title"
-      // aria-describedby="scroll-dialog-description"
       >
         <DialogTitle
-          id="scroll-dialog-title"
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -167,7 +158,7 @@ const MasterUserAdd = (props) => {
 
             <Box
               component="form"
-              onSubmit={formik.handleSubmit}
+              onSubmit={app002p02ValidInput.handleSubmit}
               sx={{
                 width: '100%',
                 display: 'flex',
@@ -192,18 +183,18 @@ const MasterUserAdd = (props) => {
                   name="email"
                   size="medium"
                   fullWidth
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
+                  value={app002p02ValidInput.values.email}
+                  onChange={app002p02ValidInput.handleChange}
+                  onBlur={app002p02ValidInput.handleBlur}
+                  error={app002p02ValidInput.touched.email && Boolean(app002p02ValidInput.errors.email)}
+                  helperText={app002p02ValidInput.touched.email && app002p02ValidInput.errors.email}
                   slotProps={{
                     input: {
                       startAdornment: (
                         <InputAdornment position="start">
                           <MailOutlineOutlinedIcon
                             sx={{
-                              color: formik.values.email === "" ? 'text.secondary' : 'text.primary'
+                              color: app002p02ValidInput.values.email === "" ? 'text.secondary' : 'text.primary'
                             }}
                           />
                         </InputAdornment>
@@ -226,18 +217,18 @@ const MasterUserAdd = (props) => {
                   name="name"
                   size="medium"
                   fullWidth
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
+                  value={app002p02ValidInput.values.name}
+                  onChange={app002p02ValidInput.handleChange}
+                  onBlur={app002p02ValidInput.handleBlur}
+                  error={app002p02ValidInput.touched.name && Boolean(app002p02ValidInput.errors.name)}
+                  helperText={app002p02ValidInput.touched.name && app002p02ValidInput.errors.name}
                   slotProps={{
                     input: {
                       startAdornment: (
                         <InputAdornment position="start">
                           <AccountCircleIcon
                             sx={{
-                              color: formik.values.name === "" ? 'text.secondary' : 'text.primary'
+                              color: app002p02ValidInput.values.name === "" ? 'text.secondary' : 'text.primary'
                             }} />
                         </InputAdornment>
                       ),
@@ -260,9 +251,9 @@ const MasterUserAdd = (props) => {
                   fullWidth
                   options={roleOptions}
                   getOptionLabel={(option) => option.label}
-                  value={roleOptions.find(opt => opt.value === formik.values.role) || null}
-                  onChange={(event, newValue) => { formik.setFieldValue('role', newValue ? newValue.value : '') }}
-                  onBlur={() => formik.handleBlur('role')}
+                  value={roleOptions.find(opt => opt.value === app002p02ValidInput.values.role) || null}
+                  onChange={(event, newValue) => { app002p02ValidInput.setFieldValue('role', newValue ? newValue.value : '') }}
+                  onBlur={() => app002p02ValidInput.handleBlur('role')}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
                   renderInput={(params) => (
                     <TextField
@@ -271,8 +262,8 @@ const MasterUserAdd = (props) => {
                       placeholder="Role"
                       variant="outlined"
                       name="role"
-                      error={formik.touched.role && Boolean(formik.errors.role)}
-                      helperText={formik.touched.role && formik.errors.role}
+                      error={app002p02ValidInput.touched.role && Boolean(app002p02ValidInput.errors.role)}
+                      helperText={app002p02ValidInput.touched.role && app002p02ValidInput.errors.role}
                       slotProps={{
                         input: {
                           ...params.InputProps,
@@ -308,7 +299,7 @@ const MasterUserAdd = (props) => {
                   }}
                   onClick={handleClose}
                 >
-                  Cancel
+                  CANCEL
                 </Button>
                 <Button
                   type="submit"
@@ -323,13 +314,10 @@ const MasterUserAdd = (props) => {
                     },
                   }}
                 >
-                  Add
+                  ADD
                 </Button>
               </DialogActions>
-
-
             </Box>
-
           </Stack>
         </DialogContent>
       </Dialog>
@@ -337,10 +325,16 @@ const MasterUserAdd = (props) => {
   )
 }
 
-MasterUserAdd.propTypes = {
+UserAdd.propTypes = {
   modalAddOpen: PropTypes.any,
-  handleModalAddClose: PropTypes.any,
-
+  setModalAddOpen: PropTypes.any,
+  fullWidth: PropTypes.any,
+  maxWidth: PropTypes.any,
+  refreshTable: PropTypes.any,
+  app002Msg: PropTypes.any,
+  setApp002setMsg: PropTypes.any,
+  app002MsgStatus: PropTypes.any,
+  setApp002setMsgStatus: PropTypes.any,
 };
 
-export default MasterUserAdd
+export default UserAdd

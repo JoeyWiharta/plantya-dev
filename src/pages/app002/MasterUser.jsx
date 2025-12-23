@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Container, Box, Typography, Grid, Paper, Card, CardHeader, CardContent, TextField, IconButton, Stack, Select, MenuItem, Autocomplete } from "@mui/material";
+import { Container, Box, Typography, Grid, Paper, Card, CardHeader, CardContent, TextField, IconButton, Stack, Select, MenuItem, Autocomplete, Tooltip } from "@mui/material";
 import { Button } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
 import { getUser } from "../../utils/ListApi";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditSquareIcon from '@mui/icons-material/EditSquare';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Icon } from "@iconify/react";
 import plusIcon from "@iconify/icons-mdi/plus";
 import magnifyIcon from "@iconify/icons-mdi/magnify";
-import MasterUserAdd from "./MasterUserAdd";
+import UserAdd from "./UserAdd";
+import UserEdit from "./UserEdit";
 
 
 
@@ -20,14 +21,13 @@ const MasterUser = () => {
     const [app002MsgStatus, setApp002setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [app002p01UserData, setApp002p01UserData] = useState([]);
+    const [app002p03UserData, setApp002p03UserData] = useState();
     const [app002p01UserTotalData, setApp002p01UserTotalData] = useState(0)
     const [app002p01TotalPage, app002p01SetTotalPage] = useState(0)
     const [search, setSearch] = useState("")
     const [role, setRole] = useState("")
-
     const [modalAddOpen, setModalAddOpen] = useState(false);
-
-    // Get All Param
+    const [modalEditOpen, setModalEditOpen] = useState(false);
     const [app002p01UserDataParam, setApp002p01UserDataParam] = useState(
         {
             page: 1,
@@ -75,16 +75,37 @@ const MasterUser = () => {
             text: "Action",
             align: "center",
             width: '150px',
-            formatter: (cellContent, row) => (
-                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
-                    <IconButton aria-label="edit" size="small" onClick={() => console.log('Edit user:', row)} color="info"><EditIcon fontSize="inherit" /></IconButton>
-                    <IconButton aria-label="delete" size="small" onClick={() => console.log('Delete user:', row)} color="error"><DeleteIcon fontSize="inherit" /></IconButton>
-                </Box>
+            formatter: (cellContent, app002p01UserData) => (
+                <>
+                    <Stack direction="row" spacing={1} justifyContent="center">
+                        <Tooltip title="Update User" placement="top">
+                            <IconButton
+                                aria-label="edit"
+                                size="small"
+                                onClick={() => handleModalEditOpen(app002p01UserData)}
+                                color="info"
+                            >
+                                <EditSquareIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title="Delete User" placement="top">
+                            <IconButton
+                                aria-label="delete"
+                                size="small"
+                                onClick={() => handleDelete(app002p01UserData)}
+                                color="error"
+                            >
+                                <DeleteOutlineIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
+                    </Stack>
+                </>
             ),
         },
     ];
 
-
+    // Call API
     const getAllUser = useCallback(async (param) => {
         setLoadingData(true);
         try {
@@ -102,9 +123,10 @@ const MasterUser = () => {
         }
     });
 
-    // Call API
     useEffect(() => {
-        getAllUser(app002p01UserDataParam);
+        if (app002p01Page) {
+            getAllUser(app002p01UserDataParam);
+        }
     }, [app002p01UserDataParam]);
 
     // Handle Page, Rows, and Sort Function
@@ -131,21 +153,6 @@ const MasterUser = () => {
             page: 1
         }));
     };
-
-    const refreshTable = () => {
-        setSearch("")
-        setRole("")
-        setApp002p01UserDataParam(
-            {
-                page: 1,
-                size: 10,
-                sort: "",
-                order: "asc",
-                search: "",
-                role: "",
-            }
-        );
-    }
 
     // Search and Filtering
     const roleOptions = [
@@ -174,15 +181,39 @@ const MasterUser = () => {
         }));
     }
 
+    const refreshTable = () => {
+        setSearch("")
+        setRole("")
+        setApp002p01UserDataParam(
+            {
+                page: 1,
+                size: 10,
+                sort: "",
+                order: "asc",
+                search: "",
+                role: "",
+            }
+        );
+    }
+
+
+    // Form Add Modal
     const handleModalAddOpen = () => {
         debugger
+        setApp002setMsg("")
         setModalAddOpen(true)
     }
 
-    const handleModalAddClose = () => {
+    // Form Edit Modal
+    const handleModalEditOpen = (obj) => {
         debugger
-        setModalAddOpen(false)
+        setApp002setMsg("")
+        setModalEditOpen(true)
+        setApp002p03UserData(obj)
     }
+
+
+
 
 
 
@@ -369,20 +400,40 @@ const MasterUser = () => {
                     </Stack>
                 </Container>
 
-                <MasterUserAdd
-                    modalAddOpen={modalAddOpen}
-                    handleModalAddClose={handleModalAddClose}
-                    fullWidth={true}
-                    maxWidth={"xs"}
-                    refreshTable={refreshTable}
+                {modalAddOpen && (
+                    <UserAdd
+                        modalAddOpen={modalAddOpen}
+                        setModalAddOpen={setModalAddOpen}
+                        fullWidth={true}
+                        maxWidth={"xs"}
+                        refreshTable={refreshTable}
 
-                    // Props for message
-                    app002Msg={app002Msg}
-                    setApp002setMsg={setApp002setMsg}
-                    app002MsgStatus={app002MsgStatus}
-                    setApp002setMsgStatus={setApp002setMsgStatus}
-                >
-                </MasterUserAdd>
+                        // Props for message
+                        app002Msg={app002Msg}
+                        setApp002setMsg={setApp002setMsg}
+                        app002MsgStatus={app002MsgStatus}
+                        setApp002setMsgStatus={setApp002setMsgStatus}
+                    >
+                    </UserAdd>
+                )}
+
+                {modalEditOpen && (
+                    <UserEdit
+                        modalEditOpen={modalEditOpen}
+                        setModalEditOpen={setModalEditOpen}
+                        fullWidth={true}
+                        maxWidth={"xs"}
+                        refreshTable={refreshTable}
+
+                        // Props for message and data
+                        app002p03UserData={app002p03UserData}
+                        app002Msg={app002Msg}
+                        setApp002setMsg={setApp002setMsg}
+                        app002MsgStatus={app002MsgStatus}
+                        setApp002setMsgStatus={setApp002setMsgStatus}
+                    />
+                )}
+
 
             </RootPageCustom>
         </React.Fragment >

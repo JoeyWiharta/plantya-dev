@@ -86,12 +86,33 @@ const globalTheme = createTheme({
               borderRadius: "15px",
               transition: "all 0.3s ease",
 
+              "&.Mui-disabled": {
+                backgroundColor: '#3a3a3a', // Latar belakang lebih terang
+
+                // Target elemen input secara spesifik untuk warna teks
+                "& .MuiInputBase-input": {
+                  color: '#b0b0b0', // Teks yang lebih terang
+                  WebkitTextFillColor: '#b0b0b0', // Untuk mengatasi autofill
+                },
+
+                // Target border secara spesifik
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: '#555555',
+                },
+
+                // Target ikon secara spesifik
+                "& .MuiInputAdornment-root .MuiSvgIcon-root": {
+                  color: '#b0b0b0',
+                },
+              },
+
+
               "& fieldset": {
                 borderColor: theme.palette.custom.line,
                 borderWidth: "0.7px",
               },
 
-              "&:hover": {
+              "&:hover:not(.Mui-disabled)": {
                 backgroundColor: "transparent !important",
 
                 "& fieldset": {

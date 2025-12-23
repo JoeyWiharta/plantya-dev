@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, IconButton, Box, Slide } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const AlertMessage = (props) => {
+
+    useEffect(() => {
+        if (props.msg) {
+            const timer = setTimeout(() => {
+                props.stateData("");
+            }, 3000);
+            return () => {
+                clearTimeout(timer);
+            };
+        }
+    }, [props.msg, props.stateData]);
 
     const alertClose = () => {
         props.stateData("")
