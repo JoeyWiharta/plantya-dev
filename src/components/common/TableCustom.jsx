@@ -14,13 +14,7 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
-import { Icon } from '@iconify/react';
-import chevronLeft from '@iconify/icons-mdi/chevron-left';
-import chevronRight from '@iconify/icons-mdi/chevron-right';
-import sortUp from "@iconify/icons-fa/sort-up";
-import sortDown from "@iconify/icons-fa/sort-down";
-import sort from "@iconify/icons-fa/sort";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, ChevronsUpDown, ChevronDown, ChevronUp } from "lucide-react";
 
 
 // Pindahkan StyledTableCell ke luar komponen agar tidak dibuat ulang setiap render
@@ -210,12 +204,12 @@ const TableCustom = (props) => {
                         }}>
                             {sortField === column.dataField ? (
                                 sortOrder === 'asc' ? (
-                                    <Icon icon={sortUp} width={10} />
+                                    <ChevronUp size={16} strokeWidth={4} />
                                 ) : (
-                                    <Icon icon={sortDown} width={10} />
+                                    <ChevronDown size={16} strokeWidth={4} />
                                 )
                             ) : (
-                                <Icon icon={sort} width={10} />
+                                <ChevronsUpDown size={16} strokeWidth={4} />
                             )}
                         </Box>
                     </Box>
@@ -413,7 +407,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <Icon icon={chevronLeft} width={20} height={20} />
+                        <ChevronLeft size={18} />
                     </Box>
 
                     {/* Page Numbers */}
@@ -445,7 +439,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <Icon icon={chevronRight} width={20} height={20} />
+                        <ChevronRight size={18} />
                     </Box>
 
                     {/* Last Page Button (>>) */}

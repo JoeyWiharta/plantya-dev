@@ -10,6 +10,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { addUser } from "../../utils/ListApi";
 import FormSpinner from "../../components/common/FormSpinner";
+import { Mail } from "lucide-react";
 
 
 
@@ -196,6 +197,7 @@ const UserAdd = (props) => {
                               color: app002p02ValidInput.values.email === "" ? 'text.secondary' : 'text.primary'
                             }}
                           />
+                          
                         </InputAdornment>
                       ),
                     },
