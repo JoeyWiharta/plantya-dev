@@ -1,5 +1,3 @@
-// src/components/common/TableCustom.jsx
-
 import React, { useState, useEffect, useMemo } from "react";
 import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
@@ -12,21 +10,18 @@ import {
     TableHead,
     TableRow,
     Box,
-    CircularProgress,
     Typography,
-    Pagination,
-    PaginationItem,
     Select,
     MenuItem,
 } from "@mui/material";
 import { Icon } from '@iconify/react';
-import chevronDoubleLeft from '@iconify/icons-mdi/chevron-double-left';
-import chevronDoubleRight from '@iconify/icons-mdi/chevron-double-right';
 import chevronLeft from '@iconify/icons-mdi/chevron-left';
 import chevronRight from '@iconify/icons-mdi/chevron-right';
 import sortUp from "@iconify/icons-fa/sort-up";
 import sortDown from "@iconify/icons-fa/sort-down";
 import sort from "@iconify/icons-fa/sort";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
+
 
 // Pindahkan StyledTableCell ke luar komponen agar tidak dibuat ulang setiap render
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -391,7 +386,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <Icon icon={chevronDoubleLeft} width={20} height={20} />
+                        <ChevronsLeft size={18} />
                     </Box>
 
                     {/* Previous Page Button (<) */}
@@ -477,7 +472,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <Icon icon={chevronDoubleRight} width={20} height={20} />
+                        <ChevronsRight size={18} />
                     </Box>
                 </Box>
 

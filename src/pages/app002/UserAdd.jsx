@@ -7,10 +7,8 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // Import ikon untuk rol
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { addUser } from "../../utils/ListApi";
-import PageSpinner from "../../components/common/PageSpinner";
 import FormSpinner from "../../components/common/FormSpinner";
 
 
@@ -67,30 +65,30 @@ const UserAdd = (props) => {
       setSubmitting(true)
       setLoadingSpinner(true)
       setTextLoading("Processing...")
-
-      try {
-        const response = await addUser(values)
-        debugger
-        if (response.status === 201) {
-          props.setApp002setMsg("User Has Been Successfully Added.");
-          props.setApp002setMsgStatus("success");
-          props.refreshTable();
-          handleClose()
-        }
-      }
-      catch (error) {
-        debugger
-        props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-        props.setApp002setMsgStatus("error")
-      }
-      finally {
-        setSubmitting(false)
-        setLoadingSpinner(false)
-        setTextLoading("")
-      }
+      await SaveUserAction(values)
+      setSubmitting(false)
     },
   });
 
+  const SaveUserAction = useCallback(async (param) => {
+    try {
+      const response = await addUser(param)
+      debugger
+      if (response.status === 201 || response.status === 200) {
+        props.setApp002setMsg("User Has Been Successfully Added.");
+        props.setApp002setMsgStatus("success");
+        props.refreshTable();
+        handleClose()
+      }
+    } catch (error) {
+      debugger
+      props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+      props.setApp002setMsgStatus("error")
+    } finally {
+      setLoadingSpinner(false)
+      setTextLoading("")
+    }
+  })
 
   return (
     <React.Fragment>
@@ -100,8 +98,8 @@ const UserAdd = (props) => {
           if (reason === 'backdropClick') return;
           handleClose()
         }}
-        fullWidth={props.fullWidth}
-        maxWidth={props.maxWidth}
+        fullWidth={true}
+        maxWidth={"xs"}
         scroll={"paper"}
         sx={{
           '& .MuiDialog-paper': {
@@ -329,8 +327,6 @@ const UserAdd = (props) => {
 UserAdd.propTypes = {
   modalAddOpen: PropTypes.any,
   setModalAddOpen: PropTypes.any,
-  fullWidth: PropTypes.any,
-  maxWidth: PropTypes.any,
   refreshTable: PropTypes.any,
   app002Msg: PropTypes.any,
   setApp002setMsg: PropTypes.any,

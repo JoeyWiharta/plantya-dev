@@ -7,13 +7,9 @@ import FormSpinner from "./FormSpinner";
 
 const PopupDelete = (props) => {
 
-    const handleClose = () => {
-        props.setModalDeleteOpen(false);
-    }
-
     const handleDelete = () => {
-        if (props.onDelete) {
-            props.onDelete()
+        if (props.onDeleteClick) {
+            props.onDeleteClick()
         }
     }
 
@@ -23,10 +19,10 @@ const PopupDelete = (props) => {
                 open={props.modalDeleteOpen}
                 onClose={(event, reason) => {
                     if (reason === 'backdropClick') return;
-                    handleClose()
+                    props.modalDeleteClose
                 }}
-                fullWidth={props.fullWidth}
-                maxWidth={props.maxWidth}
+                fullWidth={true}
+                maxWidth={"sm"}
                 sx={{
                     '& .MuiDialog-paper': {
                         bgcolor: 'background.default',
@@ -80,9 +76,8 @@ const PopupDelete = (props) => {
                                 variant="h6"
                                 sx={{
                                     color: 'text.primary',
-                                    // bgcolor: 'yellow'
                                 }}>
-                                {props.headerMessageModal}
+                                Are you sure you want to continue?
                             </DialogContentText>
 
                             <DialogContentText
@@ -93,7 +88,7 @@ const PopupDelete = (props) => {
                                     // bgcolor: 'grey'
 
                                 }}>
-                                {props.messageModal}
+                                Deleted data will not be permanently deleted immediately and can still be restored via the data archive menu
                             </DialogContentText>
                         </Box>
 
@@ -113,7 +108,7 @@ const PopupDelete = (props) => {
                                             opacity: 0.9,
                                         },
                                     }}
-                                    onClick={handleClose}
+                                    onClick={props.modalDeleteClose}
                                 >
                                     CANCEL
                                 </Button>
@@ -150,11 +145,7 @@ const PopupDelete = (props) => {
 
 PopupDelete.propTypes = {
     modalDeleteOpen: PropTypes.bool,
-    setModalDeleteOpen: PropTypes.any,
-    headerMessageModal: PropTypes.string,
-    messageModal: PropTypes.string,
-    fullWidth: PropTypes.any,
-    maxWidth: PropTypes.any,
+    modalDeleteClose: PropTypes.any,
     loadingDelete: PropTypes.any,
     onDelete: PropTypes.any,
 };

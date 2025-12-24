@@ -1,37 +1,39 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Container, Box, Typography, Grid, Paper, Card, CardHeader, CardContent, TextField, IconButton, Stack, Select, MenuItem, Autocomplete, Tooltip } from "@mui/material";
-import { Button } from "@mui/material";
+import {
+    Container,
+    Typography,
+    Grid,
+    TextField,
+    IconButton,
+    Stack,
+    Autocomplete,
+    Tooltip,
+    Button
+} from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
 import { getUser, deleteUser } from "../../utils/ListApi";
-import EditSquareIcon from '@mui/icons-material/EditSquare';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Icon } from "@iconify/react";
-import plusIcon from "@iconify/icons-mdi/plus";
-import magnifyIcon from "@iconify/icons-mdi/magnify";
 import UserAdd from "./UserAdd";
 import UserEdit from "./UserEdit";
 import PopupDelete from "../../components/common/PopupDelete";
-
-
+import { Trash2, SquarePen, Plus, Search } from "lucide-react";
 
 const MasterUser = () => {
+    // State First Page, Message, and Loading Effect
     const [firstRender, setFirstRender] = useState(false)
     const [app002p01Page, setApp002p01Page] = useState(true);
     const [app002Msg, setApp002setMsg] = useState("");
     const [app002MsgStatus, setApp002setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false)
-    const [app002p01UserData, setApp002p01UserData] = useState([]);
-    const [app002p03UserData, setApp002p03UserData] = useState();
-    const [app002p01UserTotalData, setApp002p01UserTotalData] = useState(0)
-    const [app002p01TotalPage, app002p01SetTotalPage] = useState(0)
+
+    // State Data User, Filtering, and Param
     const [search, setSearch] = useState("")
     const [role, setRole] = useState("")
-    const [modalAddOpen, setModalAddOpen] = useState(false);
-    const [modalEditOpen, setModalEditOpen] = useState(false);
-    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [app002p01UserDataParam, setApp002p01UserDataParam] = useState(
+    const [app002UserData, setApp002UserData] = useState([]);
+    const [app002UserTotalData, setApp002UserTotalData] = useState(0)
+    const [app002TotalPage, app002SetTotalPage] = useState(0)
+    const [app002UserDataParam, setApp002UserDataParam] = useState(
         {
             page: 1,
             size: 10,
@@ -42,14 +44,20 @@ const MasterUser = () => {
         }
     )
 
-    // Header Column
+    // State Add, Edit, and Delete User
+    const [modalAddOpen, setModalAddOpen] = useState(false);
+    const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [app002UserEditData, setApp002UserEditData] = useState();
+    const [app002UserDeleteData, setApp002UserDeleteData] = useState(null)
+
+    // Table Configuration (Header Table, Handle Page and Rows, Handle Sort)
     const app002UserColumns = [
         {
             dataField: "user_id",
             text: "User ID",
             sort: true,
             align: "center",
-            // PERUBAHAN: Gunakan width untuk kontrol yang pasti
             width: '120px',
         },
         {
@@ -78,17 +86,17 @@ const MasterUser = () => {
             text: "Action",
             align: "center",
             width: '150px',
-            formatter: (cellContent, app002p01UserData) => (
+            formatter: (cellContent, app002UserData) => (
                 <>
                     <Stack direction="row" spacing={1} justifyContent="center">
                         <Tooltip title="Update User" placement="top">
                             <IconButton
                                 aria-label="edit"
                                 size="small"
-                                onClick={() => handleModalEditOpen(app002p01UserData)}
+                                onClick={() => handleModalEditOpen(app002UserData)}
                                 color="info"
                             >
-                                <EditSquareIcon fontSize="inherit" />
+                                <SquarePen size={18} />
                             </IconButton>
                         </Tooltip>
 
@@ -96,10 +104,10 @@ const MasterUser = () => {
                             <IconButton
                                 aria-label="delete"
                                 size="small"
-                                onClick={() => handleModalDeleteOpen(app002p01UserData)}
+                                onClick={() => handleModalDeleteOpen(app002UserData)}
                                 color="error"
                             >
-                                <DeleteOutlineIcon fontSize="inherit" />
+                                <Trash2 size={18} />
                             </IconButton>
                         </Tooltip>
                     </Stack>
@@ -108,15 +116,40 @@ const MasterUser = () => {
         },
     ];
 
-    // Call API
+    const handleChangePage = (newPage) => {
+        setApp002UserDataParam(prev => ({
+            ...prev,
+            page: newPage + 1
+        }));
+    };
+
+    const handleChangeRowsPerPage = (newRowsPerPage) => {
+        setApp002UserDataParam(prev => ({
+            ...prev,
+            size: newRowsPerPage,
+            page: 1
+        }));
+    };
+
+    const handleRequestSort = (property, order) => {
+        setApp002UserDataParam(prev => ({
+            ...prev,
+            sort: property,
+            order: order,
+            page: 1
+        }));
+    };
+
+    // Data From API
     const getAllUser = useCallback(async (param) => {
         setLoadingData(true);
         try {
             const response = await getUser(param);
+            console.table(response.data.data)
+            setApp002UserData(response?.data?.data ? response.data.data : []);
+            setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
+            app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
-            setApp002p01UserData(response?.data?.data ? response.data.data : []);
-            setApp002p01UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app002p01SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
         } catch (error) {
             console.error("Gagal mengambil data:", error);
@@ -128,47 +161,22 @@ const MasterUser = () => {
 
     useEffect(() => {
         if (app002p01Page) {
-            getAllUser(app002p01UserDataParam);
+            getAllUser(app002UserDataParam);
         }
-    }, [app002p01UserDataParam]);
+    }, [app002UserDataParam]);
 
-    // Handle Page, Rows, and Sort Function
-    const handleChangePage = (newPage) => {
-        setApp002p01UserDataParam(prev => ({
-            ...prev,
-            page: newPage + 1
-        }));
-    };
-
-    const handleChangeRowsPerPage = (newRowsPerPage) => {
-        setApp002p01UserDataParam(prev => ({
-            ...prev,
-            size: newRowsPerPage,
-            page: 1
-        }));
-    };
-
-    const handleRequestSort = (property, order) => {
-        setApp002p01UserDataParam(prev => ({
-            ...prev,
-            sort: property,
-            order: order,
-            page: 1
-        }));
-    };
-
-    // Search and Filtering
+    // Search and Filtering (Free Text and Role)
     const roleOptions = [
         { value: "ADMIN", label: "Admin" },
         { value: "USER", label: "User" },
         { value: "STAFF", label: "Staff" },
     ];
+
     const handleRoleChange = (event) => {
-        debugger
         setRole(event)
         setSearch("")
 
-        setApp002p01UserDataParam(prev => ({
+        setApp002UserDataParam(prev => ({
             ...prev,
             "page": 1,
             "role": event,
@@ -177,17 +185,18 @@ const MasterUser = () => {
     }
 
     const handleSearchState = () => {
-        setApp002p01UserDataParam(prev => ({
+        setApp002UserDataParam(prev => ({
             ...prev,
             page: 1,
             search: search
         }));
     }
 
+    // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
         setRole("");
-        setApp002p01UserDataParam({
+        setApp002UserDataParam({
             page: 1,
             size: 10,
             sort: "",
@@ -197,50 +206,51 @@ const MasterUser = () => {
         });
     });
 
-
     // Form Add Modal
     const handleModalAddOpen = () => {
-        debugger
         setApp002setMsg("")
         setModalAddOpen(true)
     }
 
     // Form Edit Modal
     const handleModalEditOpen = (obj) => {
-        debugger
         setApp002setMsg("")
         setModalEditOpen(true)
-        setApp002p03UserData(obj)
+        setApp002UserEditData(obj)
     }
 
     // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
-        debugger
         setApp002setMsg("")
         setModalDeleteOpen(true)
-        setApp002p03UserData(obj)
+        setApp002UserDeleteData(obj)
     }
-
-    const handleDelete = async () => {
-        setLoadingDelete(true)
-        try {
-            await deleteUser(app002p03UserData.user_id)
-            setApp002setMsg("User Has Been Successfully Deleted.")
-            setApp002setMsgStatus("success")
-            setModalDeleteOpen(false)
-            refreshTable();
-        } catch (error) {
-            setApp002setMsg("Gagal menghapus user. Silakan coba lagi.");
-            setApp002setMsgStatus("error");
-        } finally {
-            setLoadingDelete(false);
+    const app002HandleDeleteUser = () => {
+        if (app002UserDeleteData.user_id) {
+            deleteUserAction(app002UserDeleteData)
         }
     }
+    const deleteUserAction = useCallback(async (param) => {
+        try {
+            const response = await deleteUser(param.user_id)
 
-
-
-
-
+            if (response.status === 204 || response.status === 200) {
+                setApp002setMsg("User Has Been Successfully Deleted.")
+                setApp002setMsgStatus("success")
+            } else {
+                setApp002setMsg("Failed to delete user.")
+                setApp002setMsgStatus("error")
+            }
+        } catch (error) {
+            debugger
+            console.log(error)
+            setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            setApp002setMsgStatus("error")
+        } finally {
+            setModalDeleteOpen(false)
+            refreshTable();
+        }
+    })
 
     return (
         <React.Fragment>
@@ -263,7 +273,6 @@ const MasterUser = () => {
                     <Stack spacing={2}
                         sx={{ overflowX: 'hidden' }}
                     >
-
                         <Grid
                             container
                             size={12}
@@ -320,8 +329,11 @@ const MasterUser = () => {
                                                     onClick={handleSearchState}
                                                     edge="end"
                                                     size="small"
+                                                    sx={{
+                                                        color: 'text.secondary'
+                                                    }}
                                                 >
-                                                    <Icon icon={magnifyIcon} width={20} />
+                                                    <Search size={18} />
                                                 </IconButton>
                                             ),
                                         }
@@ -337,6 +349,11 @@ const MasterUser = () => {
                                     getOptionLabel={(option) => option.label}
                                     value={roleOptions.find((opt) => opt.value === role) || null}
                                     onChange={(event, newValue) => { handleRoleChange(newValue ? newValue.value : ""); }}
+                                    sx={{
+                                        '& .MuiAutocomplete-popupIndicator': {
+                                            color: 'text.secondary',
+                                        },
+                                    }}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
@@ -381,7 +398,7 @@ const MasterUser = () => {
                                 <Button
                                     variant="contained"
                                     color="success"
-                                    endIcon={<Icon icon={plusIcon} />}
+                                    endIcon={<Plus size={18} />}
                                     sx={{
                                         textTransform: 'none',
                                         '&:hover': {
@@ -404,15 +421,15 @@ const MasterUser = () => {
                             keyField="user_id"
                             loadingData={loadingData}
                             columns={app002UserColumns}
-                            appdata={app002p01UserData}
-                            appdataTotal={app002p01UserTotalData}
-                            totalPage={app002p01TotalPage}
+                            appdata={app002UserData}
+                            appdataTotal={app002UserTotalData}
+                            totalPage={app002TotalPage}
                             rowsPerPageOption={[2, 10, 20, 25]}
 
-                            page={app002p01UserDataParam.page - 1}
-                            rowsPerPage={app002p01UserDataParam.size}
-                            sortField={app002p01UserDataParam.sort}
-                            sortOrder={app002p01UserDataParam.order}
+                            page={app002UserDataParam.page - 1}
+                            rowsPerPage={app002UserDataParam.size}
+                            sortField={app002UserDataParam.sort}
+                            sortOrder={app002UserDataParam.order}
 
 
                             onPageChange={handleChangePage}
@@ -427,10 +444,7 @@ const MasterUser = () => {
                     <UserAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
-                        fullWidth={true}
-                        maxWidth={"xs"}
                         refreshTable={refreshTable}
-
                         // Props for message
                         app002Msg={app002Msg}
                         setApp002setMsg={setApp002setMsg}
@@ -444,12 +458,10 @@ const MasterUser = () => {
                     <UserEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
-                        fullWidth={true}
-                        maxWidth={"xs"}
                         refreshTable={refreshTable}
 
                         // Props for message and data
-                        app002p03UserData={app002p03UserData}
+                        app002UserEditData={app002UserEditData}
                         app002Msg={app002Msg}
                         setApp002setMsg={setApp002setMsg}
                         app002MsgStatus={app002MsgStatus}
@@ -460,21 +472,9 @@ const MasterUser = () => {
                 {modalDeleteOpen && (
                     <PopupDelete
                         modalDeleteOpen={modalDeleteOpen}
-                        setModalDeleteOpen={setModalDeleteOpen}
-                        headerMessageModal={"Are you sure you want to continue?"}
-                        messageModal={"Deleted data will not be permanently deleted immediately and can still be restored via the data archive menu"}
-                        fullWidth={true}
-                        maxWidth={"sm"}
+                        modalDeleteClose={() => setModalDeleteOpen(false)}
                         loadingDelete={loadingDelete}
-                        onDelete={handleDelete}
-                    // refreshTable={refreshTable}
-
-                    // // Props for message and data
-                    // app002p03UserData={app002p03UserData}
-                    // app002Msg={app002Msg}
-                    // setApp002setMsg={setApp002setMsg}
-                    // app002MsgStatus={app002MsgStatus}
-                    // setApp002setMsgStatus={setApp002setMsgStatus}
+                        onDeleteClick={app002HandleDeleteUser}
                     />
                 )}
 

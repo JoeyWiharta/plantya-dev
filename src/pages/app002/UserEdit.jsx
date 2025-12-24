@@ -29,10 +29,10 @@ const UserEdit = (props) => {
     useEffect(() => {
         if (props.modalEditOpen) {
             app002p03ValidInput.resetForm()
-            app002p03ValidInput.setFieldValue("userId", props.app002p03UserData.user_id)
-            app002p03ValidInput.setFieldValue("email", props.app002p03UserData.email)
-            app002p03ValidInput.setFieldValue("name", props.app002p03UserData.name)
-            app002p03ValidInput.setFieldValue("role", props.app002p03UserData.role)
+            app002p03ValidInput.setFieldValue("userId", props.app002UserEditData.user_id)
+            app002p03ValidInput.setFieldValue("email", props.app002UserEditData.email)
+            app002p03ValidInput.setFieldValue("name", props.app002UserEditData.name)
+            app002p03ValidInput.setFieldValue("role", props.app002UserEditData.role)
         }
     }, [props.modalEditOpen])
 
@@ -67,37 +67,36 @@ const UserEdit = (props) => {
             setSubmitting(true)
             setLoadingSpinner(true)
             setTextLoading("Processing...")
-
-            try {
-                const response = await editUser(
-                    values.userId,
-                    {
-                        email: values.email,
-                        name: values.name,
-                        role: values.role
-                    })
-                if (response.status === 200) {
-                    props.setApp002setMsg("User Has Been Successfully Updated.");
-                    props.setApp002setMsgStatus("success");
-                    props.refreshTable();
-                    handleClose()
-                }
-            }
-            catch (error) {
-                debugger
-                props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-                props.setApp002setMsgStatus("error")
-            }
-            finally {
-                setSubmitting(false)
-                setLoadingSpinner(false)
-                setTextLoading("")
-            }
+            await EditUserAction(values)
+            setSubmitting(false)
         },
     });
 
-
-
+    const EditUserAction = useCallback(async (param) => {
+        try {
+            debugger
+            const response = await editUser(
+                param.userId,
+                {
+                    email: param.email,
+                    name: param.name,
+                    role: param.role
+                })
+            if (response.status === 200) {
+                props.setApp002setMsg("User Has Been Successfully Updated.");
+                props.setApp002setMsgStatus("success");
+                props.refreshTable();
+                handleClose()
+            }
+        } catch (error) {
+            debugger
+            props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            props.setApp002setMsgStatus("error")
+        } finally {
+            setLoadingSpinner(false)
+            setTextLoading("")
+        }
+    })
 
     return (
         <React.Fragment>
@@ -107,8 +106,8 @@ const UserEdit = (props) => {
                     if (reason === 'backdropClick') return;
                     handleClose()
                 }}
-                fullWidth={props.fullWidth}
-                maxWidth={props.maxWidth}
+                fullWidth={true}
+                maxWidth={"xs"}
                 scroll={"paper"}
                 sx={{
                     '& .MuiDialog-paper': {
@@ -364,14 +363,12 @@ const UserEdit = (props) => {
 UserEdit.propTypes = {
     modalEditOpen: PropTypes.any,
     setModalEditOpen: PropTypes.any,
-    fullWidth: PropTypes.any,
-    maxWidth: PropTypes.any,
     refreshTable: PropTypes.any,
     app002Msg: PropTypes.any,
     setApp002setMsg: PropTypes.any,
     app002MsgStatus: PropTypes.any,
     setApp002setMsgStatus: PropTypes.any,
-    app002p03UserData: PropTypes.any,
+    app002UserEditData: PropTypes.any,
 };
 
 export default UserEdit
