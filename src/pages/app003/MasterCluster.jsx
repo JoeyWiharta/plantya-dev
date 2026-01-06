@@ -238,13 +238,13 @@ const MasterCluster = () => {
         }));
     };
 
-    // Data From API Active User
-    const getAllUser = useCallback(async (param) => {
+    // Data From API Active Cluster
+    const getAllCluster = useCallback(async (param) => {
         setLoadingData(true);
         try {
             const response = await getCluster(param);
-            console.table(response.data.users)
-            setApp002UserData(response?.data?.users ? response.data.users : []);
+            console.table(response.data.clusters)
+            setApp002UserData(response?.data?.clusters ? response.data.clusters : []);
             setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
@@ -259,7 +259,7 @@ const MasterCluster = () => {
 
     useEffect(() => {
         if (app002p01Page && active == "activeCluster") {
-            getAllUser(app002UserDataParam);
+            getAllCluster(app002UserDataParam);
         }
     }, [app002UserDataParam, active]);
 

@@ -262,13 +262,13 @@ const MasterDevice = () => {
         }));
     };
 
-    // Data From API Active User
-    const getAllUser = useCallback(async (param) => {
+    // Data From API Active Device
+    const getAllDevice = useCallback(async (param) => {
         setLoadingData(true);
         try {
             const response = await getDevice(param);
-            console.table(response.data.users)
-            setApp002UserData(response?.data?.users ? response.data.users : []);
+            console.table(response.data.devices)
+            setApp002UserData(response?.data?.devices ? response.data.devices : []);
             setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
@@ -283,7 +283,7 @@ const MasterDevice = () => {
 
     useEffect(() => {
         if (app002p01Page && active == "activeDevice") {
-            getAllUser(app002UserDataParam);
+            getAllDevice(app002UserDataParam);
         }
     }, [app002UserDataParam, active]);
 
