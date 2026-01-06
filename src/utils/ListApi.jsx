@@ -14,8 +14,8 @@ export const deleteUser = (userId) => axiosInstance("user").delete(`/api/users/$
 export const restoreUser = (userId) => axiosInstance("user").post(`/api/users/deleted/${userId}/restore`)
 
 // app003 - Master Cluster
-export const getCluster = (params, config = {}) => axiosInstance("iot").get("/api/cluster", { params, ...config });
+export const getCluster = (params, config = {}) => axiosInstance("iot").get("/api/clusters", { params, ...config });
 
 
 // app004 - Master Device
-export const getDevice = (params, config = {}) => axiosInstance("iot").get("/api/device", { params, ...config });
+export const getDevice = (params, config = {}) => axiosInstance("iot").get("/api/devices", { params, ...config });
