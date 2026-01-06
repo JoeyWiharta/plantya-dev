@@ -80,19 +80,19 @@ const MasterCluster = () => {
     // Table Configuration Active User (Header Table, Handle Page and Rows, Handle Sort)
     const app002UserColumns = [
         {
-            dataField: "clusterId",
+            dataField: "cluster_id",
             text: "Cluster ID",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
-            dataField: "clusterName",
+            dataField: "cluster_name",
             text: "Cluster Name",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
@@ -100,7 +100,7 @@ const MasterCluster = () => {
             text: "Total Device (Optional)",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
@@ -166,19 +166,19 @@ const MasterCluster = () => {
     // Table Configuration Deleted User (Header Table, Handle Page and Rows, Handle Sort)
     const app002UserDeletedColumns = [
         {
-            dataField: "clusterId",
+            dataField: "cluster_id",
             text: "Cluster ID",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
-            dataField: "clusterName",
+            dataField: "cluster_name",
             text: "Cluster Name",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
@@ -186,7 +186,7 @@ const MasterCluster = () => {
             text: "Total Device (Optional)",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {

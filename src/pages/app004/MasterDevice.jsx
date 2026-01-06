@@ -80,35 +80,35 @@ const MasterDevice = () => {
     // Table Configuration Active User (Header Table, Handle Page and Rows, Handle Sort)
     const app002UserColumns = [
         {
-            dataField: "deviceId",
+            dataField: "device_id",
             text: "Device ID",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
-            dataField: "deviceName",
+            dataField: "device_name",
             text: "Device Name",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
-            dataField: "deviceType",
+            dataField: "device_type",
             text: "Device Type",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
-            dataField: "clusterId",
+            dataField: "cluster_id",
             text: "Cluster ID",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
@@ -116,7 +116,7 @@ const MasterDevice = () => {
             text: "Status",
             sort: true,
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             minWidth: '100px',
         },
         {
