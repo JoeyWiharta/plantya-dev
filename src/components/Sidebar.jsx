@@ -13,8 +13,10 @@ import {
     Fade
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import { appMenuStructure } from "../routes/Index";
+import Icon from '@mdi/react';
+
 
 
 const Sidebar = (props) => {
@@ -261,20 +263,11 @@ const Sidebar = (props) => {
                                                         display: "flex",
                                                         justifyContent: "center",
                                                         color: 'inherit',
-                                                        "& svg": {
-                                                            fontSize: 20,
-                                                        },
-                                                        ...(props.isCollapsed && {
-                                                            minWidth: 0,
-                                                            mr: 0,
-
-                                                            "& svg": {
-                                                                fontSize: 24,
-                                                            },
-                                                        }),
+                                                        minWidth: props.isCollapsed ? 0 : 40,
+                                                        mr: props.isCollapsed ? 0 : 1,
                                                     }}
                                                 >
-                                                    {item.icon}
+                                                    {<Icon path={item.icon} size={props.isCollapsed ? "24px" : "20px"} />}
                                                 </ListItemIcon>
 
                                                 {!props.isCollapsed && (
@@ -373,12 +366,9 @@ const Sidebar = (props) => {
                                                                     display: "flex",
                                                                     justifyContent: "center",
                                                                     color: 'inherit',
-                                                                    "& svg": {
-                                                                        fontSize: 20,
-                                                                    },
                                                                 }}
                                                             >
-                                                                {sub.icon}
+                                                                {<Icon path={sub.icon} size={"24px"} />}
                                                             </ListItemIcon>
 
                                                             <ListItemText
@@ -448,12 +438,12 @@ const Sidebar = (props) => {
                                                                         display: "flex",
                                                                         justifyContent: "center",
                                                                         color: 'inherit',
-                                                                        "& svg": {
-                                                                            fontSize: 20,
-                                                                        },
+                                                                        minWidth: props.isCollapsed ? 0 : 40,
+                                                                        mr: props.isCollapsed ? 0 : 1,
+
                                                                     }}
                                                                 >
-                                                                    {sub.icon}
+                                                                    {<Icon path={sub.icon} size={props.isCollapsed ? "24px" : "20px"} />}
                                                                 </ListItemIcon>
 
 
@@ -586,20 +576,11 @@ const Sidebar = (props) => {
                                                         display: "flex",
                                                         justifyContent: "center",
                                                         color: 'inherit',
-                                                        "& svg": {
-                                                            fontSize: 20,
-                                                        },
-                                                        ...(props.isCollapsed && {
-                                                            minWidth: 0,
-                                                            mr: 0,
-
-                                                            "& svg": {
-                                                                fontSize: 24,
-                                                            },
-                                                        }),
+                                                        minWidth: props.isCollapsed ? 0 : 40,
+                                                        mr: props.isCollapsed ? 0 : 1,
                                                     }}
                                                 >
-                                                    {item.icon}
+                                                    {<Icon path={item.icon} size={props.isCollapsed ? "24px" : "20px"} />}
                                                 </ListItemIcon>
 
                                                 {!props.isCollapsed && (

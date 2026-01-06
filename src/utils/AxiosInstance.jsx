@@ -25,7 +25,7 @@ const SERVICE_HEADERS = {
     auth: {
         "Content-Type": "application/json",
     },
-    management: {
+    iot: {
         Accept: "application/json",
     },
     users: {

@@ -14,7 +14,18 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
-import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, ChevronsUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import Icon from '@mdi/react';
+import {
+    mdiMenuSwap,
+    mdiMenuUp,
+    mdiMenuDown,
+    mdiChevronRight,
+    mdiChevronLeft,
+    mdiChevronDoubleLeft,
+    mdiChevronDoubleRight
+} from '@mdi/js';
+
+
 
 
 // Pindahkan StyledTableCell ke luar komponen agar tidak dibuat ulang setiap render
@@ -204,12 +215,12 @@ const TableCustom = (props) => {
                         }}>
                             {sortField === column.dataField ? (
                                 sortOrder === 'asc' ? (
-                                    <ChevronUp size={16} strokeWidth={4} />
+                                    <Icon path={mdiMenuUp} size={1} />
                                 ) : (
-                                    <ChevronDown size={16} strokeWidth={4} />
+                                    <Icon path={mdiMenuDown} size={1} />
                                 )
                             ) : (
-                                <ChevronsUpDown size={16} strokeWidth={4} />
+                                <Icon path={mdiMenuSwap} size={1} />
                             )}
                         </Box>
                     </Box>
@@ -285,7 +296,7 @@ const TableCustom = (props) => {
                     borderColor: 'custom.line',
                     position: 'relative',
                     overflowX: 'auto',
-                    mx: { xs: -2, sm: -2, md: 0 },
+                    bgcolor: 'green'
                 }}
             >
                 <Table
@@ -380,7 +391,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <ChevronsLeft size={18} />
+                        <Icon path={mdiChevronDoubleLeft} size={0.9} />
                     </Box>
 
                     {/* Previous Page Button (<) */}
@@ -407,7 +418,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <ChevronLeft size={18} />
+                        <Icon path={mdiChevronLeft} size={0.9} />
                     </Box>
 
                     {/* Page Numbers */}
@@ -439,7 +450,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <ChevronRight size={18} />
+                        <Icon path={mdiChevronRight} size={0.9} />
                     </Box>
 
                     {/* Last Page Button (>>) */}
@@ -466,7 +477,7 @@ const TableCustom = (props) => {
                             },
                         }}
                     >
-                        <ChevronsRight size={18} />
+                        <Icon path={mdiChevronDoubleRight} size={0.9} />
                     </Box>
                 </Box>
 

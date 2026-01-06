@@ -5,17 +5,25 @@ import LazyLoadRoutes from "./lazyLoadRoutes";
 import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
 import Register from "../pages/Authentication/Register";
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import PeopleIcon from '@mui/icons-material/People';
-import PersonIcon from '@mui/icons-material/Person';
-import GroupIcon from '@mui/icons-material/Group';
-import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
-import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
-import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import SettingsIcon from '@mui/icons-material/Settings';
-import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {
+    LayoutDashboard,
+    Layers,
+    User,
+    Radar,
+    HouseWifi,
+    ChartColumnIncreasing,
+    Settings,
+    Info,
+    LifeBuoy
+} from "lucide-react";
+
+import {
+    mdiViewDashboardOutline,
+    mdiLayersTripleOutline,
+    mdiAccountOutline,
+
+
+} from '@mdi/js';
 
 // Set all Menu 
 export const appMenuStructure = [
@@ -23,123 +31,72 @@ export const appMenuStructure = [
         path: "/dashboard",
         component: LazyLoadRoutes(() => import("../pages/app001/Dashboard")),
         text: "Dashboard",
-        icon: <DashboardCustomizeIcon />,
+        icon: mdiViewDashboardOutline,
         section: "main"
     },
     {
         text: "Master Data",
-        icon: <PeopleIcon />,
+        icon: mdiLayersTripleOutline,
         section: "main",
         sub: [
             {
                 text: "Master User",
-                path: "/master/user",
+                path: "/app002/master-user",
                 component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
+                icon: mdiAccountOutline,
+            },
+            {
+                text: "Master Cluster",
+                path: "/app003/master-cluster",
+                component: LazyLoadRoutes(() => import("../pages/app003/MasterCluster")),
+                icon: <HouseWifi />
             },
             {
                 text: "Master Device",
-                path: "/master/device",
-                component: LazyLoadRoutes(() => import("../pages/app003/MasterDevice")),
-                icon: <GroupIcon />
+                path: "/app004/master-device",
+                component: LazyLoadRoutes(() => import("../pages/app004/MasterDevice")),
+                icon: <Radar />
             },
         ],
     },
     {
         text: "Reports",
-        icon: <AnalyticsOutlinedIcon />,
+        icon: <ChartColumnIncreasing />,
         section: "main",
         sub: [
             {
                 text: "Table",
                 path: "/testing",
                 component: "",
-                icon: <BackupTableOutlinedIcon />
+                icon: <ChartColumnIncreasing />
             },
             {
                 text: "Graph",
                 path: "/master-data/graph",
                 component: "",
-                icon: <ShowChartOutlinedIcon />
+                icon: <ChartColumnIncreasing />
             },
-        ],
-    },
-    {
-        text: "Header Test asdasdsasadasd",
-        icon: <FactCheckOutlinedIcon />,
-        section: "main",
-        sub: [
-            {
-                text: "Test 1",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-
-            {
-                text: "Test 2",
-                path: "/master-data/team",
-                component: "",
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 3",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 4",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 5",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 5",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 5",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-            {
-                text: "Test 5",
-                path: "/test",
-                component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")),
-                icon: <PersonIcon />
-            },
-
         ],
     },
     {
         path: "/settings",
         component: "",
         text: "Settings",
-        icon: <SettingsIcon />,
+        icon: <Settings />,
         section: "main"
     },
     {
         path: "/support",
         component: "/test",
         text: "Support",
-        icon: <SupportAgentOutlinedIcon />,
+        icon: <LifeBuoy />,
         section: "footer"
     },
     {
         path: "/about",
         component: "",
         text: "About",
-        icon: <InfoOutlinedIcon />,
+        icon: <Info />,
         section: "footer"
     },
 ];
