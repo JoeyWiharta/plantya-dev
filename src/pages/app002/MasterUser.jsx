@@ -249,8 +249,8 @@ const MasterUser = () => {
         setLoadingData(true);
         try {
             const response = await getUser(param);
-            console.table(response.data.data)
-            setApp002UserData(response?.data?.data ? response.data.data : []);
+            console.table(response.data.users)
+            setApp002UserData(response?.data?.users ? response.data.users : []);
             setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
@@ -274,8 +274,8 @@ const MasterUser = () => {
         setLoadingData(true);
         try {
             const response = await getUserDeleted(param);
-            console.table(response.data.data)
-            setApp002UserDeletedData(response?.data?.data ? response.data.data : []);
+            console.table(response.data.users)
+            setApp002UserDeletedData(response?.data?.users ? response.data.users : []);
             setApp002UserDeletedTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app002SetTotalPageDeleted(response?.data?.total_pages ? response.data?.total_pages : 0);
         } catch (error) {
@@ -420,7 +420,7 @@ const MasterUser = () => {
         try {
             const response = await restoreUser(param.user_id)
 
-            if (response.status === 204 || response.status === 200) {
+            if (response.status === 201 || response.status === 200) {
                 setApp002setMsg("User Has Been Successfully Restored.")
                 setApp002setMsgStatus("success")
             } else {
