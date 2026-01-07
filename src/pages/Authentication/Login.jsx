@@ -75,7 +75,7 @@ const Login = () => {
         },
         validationSchema: Yup.object
             ({
-                username: Yup.string().required("Email or user id is required."),
+                username: Yup.string().required("Email or Username is required."),
                 password: Yup.string().required("Password is required."),
             }),
 
@@ -169,8 +169,7 @@ const Login = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        gap: 2,
-                        // bgcolor: 'darkblue'
+                        gap: 3,
                     }}
                 >
                     <Box
@@ -199,7 +198,8 @@ const Login = () => {
                                         <InputAdornment position="start">
                                             <MailOutlineOutlinedIcon
                                                 sx={{
-                                                    color: formik.values.username === "" ? 'text.secondary' : 'text.primary'
+                                                    color: formik.values.username === "" ? 'text.secondary' : 'text.primary',
+                                                    mx: 1
                                                 }}
                                             />
                                         </InputAdornment>
@@ -209,7 +209,13 @@ const Login = () => {
                         />
                     </Box>
 
-                    <Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1
+                        }}
+                    >
                         <Typography
                             variant="body2" fontWeight="medium"
                         >
@@ -234,7 +240,8 @@ const Login = () => {
                                         <InputAdornment position="start">
                                             <LockOutlinedIcon
                                                 sx={{
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary',
+                                                    mx: 1
                                                 }} />
                                         </InputAdornment>
                                     ),
@@ -242,7 +249,8 @@ const Login = () => {
                                         <InputAdornment position="end">
                                             <IconButton
                                                 sx={{
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary',
+                                                    mx: 1
                                                 }}
                                                 onClick={() => setShowPassword(!showPassword)}
                                                 edge="end"

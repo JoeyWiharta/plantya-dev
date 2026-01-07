@@ -9,36 +9,3 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
-
-
-/* Fix autofill text color DENGAN CARA EXTREME */
-@keyframes autofillFix {
-  0% {
-    -webkit-text-fill-color: #FFFFFF;
-    color: #FFFFFF;
-  }
-
-  100% {
-    -webkit-text-fill-color: #FFFFFF;
-    color: #FFFFFF;
-  }
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #222222 inset !important;
-  -webkit-text-fill-color: #FFFFFF !important;
-  color: #FFFFFF !important;
-
-  /* Force dengan animation */
-  animation-name: autofillFix !important;
-  animation-fill-mode: both !important;
-  animation-duration: 0.01s !important;
-  animation-iteration-count: 1 !important;
-
-  /* Additional forceful properties */
-  caret-color: #FFFFFF !important;
-  text-shadow: 0 0 0 #FFFFFF !important;
-}

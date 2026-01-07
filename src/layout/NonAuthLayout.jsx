@@ -19,7 +19,7 @@ const NonAuthLayout = ({ children }) => {
                 elevation={3}
                 sx={{
                     display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
+                    flexDirection: { xs: 'column', md: 'row' },
                     width: { xs: '100%', sm: "90%", md: '85%', lg: "80%" },
                     height: { xs: '100%', sm: '85%', md: "80%" },
                     maxWidth: '1200px',
@@ -33,7 +33,7 @@ const NonAuthLayout = ({ children }) => {
                     sx={{
                         display: {
                             xs: 'none',
-                            sm: 'flex'
+                            md: 'flex'
                         },
                         flex: 1,
                         borderTopLeftRadius: 5,
@@ -63,6 +63,8 @@ const NonAuthLayout = ({ children }) => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        borderTopLeftRadius: { xs: 5, md: 0 },
+                        borderBottomLeftRadius: { xs: 5, md: 0 },
                         borderTopRightRadius: 5,
                         borderTopRightRadius: 5,
                         p: { xs: 4, sm: 5, md: 6 },

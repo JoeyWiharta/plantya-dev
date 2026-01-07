@@ -95,6 +95,8 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           "&.auth-field": {
+
+
             "& .MuiOutlinedInput-root": {
               marginTop: 1,
               backgroundColor: theme.palette.secondary.dark,
@@ -115,61 +117,47 @@ const darkTheme = createTheme({
                 },
               },
 
-              "& fieldset": {
-                borderWidth: "0.7px",
-              },
+              "& fieldset": { borderWidth: "0.7px" },
+              "&:hover:not(.Mui-disabled) fieldset": { borderWidth: "2px", borderColor: theme.palette.primary.light, },
+              "&.Mui-focused fieldset": { borderWidth: "2px", borderColor: theme.palette.primary.light },
+              "&.Mui-autofilled fieldset": { borderWidth: "2px", borderColor: theme.palette.primary.light },
 
-              "&:hover:not(.Mui-disabled)": {
-                "& fieldset": {
-                  borderWidth: "2px",
-                },
-              },
-
-              "&.Mui-focused": {
-                "& fieldset": {
-                  borderWidth: "2px",
-                },
-              },
-
-              "&.Mui-focused fieldset": {
-                borderWidth: "2px",
-              },
-
-              "&.Mui-autofilled": {
-                "& fieldset": {
-                  borderWidth: "2px",
-                },
-              },
-
-              "& .MuiInputBase-input::placeholder": {
-                borderWidth: "2px",
-              },
-
+              // Autofill untuk Webkit browsers
               "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px transparent inset !important",
-                boxShadow: "0 0 0 1000px transparent inset !important",
+                WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
+                boxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
                 WebkitTextFillColor: `${theme.palette.text.primary} !important`,
                 transition: "background-color 5000s ease-in-out 0s !important",
               },
-
-              "& input:-webkit-autofill::placeholder": {
-                color: theme.palette.text.secondary,
+              "& input:-webkit-autofill:hover": {
+                WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
+                boxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
+              },
+              "& input:-webkit-autofill:focus": {
+                WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
+                boxShadow: `0 0 0 1000px ${theme.palette.secondary.dark} inset !important`,
               },
 
-              "& input:-webkit-autofill:hover::placeholder": {
-                color: theme.palette.text.secondary,
+              // Autofill untuk Firefox
+              "& input:-moz-autofill": {
+                background: `${theme.palette.secondary.dark} !important`,
+                color: `${theme.palette.text.primary} !important`,
+              },
+              "& input:-moz-autofill:hover": {
+                background: `${theme.palette.secondary.dark} !important`,
+                color: `${theme.palette.text.primary} !important`,
+              },
+              "& input:-moz-autofill:focus": {
+                background: `${theme.palette.secondary.dark} !important`,
+                color: `${theme.palette.text.primary} !important`,
               },
 
-              "& input:-webkit-autofill:focus::placeholder": {
+              // Input styling
+              "& input": { color: theme.palette.text.secondary },
+              "& input:not(:placeholder-shown)": { color: theme.palette.text.primary },
+              "& .MuiInputBase-input::placeholder": {
                 color: theme.palette.text.secondary,
-              },
-
-              "& input": {
-                color: theme.palette.text.secondary,
-              },
-
-              "& input:not(:placeholder-shown)": {
-                color: theme.palette.text.primary,
+                borderWidth: "2px"
               },
             },
 
@@ -178,9 +166,20 @@ const darkTheme = createTheme({
               opacity: 1,
             },
 
+            // ✅ Helper text dalam normal flow
             "& .MuiFormHelperText-root": {
-              marginTop: "5px",
-              marginBottom: "-20px",
+              position: "absolute",
+              top: "100%",
+              left: "8px",
+              right: "8px",
+              marginTop: "4px",
+              marginBottom: 0,
+              fontSize: "0.75rem",
+              lineHeight: 1.3,
+              // Biarkan text wrap
+              whiteSpace: "normal",
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
             },
           },
         }),
@@ -196,12 +195,12 @@ const darkTheme = createTheme({
             borderRadius: 15,
             fontWeight: 600,
             "&:hover": {
-              backgroundColor: theme.palette.info.main,
+              backgroundColor: theme.palette.primary.light,
             },
           },
 
           "&.linkto-button": {
-            color: theme.palette.info.main,
+            color: theme.palette.primary.light,
             textTransform: "none",
             "&:hover": {
               textDecoration: "underline",
