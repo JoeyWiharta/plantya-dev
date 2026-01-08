@@ -63,10 +63,10 @@ const NonAuthLayout = ({ children }) => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderTopLeftRadius: { xs: 5, md: 0 },
                         borderBottomLeftRadius: { xs: 5, md: 0 },
+                        borderBottomRightRadius: { xs: 5, md: 0 },
                         borderTopRightRadius: 5,
-                        borderTopRightRadius: 5,
+                        borderTopLeftRadius: 5,
                         p: { xs: 4, sm: 5, md: 6 },
                     }}
                 >

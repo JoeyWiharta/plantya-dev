@@ -169,7 +169,7 @@ const Login = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        gap: 3,
+                        gap: 2.5,
                     }}
                 >
                     <Box
@@ -179,7 +179,7 @@ const Login = () => {
                             gap: 1
                         }}
                     >
-                        <Typography variant="body2" fontWeight="medium">Email or Username</Typography>
+                        <Typography variant="body2">Email or Username</Typography>
                         <TextField
                             className="auth-field"
                             variant="outlined"
@@ -216,11 +216,7 @@ const Login = () => {
                             gap: 1
                         }}
                     >
-                        <Typography
-                            variant="body2" fontWeight="medium"
-                        >
-                            Password
-                        </Typography>
+                        <Typography variant="body2">Password</Typography>
                         <TextField
                             className="auth-field"
                             variant="outlined"
