@@ -4,6 +4,18 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import Icon from "@mdi/react";
 import { mdiLeaf } from '@mdi/js';
 import { useTheme } from '@mui/material/styles';
+import LoginBg from "../assets/LoginBg.png";
+import SmallIcon from "../assets/SmallIcon.png";
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Pagination, Navigation } from 'swiper/modules';
+
+
+
+// import required modules
 
 const NonAuthLayout = ({ children }) => {
     const theme = useTheme();
@@ -73,7 +85,7 @@ const NonAuthLayout = ({ children }) => {
                 >
                     <Box
                         component="img"
-                        src="/LoginBg.png"
+                        src={LoginBg}
                         alt="Background"
                         sx={{
                             width: '100%',
@@ -101,7 +113,7 @@ const NonAuthLayout = ({ children }) => {
                     >
                         <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1} bgcolor={"rgba(0, 0, 0, 0.5)"} borderRadius={25} width={"fit-content"} px={2}>
                             <img
-                                src="/SmallIcon.png"
+                                src={SmallIcon}
                                 alt="Logo"
                                 style={{
                                     height: 30,
@@ -131,35 +143,24 @@ const NonAuthLayout = ({ children }) => {
 
                             <Box display={"flex"} flexDirection={"row"} sx={{ bgcolor: 'darkRed' }}>
                                 <Swiper
-                                    spaceBetween={16}
-                                    slidesPerView={'auto'} // ← AUTO menyesuaikan
-                                    freeMode={true} // ← Biar scroll bebas, bukan snap
-                                    mousewheel={true} // ← Scroll dengan mouse wheel
-                                    grabCursor={true} // ← Tangan cursor
-                                    // NONAKTIFKAN fitur carousel:
-                                    navigation={false}
-                                    pagination={false}
-                                    autoplay={false}
-                                    loop={false}
-                                    // Responsive
-                                    breakpoints={{
-                                        320: { slidesOffsetBefore: 16, slidesOffsetAfter: 16 }, // Padding mobile
-                                        768: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
-                                    }}
-                                    style={{
-                                        padding: '8px 4px',
-                                        cursor: 'grab',
-                                        '&:active': { cursor: 'grabbing' }
-                                    }}
+                                    spaceBetween={2} // Jarak antar card
+                                    slidesPerView={2} // Tampilkan 3 card sekaligus
+                                    onSlideChange={() => console.log('slide change')}
+                                    onSwiper={(swiper) => console.log(swiper)}
                                 >
-                                    {cardContent.map((item, idx) => (
-                                        <SwiperSlide key={idx} style={{ width: 'auto', bgcolor: 'darkGreen' }}> {/* Width auto */}
-                                            <Card sx={{ minWidth: 180, height: 100 }}>
-                                                <CardContent>{item.title}</CardContent>
-                                                <CardContent>{item.desc}</CardContent>
-                                            </Card>
-                                        </SwiperSlide>
-                                    ))}
+                                    {cardContent
+                                        .map((item) =>
+
+                                        (
+                                            <SwiperSlide key={item.id}>
+                                                    <Card sx={{ width: '100%' }}>
+                                                        <CardContent>
+                                                            <Box sx={{ fontWeight: 'bold' }}>{item.title}</Box>
+                                                            <Box sx={{ fontSize: '0.875rem' }}>{item.desc}</Box>
+                                                        </CardContent>
+                                                    </Card>
+                                            </SwiperSlide>
+                                        ))}
                                 </Swiper>
                             </Box>
                         </Box>
