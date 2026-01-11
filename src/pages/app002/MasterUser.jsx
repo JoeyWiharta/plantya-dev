@@ -467,7 +467,6 @@ const MasterUser = () => {
                     maxWidth={false}
                     sx={{
                         display: app002p01Page ? "block" : "none",
-                        // py: 1,
                         px: 1,
                     }}
 
@@ -480,7 +479,7 @@ const MasterUser = () => {
                             container
                             size={12}
                         >
-                            <Typography variant="h6" fontWeight="bold">
+                            <Typography variant="body1" fontWeight="bold">
                                 Master User
                             </Typography>
                         </Grid>

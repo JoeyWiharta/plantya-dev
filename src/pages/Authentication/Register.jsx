@@ -45,7 +45,7 @@ const Register = () => {
     // Function Handle Register
     const handleRegister = async (values) => {
         const response = await registerApi({
-            username: values.username,
+            name: values.username,
             email: values.email,
             password: values.password,
             confirm_password: values.rePassword

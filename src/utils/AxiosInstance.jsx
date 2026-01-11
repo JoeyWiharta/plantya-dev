@@ -23,7 +23,7 @@ const checkExpiredToken = (key) => {
 const ENV = import.meta.env.VITE_ENV || "local";
 const SERVICE_HEADERS = {
     auth: {
-        "Content-Type": "application/json",
+        Accept: "application/json",
     },
     iot: {
         Accept: "application/json",

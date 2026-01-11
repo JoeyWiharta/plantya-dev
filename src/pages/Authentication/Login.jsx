@@ -34,7 +34,7 @@ const Login = () => {
     const handleLogin = async (values) => {
         debugger
         const response = await loginApi({
-            username_or_email: values.username,
+            user_id_or_email: values.username,
             password: values.password
         })
         debugger
@@ -88,8 +88,8 @@ const Login = () => {
 
             try {
                 debugger
-                // const response = await handleLogin(values)
-                const response = await handeLoginState(values)
+                const response = await handleLogin(values)
+                // const response = await handeLoginState(values)
 
                 login(response.data.data)
                 navigate("/")

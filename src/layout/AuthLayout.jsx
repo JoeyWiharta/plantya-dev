@@ -114,7 +114,7 @@ const AuthLayout = (props) => {
                     component="main"
                     sx={{
                         flex: 1,
-                        p: 3,
+                        p: 2,
                         backgroundColor: "background.content",
                         overflowY: "auto",
                     }}

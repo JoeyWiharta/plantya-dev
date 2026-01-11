@@ -2,9 +2,9 @@ import React from "react";
 import { Box, Grid, Container, Paper, Typography, Card, CardContent } from "@mui/material"
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Icon from "@mdi/react";
-import { mdiLeaf } from '@mdi/js';
+import { mdiCircleMedium, mdiAccessPoint, mdiWater } from '@mdi/js';
 import { useTheme } from '@mui/material/styles';
-import LoginBg from "../assets/LoginBg.png";
+import LoginBg from "../assets/LoginBg.webp";
 import SmallIcon from "../assets/SmallIcon.png";
 
 // Import Swiper styles
@@ -22,7 +22,7 @@ const NonAuthLayout = ({ children }) => {
 
     const cardContent = [
         {
-            icon: "Later",
+            icon: mdiWater,
             title: 'Humidity',
             desc: "Test Humidity",
         },
@@ -33,8 +33,8 @@ const NonAuthLayout = ({ children }) => {
         },
         {
             icon: "Later",
-            title: 'Temperature',
-            desc: "Test Temperature",
+            title: 'Temperature 2',
+            desc: "Test Temperature 2",
         },
         {
             icon: "Later",
@@ -111,16 +111,18 @@ const NonAuthLayout = ({ children }) => {
                             // bgcolor: 'darkRed'
                         }}
                     >
-                        <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1} bgcolor={"rgba(0, 0, 0, 0.5)"} borderRadius={25} width={"fit-content"} px={2}>
-                            <img
-                                src={SmallIcon}
-                                alt="Logo"
-                                style={{
-                                    height: 30,
-                                    width: 30,
-                                }}
-                            />
-                            <Typography variant="h5" fontWeight="medium">Plantya</Typography>
+                        <Box >
+                            <Box display={"flex"} flexDirection={"row"} alignItems={"center"} gap={1} bgcolor={"rgba(0, 0, 0, 0.5)"} borderRadius={25} width={"fit-content"} px={2} py={1}>
+                                <img
+                                    src={SmallIcon}
+                                    alt="Logo"
+                                    style={{
+                                        height: 30,
+                                        width: 30,
+                                    }}
+                                />
+                                <Typography variant="h5" fontWeight="medium">Plantya</Typography>
+                            </Box>
                         </Box>
 
                         <Box display={"flex"} flexDirection={"column"} gap={2}>
@@ -142,26 +144,48 @@ const NonAuthLayout = ({ children }) => {
                             </Box>
 
                             <Box display={"flex"} flexDirection={"row"} sx={{ bgcolor: 'darkRed' }}>
-                                <Swiper
-                                    spaceBetween={2} // Jarak antar card
-                                    slidesPerView={2} // Tampilkan 3 card sekaligus
-                                    onSlideChange={() => console.log('slide change')}
-                                    onSwiper={(swiper) => console.log(swiper)}
-                                >
-                                    {cardContent
-                                        .map((item) =>
+                                <Card sx={{ width: '80%', borderRadius: 4 }}> {/* Atur lebar card sesuai kebutuhan */}
+                                    <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} py={1} px={2}>
+                                        <Box display={"flex"} flexDirection={"row"} gap={1} alignItems={"center"} letterSpacing={1}>
+                                            <Icon path={mdiCircleMedium} size={1} color={theme.palette.primary.main} />
+                                            <Typography variant="body2" fontWeight={"normal"}>LIVE METRICS</Typography>
+                                        </Box>
+                                        <Box>
+                                            <Icon path={mdiAccessPoint} size={0.9} />
+                                        </Box>
+                                    </Box>
 
-                                        (
-                                            <SwiperSlide key={item.id}>
-                                                    <Card sx={{ width: '100%' }}>
-                                                        <CardContent>
-                                                            <Box sx={{ fontWeight: 'bold' }}>{item.title}</Box>
-                                                            <Box sx={{ fontSize: '0.875rem' }}>{item.desc}</Box>
-                                                        </CardContent>
-                                                    </Card>
+
+                                    <Swiper
+                                        slidesPerView={"auto"} // Tampilkan card sesuai lebar masing-masing
+                                        freeMode={true} // Mode bebas scroll
+                                        loop={true} // Infinite loop - kembali ke depan setelah habis
+                                        grabCursor={true} // Kursor berubah jadi grab saat hover
+                                        mousewheel={true} // Enable mouse wheel scroll (opsional)
+                                    >
+                                        {cardContent.map((item) => (
+                                            <SwiperSlide key={item.id}> {/* Width auto untuk card yang fleksibel */}
+
+                                                <CardContent
+                                                    sx={{
+                                                        bgcolor: 'red',
+                                                        display: 'flex',
+                                                        flexDirection: 'row'
+                                                    }}>
+                                                    <Box>
+                                                        <Icon path={item.icon} size={1} />
+                                                    </Box>
+
+                                                    <Box>
+                                                        <Typography>{item.title}</Typography>
+                                                        <Typography>{item.desc}</Typography>
+                                                    </Box>
+                                                </CardContent>
+
                                             </SwiperSlide>
                                         ))}
-                                </Swiper>
+                                    </Swiper>
+                                </Card>
                             </Box>
                         </Box>
                     </Box>
