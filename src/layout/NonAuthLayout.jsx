@@ -23,6 +23,7 @@ const NonAuthLayout = ({ children }) => {
     const cardContent = [
         {
             icon: mdiWater,
+            color: theme.palette.info.light,
             title: 'Humidity',
             desc: "Test Humidity",
         },
@@ -170,10 +171,11 @@ const NonAuthLayout = ({ children }) => {
                                                     sx={{
                                                         bgcolor: 'red',
                                                         display: 'flex',
-                                                        flexDirection: 'row'
+                                                        flexDirection: 'row',
+                                                        gap: 2
                                                     }}>
-                                                    <Box>
-                                                        <Icon path={item.icon} size={1} />
+                                                    <Box bgcolor={"yellow"} alignItems={"center"} display={"flex"}>
+                                                        <Icon path={item.icon} size={1.6} color={item.color} />
                                                     </Box>
 
                                                     <Box>
