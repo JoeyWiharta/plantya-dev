@@ -17,6 +17,8 @@ export const restoreUser = (userId) => axiosInstance("user").post(`/api/users/de
 export const getCluster = (params, config = {}) => axiosInstance("iot").get("/api/clusters", { params, ...config });
 export const addCluster = (res) => axiosInstance("iot").post("/api/clusters", res)
 export const editCluster = (clusterId, res, config = {}) => axiosInstance("iot").patch(`/api/clusters/${clusterId}`, res, config)
+export const deleteCluster = (clusterId) => axiosInstance("iot").delete(`/api/clusters/${clusterId}`)
+
 
 
 

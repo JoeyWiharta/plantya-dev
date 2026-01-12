@@ -479,7 +479,7 @@ const MasterUser = () => {
                             container
                             size={12}
                         >
-                            <Typography variant="body1" fontWeight="bold">
+                            <Typography variant="h6" fontWeight="bold">
                                 Master User
                             </Typography>
                         </Grid>

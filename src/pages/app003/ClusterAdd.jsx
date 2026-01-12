@@ -22,17 +22,10 @@ const ClusterAdd = (props) => {
 
   useEffect(() => {
     if (props.modalAddOpen) {
-      app002p02ValidInput.resetForm()
+      app003p02ValidInput.resetForm()
     }
   }, [props.modalAddOpen])
 
-
-  // Role 
-  const roleOptions = [
-    { value: "ADMIN", label: "Admin" },
-    { value: "USER", label: "User" },
-    { value: "STAFF", label: "Staff" },
-  ];
 
   // Function Close, Reset, and Refresh After Submitting
   const handleClose = () => {
@@ -41,7 +34,7 @@ const ClusterAdd = (props) => {
   }
 
   // Validation Form
-  const app002p02ValidInput = useFormik({
+  const app003p02ValidInput = useFormik({
     initialValues:
     {
       clusterName: "",
@@ -57,27 +50,27 @@ const ClusterAdd = (props) => {
       setSubmitting(true)
       setLoadingSpinner(true)
       setTextLoading("Processing...")
-      await SaveUserAction(values)
+      await SaveClusterAction(values)
       setSubmitting(false)
     },
   });
 
-  const SaveUserAction = useCallback(async (param) => {
+  const SaveClusterAction = useCallback(async (param) => {
     try {
       const response = await addCluster({
         cluster_name: param.clusterName
       })
       debugger
       if (response.status === 201 || response.status === 200) {
-        props.setApp002setMsg("Cluster Has Been Successfully Added.");
-        props.setApp002setMsgStatus("success");
+        props.setApp003setMsg("Cluster Has Been Successfully Added.");
+        props.setApp003setMsgStatus("success");
         props.refreshTable();
         handleClose()
       }
     } catch (error) {
       debugger
-      props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-      props.setApp002setMsgStatus("error")
+      props.setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+      props.setApp003setMsgStatus("error")
     } finally {
       setLoadingSpinner(false)
       setTextLoading("")
@@ -157,7 +150,7 @@ const ClusterAdd = (props) => {
 
             <Box
               component="form"
-              onSubmit={app002p02ValidInput.handleSubmit}
+              onSubmit={app003p02ValidInput.handleSubmit}
               sx={{
                 width: '100%',
                 display: 'flex',
@@ -182,11 +175,11 @@ const ClusterAdd = (props) => {
                   name="clusterName"
                   size="medium"
                   fullWidth
-                  value={app002p02ValidInput.values.clusterName}
-                  onChange={app002p02ValidInput.handleChange}
-                  onBlur={app002p02ValidInput.handleBlur}
-                  error={app002p02ValidInput.touched.clusterName && Boolean(app002p02ValidInput.errors.clusterName)}
-                  helperText={app002p02ValidInput.touched.emaclusterNameil && app002p02ValidInput.errors.clusterName}
+                  value={app003p02ValidInput.values.clusterName}
+                  onChange={app003p02ValidInput.handleChange}
+                  onBlur={app003p02ValidInput.handleBlur}
+                  error={app003p02ValidInput.touched.clusterName && Boolean(app003p02ValidInput.errors.clusterName)}
+                  helperText={app003p02ValidInput.touched.clusterName && app003p02ValidInput.errors.clusterName}
                   slotProps={{
                     input: {
                       spellCheck: false,
@@ -194,7 +187,7 @@ const ClusterAdd = (props) => {
                         <InputAdornment position="start">
                           <MailOutlineOutlinedIcon
                             sx={{
-                              color: app002p02ValidInput.values.clusterName === "" ? 'text.secondary' : 'text.primary'
+                              color: app003p02ValidInput.values.clusterName === "" ? 'text.secondary' : 'text.primary'
                             }}
                           />
 
@@ -251,10 +244,10 @@ ClusterAdd.propTypes = {
   modalAddOpen: PropTypes.any,
   setModalAddOpen: PropTypes.any,
   refreshTable: PropTypes.any,
-  app002Msg: PropTypes.any,
-  setApp002setMsg: PropTypes.any,
-  app002MsgStatus: PropTypes.any,
-  setApp002setMsgStatus: PropTypes.any,
+  app003Msg: PropTypes.any,
+  setApp003setMsg: PropTypes.any,
+  app003MsgStatus: PropTypes.any,
+  setApp003setMsgStatus: PropTypes.any,
 };
 
 export default ClusterAdd

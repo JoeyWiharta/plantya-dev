@@ -9,72 +9,54 @@ import {
     Autocomplete,
     Tooltip,
     Button,
-    Tab,
-    Tabs,
     Box
 } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
-import { getCluster, deleteUser, getUserDeleted, restoreUser } from "../../utils/ListApi";
-// import UserAdd from "./UserAdd";
-// import UserEdit from "./UserEdit";
+import { getCluster, deleteCluster } from "../../utils/ListApi";
+import ClusterAdd from "./ClusterAdd";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
-import ClusterAdd from "./ClusterAdd";
+import ClusterEdit from "./ClusterEdit";
 
 const MasterCluster = () => {
     // State First Page, Message, and Loading Effect
     const [firstRender, setFirstRender] = useState(false)
-    const [app002p01Page, setApp002p01Page] = useState(true);
-    const [active, setActive] = useState("activeCluster")
+    const [app003p01Page, setApp003p01Page] = useState(true);
 
-    const [app002Msg, setApp002setMsg] = useState("");
-    const [app002MsgStatus, setApp002setMsgStatus] = useState("");
+    const [app003Msg, setApp003setMsg] = useState("");
+    const [app003MsgStatus, setApp003setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [loadingRestore, setLoadingRestore] = useState(false)
 
-    // State Data User, Filtering, and Param
+    // State Data Cluster, Filtering, and Param
     const [search, setSearch] = useState("")
-    const [role, setRole] = useState("")
-    const [app002UserData, setApp002UserData] = useState([]);
-    const [app002UserDeletedData, setApp002UserDeletedData] = useState([]);
-    const [app002UserTotalData, setApp002UserTotalData] = useState(0)
-    const [app002UserDeletedTotalData, setApp002UserDeletedTotalData] = useState(0)
-    const [app002TotalPage, app002SetTotalPage] = useState(0)
-    const [app002TotalPageDeleted, app002SetTotalPageDeleted] = useState(0)
-    const [app002UserDataParam, setApp002UserDataParam] = useState(
+    const [app003ClusterData, setApp003ClusterData] = useState([]);
+    const [app003ClusterTotalData, setApp003ClusterTotalData] = useState(0)
+    const [app003TotalPage, app003SetTotalPage] = useState(0)
+    const [app003ClusterDataParam, setApp003ClusterDataParam] = useState(
         {
             page: 1,
             size: 10,
             sort: "",
             order: "asc",
             search: "",
-            role: "",
-        }
-    )
-    const [app002UserDeletedDataParam, setApp002UserDeletedDataParam] = useState(
-        {
-            page: 1,
-            size: 10,
-            sort: "",
-            order: "asc",
-            search: "",
-            role: "",
         }
     )
 
-    // State Add, Edit, and Delete User
+
+    // State Add, Edit, and Delete Cluster
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
     const [modalRestoreOpen, setModalRestoreOpen] = useState(false);
-    const [app002UserEditData, setApp002UserEditData] = useState(null);
-    const [app002UserDeleteData, setApp002UserDeleteData] = useState(null)
-    const [app002UserRestoreData, setApp002UserRestoreData] = useState(null)
+    const [app003ClusterEditData, setApp003ClusterEditData] = useState(null);
+    const [app003ClusterDeleteData, setApp003ClusterDeleteData] = useState(null)
+    const [app003ClusterRestoreData, setApp003ClusterRestoreData] = useState(null)
 
-    // Table Configuration Active User (Header Table, Handle Page and Rows, Handle Sort)
-    const app002UserColumns = [
+    // Table Configuration Active Cluster (Header Table, Handle Page and Rows, Handle Sort)
+    const app003ClusterColumns = [
         {
             dataField: "cluster_id",
             text: "Cluster ID",
@@ -105,25 +87,25 @@ const MasterCluster = () => {
             headerAlign: "center",
             bodyAlign: 'left',
             minWidth: '100px',
-            formatter: (cellContent, app002UserData) => (
+            formatter: (cellContent, app003ClusterData) => (
                 <>
                     <Stack direction="row" spacing={1} justifyContent="center">
-                        <Tooltip title="Update User" placement="top">
+                        <Tooltip title="Update Cluster" placement="top">
                             <IconButton
                                 aria-label="edit"
                                 size="small"
-                                onClick={() => handleModalEditOpen(app002UserData)}
+                                onClick={() => handleModalEditOpen(app003ClusterData)}
                                 color="info"
                             >
                                 <SquarePen size={18} />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title="Delete User" placement="top">
+                        <Tooltip title="Delete Cluster" placement="top">
                             <IconButton
                                 aria-label="delete"
                                 size="small"
-                                onClick={() => handleModalDeleteOpen(app002UserData)}
+                                onClick={() => handleModalDeleteOpen(app003ClusterData)}
                                 color="error"
                             >
                                 <Trash2 size={18} />
@@ -136,14 +118,14 @@ const MasterCluster = () => {
     ];
 
     const handleChangePage = (newPage) => {
-        setApp002UserDataParam(prev => ({
+        setApp003ClusterDataParam(prev => ({
             ...prev,
             page: newPage + 1
         }));
     };
 
     const handleChangeRowsPerPage = (newRowsPerPage) => {
-        setApp002UserDataParam(prev => ({
+        setApp003ClusterDataParam(prev => ({
             ...prev,
             size: newRowsPerPage,
             page: 1
@@ -151,82 +133,7 @@ const MasterCluster = () => {
     };
 
     const handleRequestSort = (property, order) => {
-        setApp002UserDataParam(prev => ({
-            ...prev,
-            sort: property,
-            order: order,
-            page: 1
-        }));
-    };
-
-    // Table Configuration Deleted User (Header Table, Handle Page and Rows, Handle Sort)
-    const app002UserDeletedColumns = [
-        {
-            dataField: "cluster_id",
-            text: "Cluster ID",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'center',
-            minWidth: '100px',
-        },
-        {
-            dataField: "cluster_name",
-            text: "Cluster Name",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'center',
-            minWidth: '100px',
-        },
-        {
-            dataField: "totalDevice",
-            text: "Total Device (Optional)",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'center',
-            minWidth: '100px',
-        },
-        {
-            dataField: "action",
-            text: "Action",
-            headerAlign: "center",
-            bodyAlign: 'center',
-            minWidth: '100px',
-            formatter: (cellContent, app002UserDeletedData) => (
-                <>
-                    <Stack direction="row" spacing={1} justifyContent="center">
-                        <Tooltip title="Restore User" placement="top">
-                            <IconButton
-                                aria-label="restore"
-                                size="small"
-                                onClick={() => handleModalRestoreOpen(app002UserDeletedData)}
-                                color="info"
-                            >
-                                <RotateCcw size={18} />
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                </>
-            ),
-        },
-    ];
-
-    const handleChangePageDeleted = (newPage) => {
-        setApp002UserDeletedDataParam(prev => ({
-            ...prev,
-            page: newPage + 1
-        }));
-    };
-
-    const handleChangeRowsPerPageDeleted = (newRowsPerPage) => {
-        setApp002UserDeletedDataParam(prev => ({
-            ...prev,
-            size: newRowsPerPage,
-            page: 1
-        }));
-    };
-
-    const handleRequestSortDeleted = (property, order) => {
-        setApp002UserDeletedDataParam(prev => ({
+        setApp003ClusterDataParam(prev => ({
             ...prev,
             sort: property,
             order: order,
@@ -240,9 +147,9 @@ const MasterCluster = () => {
         try {
             const response = await getCluster(param);
             console.table(response.data.clusters)
-            setApp002UserData(response?.data?.clusters ? response.data.clusters : []);
-            setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
+            setApp003ClusterData(response?.data?.clusters ? response.data.clusters : []);
+            setApp003ClusterTotalData(response?.data?.count_data ? response.data.count_data : 0);
+            app003SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
 
         } catch (error) {
@@ -254,122 +161,75 @@ const MasterCluster = () => {
     });
 
     useEffect(() => {
-        if (app002p01Page && active == "activeCluster") {
-            getAllCluster(app002UserDataParam);
+        if (app003p01Page) {
+            getAllCluster(app003ClusterDataParam);
         }
-    }, [app002UserDataParam, active]);
-
-    // Data From API Deleted User
-    const getAllDeletedUser = useCallback(async (param) => {
-        setLoadingData(true);
-        try {
-            const response = await getUserDeleted(param);
-            console.table(response.data.users)
-            setApp002UserDeletedData(response?.data?.users ? response.data.users : []);
-            setApp002UserDeletedTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app002SetTotalPageDeleted(response?.data?.total_pages ? response.data?.total_pages : 0);
-        } catch (error) {
-            console.error("Gagal mengambil data:", error);
-        } finally {
-            setLoadingData(false);
-        }
-    });
+    }, [app003ClusterDataParam]);
 
 
-    // Search and Filtering (Free Text and Role)
-    const roleOptions = [
-        { value: "ADMIN", label: "Admin" },
-        { value: "USER", label: "User" },
-        { value: "STAFF", label: "Staff" },
-    ];
-
-    const handleRoleChange = (event) => {
-        setRole(event)
-        setSearch("")
-
-        if (active == "activeCluster") {
-            setApp002UserDataParam(prev => ({
-                ...prev,
-                "page": 1,
-                "role": event,
-                "search": ""
-            }))
-        }
-    }
-
+    // Search and Filtering (Free Text)
     const handleSearchState = () => {
-        if (active == "activeUser") {
-            setApp002UserDataParam(prev => ({
-                ...prev,
-                page: 1,
-                search: search
-            }))
-        }
+        setApp003ClusterDataParam(prev => ({
+            ...prev,
+            page: 1,
+            search: search
+        }))
+
     }
 
     // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
-        setRole("");
-        setApp002UserDataParam({
+        setApp003ClusterDataParam({
             page: 1,
             size: 10,
             sort: "",
             order: "asc",
             search: "",
-            role: "",
-        });
-        setApp002UserDeletedDataParam({
-            page: 1,
-            size: 10,
-            sort: "",
-            order: "asc",
-            search: "",
-            role: "",
         });
     });
 
     // Form Add Modal
     const handleModalAddOpen = () => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalAddOpen(true)
     }
 
     // Form Edit Modal
     const handleModalEditOpen = (obj) => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalEditOpen(true)
-        setApp002UserEditData(obj)
+        setApp003ClusterEditData(obj)
     }
 
     // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalDeleteOpen(true)
-        setApp002UserDeleteData(obj)
+        setApp003ClusterDeleteData(obj)
     }
-    const app002HandleDeleteUser = () => {
-        if (app002UserDeleteData.user_id) {
-            deleteUserAction(app002UserDeleteData)
+    const app003HandleDeleteCluster = () => {
+        if (app003ClusterDeleteData.cluster_id) {
+            deleteClusterAction(app003ClusterDeleteData)
         }
     }
-    const deleteUserAction = useCallback(async (param) => {
+    const deleteClusterAction = useCallback(async (param) => {
         setLoadingData(true)
         try {
-            const response = await deleteUser(param.user_id)
+            const response = await deleteCluster(param.cluster_id)
 
             if (response.status === 204 || response.status === 200) {
-                setApp002setMsg("User Has Been Successfully Deleted.")
-                setApp002setMsgStatus("success")
+                setApp003setMsg("Cluster Has Been Successfully Deleted.")
+                setApp003setMsgStatus("success")
             } else {
-                setApp002setMsg("Failed to delete user.")
-                setApp002setMsgStatus("error")
+                setApp003setMsg("Failed to delete Cluster.")
+                setApp003setMsgStatus("error")
             }
         } catch (error) {
             debugger
             console.log(error)
-            setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp002setMsgStatus("error")
+            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            setApp003setMsgStatus("error")
         } finally {
             setModalDeleteOpen(false)
             setLoadingDelete(false)
@@ -379,31 +239,31 @@ const MasterCluster = () => {
 
     // Form Restore Modal
     const handleModalRestoreOpen = (obj) => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalRestoreOpen(true)
-        setApp002UserRestoreData(obj)
+        setApp003ClusterRestoreData(obj)
     }
-    const app002HandleRestoreUser = () => {
-        if (app002UserRestoreData.user_id) {
-            restoreUserAction(app002UserRestoreData)
+    const app003HandleRestoreCluster = () => {
+        if (app003ClusterRestoreData.Cluster_id) {
+            restoreClusterAction(app003ClusterRestoreData)
         }
     }
-    const restoreUserAction = useCallback(async (param) => {
+    const restoreClusterAction = useCallback(async (param) => {
         try {
-            const response = await restoreUser(param.user_id)
+            const response = await restoreCluster(param.Cluster_id)
 
             if (response.status === 201 || response.status === 200) {
-                setApp002setMsg("User Has Been Successfully Restored.")
-                setApp002setMsgStatus("success")
+                setApp003setMsg("Cluster Has Been Successfully Restored.")
+                setApp003setMsgStatus("success")
             } else {
-                setApp002setMsg("Failed to restore user.")
-                setApp002setMsgStatus("error")
+                setApp003setMsg("Failed to restore Cluster.")
+                setApp003setMsgStatus("error")
             }
         } catch (error) {
             debugger
             console.log(error)
-            setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp002setMsgStatus("error")
+            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            setApp003setMsgStatus("error")
         } finally {
             setModalRestoreOpen(false)
             refreshTable();
@@ -413,16 +273,16 @@ const MasterCluster = () => {
     return (
         <React.Fragment>
             <RootPageCustom
-                msgStateGet={app002Msg}
-                msgStateSet={setApp002setMsg}
-                msgStateGetStatus={app002MsgStatus}
+                msgStateGet={app003Msg}
+                msgStateSet={setApp003setMsg}
+                msgStateGetStatus={app003MsgStatus}
                 setFirstRender={setFirstRender}
             >
                 <Container
                     disableGutters
                     maxWidth={false}
                     sx={{
-                        display: app002p01Page ? "block" : "none",
+                        display: app003p01Page ? "block" : "none",
                         // py: 1,
                         px: 1,
                     }}
@@ -451,7 +311,6 @@ const MasterCluster = () => {
 
                         </Grid>
 
-                        {/* Tab Active User */}
                         <Box >
                             <Grid container alignItems="center" size={12} sx={{ mb: 2, justifyContent: 'space-between' }}>
                                 <Grid
@@ -546,18 +405,18 @@ const MasterCluster = () => {
 
 
                             <TableCustom
-                                keyField="user_id"
+                                keyField="cluster_id"
                                 loadingData={loadingData}
-                                columns={app002UserColumns}
-                                appdata={app002UserData}
-                                appdataTotal={app002UserTotalData}
-                                totalPage={app002TotalPage}
+                                columns={app003ClusterColumns}
+                                appdata={app003ClusterData}
+                                appdataTotal={app003ClusterTotalData}
+                                totalPage={app003TotalPage}
                                 rowsPerPageOption={[5, 10, 20, 25]}
 
-                                page={app002UserDataParam.page - 1}
-                                rowsPerPage={app002UserDataParam.size}
-                                sortField={app002UserDataParam.sort}
-                                sortOrder={app002UserDataParam.order}
+                                page={app003ClusterDataParam.page - 1}
+                                rowsPerPage={app003ClusterDataParam.size}
+                                sortField={app003ClusterDataParam.sort}
+                                sortOrder={app003ClusterDataParam.order}
 
 
                                 onPageChange={handleChangePage}
@@ -575,26 +434,26 @@ const MasterCluster = () => {
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
                         // Props for message
-                        app002Msg={app002Msg}
-                        setApp002setMsg={setApp002setMsg}
-                        app002MsgStatus={app002MsgStatus}
-                        setApp002setMsgStatus={setApp002setMsgStatus}
+                        app003Msg={app003Msg}
+                        setApp003setMsg={setApp003setMsg}
+                        app003MsgStatus={app003MsgStatus}
+                        setApp003setMsgStatus={setApp003setMsgStatus}
                     >
                     </ClusterAdd>
                 )}
 
                 {modalEditOpen && (
-                    <UserEdit
+                    <ClusterEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}
 
                         // Props for message and data
-                        app002UserEditData={app002UserEditData}
-                        app002Msg={app002Msg}
-                        setApp002setMsg={setApp002setMsg}
-                        app002MsgStatus={app002MsgStatus}
-                        setApp002setMsgStatus={setApp002setMsgStatus}
+                        app003ClusterEditData={app003ClusterEditData}
+                        app003Msg={app003Msg}
+                        setApp003setMsg={setApp003setMsg}
+                        app003MsgStatus={app003MsgStatus}
+                        setApp003setMsgStatus={setApp003setMsgStatus}
                     />
                 )}
 
@@ -604,7 +463,7 @@ const MasterCluster = () => {
                         modalOpen={modalDeleteOpen}
                         modalClose={() => setModalDeleteOpen(false)}
                         loading={loadingDelete}
-                        onClick={app002HandleDeleteUser}
+                        onClick={app003HandleDeleteCluster}
                     />
                 )}
 
@@ -614,7 +473,7 @@ const MasterCluster = () => {
                         modalOpen={modalRestoreOpen}
                         modalClose={() => setModalRestoreOpen(false)}
                         loading={loadingRestore}
-                        onClick={app002HandleRestoreUser}
+                        onClick={app003HandleRestoreCluster}
                     />
                 )}
 

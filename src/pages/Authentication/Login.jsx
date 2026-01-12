@@ -95,9 +95,10 @@ const Login = () => {
                 navigate("/")
 
             } catch (error) {
+                debugger
                 setShowAlert(true)
                 if (error.response) {
-                    setMessage(error.response.data.message);
+                    setMessage(error.response.data.detail);
                 } else {
                     setMessage("System is Unavailable. Please Try Again Later.");
                 }
@@ -179,11 +180,11 @@ const Login = () => {
                             gap: 1
                         }}
                     >
-                        <Typography variant="body2">Email or Username</Typography>
+                        <Typography variant="body2">Email or User ID</Typography>
                         <TextField
                             className="auth-field"
                             variant="outlined"
-                            placeholder="Email or Username"
+                            placeholder="Email or User ID"
                             name="username"
                             size="medium"
                             fullWidth

@@ -107,7 +107,7 @@ const PopupDeleteandRestore = (props) => {
                                     // bgcolor: 'grey'
 
                                 }}>
-                                {props.status == "restore" ? "Deleted data will not be permanently deleted immediately and can still be restored via the data archive menu" : "This action will restore the selected data and make it active again"}
+                                {props.status != "restore" ? "Deleted data will not be permanently deleted immediately and can still be restored via the data archive menu" : "This action will restore the selected data and make it active again"}
                             </DialogContentText>
                         </Box>
 
