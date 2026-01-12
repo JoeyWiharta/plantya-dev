@@ -28,7 +28,6 @@ const MasterCluster = () => {
     const [app003MsgStatus, setApp003setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false)
-    const [loadingRestore, setLoadingRestore] = useState(false)
 
     // State Data Cluster, Filtering, and Param
     const [search, setSearch] = useState("")
@@ -50,10 +49,8 @@ const MasterCluster = () => {
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [modalRestoreOpen, setModalRestoreOpen] = useState(false);
     const [app003ClusterEditData, setApp003ClusterEditData] = useState(null);
     const [app003ClusterDeleteData, setApp003ClusterDeleteData] = useState(null)
-    const [app003ClusterRestoreData, setApp003ClusterRestoreData] = useState(null)
 
     // Table Configuration Active Cluster (Header Table, Handle Page and Rows, Handle Sort)
     const app003ClusterColumns = [
@@ -233,39 +230,6 @@ const MasterCluster = () => {
         } finally {
             setModalDeleteOpen(false)
             setLoadingDelete(false)
-            refreshTable();
-        }
-    })
-
-    // Form Restore Modal
-    const handleModalRestoreOpen = (obj) => {
-        setApp003setMsg("")
-        setModalRestoreOpen(true)
-        setApp003ClusterRestoreData(obj)
-    }
-    const app003HandleRestoreCluster = () => {
-        if (app003ClusterRestoreData.Cluster_id) {
-            restoreClusterAction(app003ClusterRestoreData)
-        }
-    }
-    const restoreClusterAction = useCallback(async (param) => {
-        try {
-            const response = await restoreCluster(param.Cluster_id)
-
-            if (response.status === 201 || response.status === 200) {
-                setApp003setMsg("Cluster Has Been Successfully Restored.")
-                setApp003setMsgStatus("success")
-            } else {
-                setApp003setMsg("Failed to restore Cluster.")
-                setApp003setMsgStatus("error")
-            }
-        } catch (error) {
-            debugger
-            console.log(error)
-            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp003setMsgStatus("error")
-        } finally {
-            setModalRestoreOpen(false)
             refreshTable();
         }
     })
@@ -466,17 +430,6 @@ const MasterCluster = () => {
                         onClick={app003HandleDeleteCluster}
                     />
                 )}
-
-                {modalRestoreOpen && (
-                    <PopupDeleteAndRestore
-                        status={"restore"}
-                        modalOpen={modalRestoreOpen}
-                        modalClose={() => setModalRestoreOpen(false)}
-                        loading={loadingRestore}
-                        onClick={app003HandleRestoreCluster}
-                    />
-                )}
-
 
             </RootPageCustom>
         </React.Fragment >

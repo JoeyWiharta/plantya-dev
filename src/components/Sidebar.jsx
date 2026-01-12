@@ -16,6 +16,9 @@ import { Link, useLocation } from "react-router-dom";
 import { ExpandMore } from "@mui/icons-material";
 import { appMenuStructure } from "../routes/Index";
 import Icon from '@mdi/react';
+import SmallIcon from "../assets/SmallIcon.png"
+import BaseLogo from "../assets/BaseLogo.png"
+
 
 
 
@@ -123,7 +126,7 @@ const Sidebar = (props) => {
                 }}
             >
                 <img
-                    src={props.isCollapsed ? "/SmallIcon.png" : "/BaseLogo.png"}
+                    src={props.isCollapsed ? SmallIcon : BaseLogo}
                     alt="Logo"
                     style={{
                         height: props.isCollapsed ? 30 : 40,
@@ -155,7 +158,7 @@ const Sidebar = (props) => {
                     }}
                 >
                     {/* Box Main Title */}
-                    <Box sx={{ py: 1 }}>
+                    <Box sx={{ pt: 2, pb: 1 }}>
                         <Typography
                             sx={{
                                 px: props.isCollapsed ? 0 : 5,
@@ -480,7 +483,7 @@ const Sidebar = (props) => {
                         color: 'text.secondary', /////
                     }}
                 >
-                    <Box sx={{ py: 1 }}>
+                    <Box sx={{ pt: 2, pb: 1 }}>
                         <Typography
                             sx={{
                                 px: props.isCollapsed ? 0 : 5,

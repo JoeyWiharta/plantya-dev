@@ -9,76 +9,54 @@ import {
     Autocomplete,
     Tooltip,
     Button,
-    Tab,
-    Tabs,
     Box
 } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
-import { getDevice, deleteUser, getUserDeleted, restoreUser } from "../../utils/ListApi";
-// import UserAdd from "./UserAdd";
-// import UserEdit from "./UserEdit";
+import { getDevice, deleteDevice } from "../../utils/ListApi";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
+import DeviceAdd from "./DeviceAdd";
+import DeviceEdit from "./DeviceEdit";
 
 const MasterDevice = () => {
     // State First Page, Message, and Loading Effect
     const [firstRender, setFirstRender] = useState(false)
-    const [app002p01Page, setApp002p01Page] = useState(true);
-    const [active, setActive] = useState("activeDevice")
-    const handleTabChange = (event, newValue) => {
-        setActive(newValue);
-        setRole("")
-        setSearch("")
-        refreshTable()
-    };
-    const [app002Msg, setApp002setMsg] = useState("");
-    const [app002MsgStatus, setApp002setMsgStatus] = useState("");
+    const [app003p01Page, setApp003p01Page] = useState(true);
+
+    const [app003Msg, setApp003setMsg] = useState("");
+    const [app003MsgStatus, setApp003setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [loadingRestore, setLoadingRestore] = useState(false)
 
-    // State Data User, Filtering, and Param
+    // State Data Device, Filtering, and Param
     const [search, setSearch] = useState("")
-    const [role, setRole] = useState("")
-    const [app002UserData, setApp002UserData] = useState([]);
-    const [app002UserDeletedData, setApp002UserDeletedData] = useState([]);
-    const [app002UserTotalData, setApp002UserTotalData] = useState(0)
-    const [app002UserDeletedTotalData, setApp002UserDeletedTotalData] = useState(0)
-    const [app002TotalPage, app002SetTotalPage] = useState(0)
-    const [app002TotalPageDeleted, app002SetTotalPageDeleted] = useState(0)
-    const [app002UserDataParam, setApp002UserDataParam] = useState(
+    const [app003DeviceData, setApp003DeviceData] = useState([]);
+    const [app003DeviceTotalData, setApp003DeviceTotalData] = useState(0)
+    const [app003TotalPage, app003SetTotalPage] = useState(0)
+    const [app003DeviceDataParam, setApp003DeviceDataParam] = useState(
         {
             page: 1,
             size: 10,
             sort: "",
             order: "asc",
             search: "",
-            role: "",
-        }
-    )
-    const [app002UserDeletedDataParam, setApp002UserDeletedDataParam] = useState(
-        {
-            page: 1,
-            size: 10,
-            sort: "",
-            order: "asc",
-            search: "",
-            role: "",
         }
     )
 
-    // State Add, Edit, and Delete User
+
+    // State Add, Edit, and Delete Device
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
     const [modalRestoreOpen, setModalRestoreOpen] = useState(false);
-    const [app002UserEditData, setApp002UserEditData] = useState(null);
-    const [app002UserDeleteData, setApp002UserDeleteData] = useState(null)
-    const [app002UserRestoreData, setApp002UserRestoreData] = useState(null)
+    const [app003DeviceEditData, setApp003DeviceEditData] = useState(null);
+    const [app003DeviceDeleteData, setApp003DeviceDeleteData] = useState(null)
+    const [app003DeviceRestoreData, setApp003DeviceRestoreData] = useState(null)
 
-    // Table Configuration Active User (Header Table, Handle Page and Rows, Handle Sort)
-    const app002UserColumns = [
+    // Table Configuration Active Device (Header Table, Handle Page and Rows, Handle Sort)
+    const app003DeviceColumns = [
         {
             dataField: "device_id",
             text: "Device ID",
@@ -125,25 +103,25 @@ const MasterDevice = () => {
             headerAlign: "center",
             bodyAlign: 'left',
             minWidth: '100px',
-            formatter: (cellContent, app002UserData) => (
+            formatter: (cellContent, app002DeviceData) => (
                 <>
                     <Stack direction="row" spacing={1} justifyContent="center">
-                        <Tooltip title="Update User" placement="top">
+                        <Tooltip title="Update Device" placement="top">
                             <IconButton
                                 aria-label="edit"
                                 size="small"
-                                onClick={() => handleModalEditOpen(app002UserData)}
+                                onClick={() => handleModalEditOpen(app002DeviceData)}
                                 color="info"
                             >
                                 <SquarePen size={18} />
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title="Delete User" placement="top">
+                        <Tooltip title="Delete Device" placement="top">
                             <IconButton
                                 aria-label="delete"
                                 size="small"
-                                onClick={() => handleModalDeleteOpen(app002UserData)}
+                                onClick={() => handleModalDeleteOpen(app002DeviceData)}
                                 color="error"
                             >
                                 <Trash2 size={18} />
@@ -156,14 +134,14 @@ const MasterDevice = () => {
     ];
 
     const handleChangePage = (newPage) => {
-        setApp002UserDataParam(prev => ({
+        setApp003DeviceDataParam(prev => ({
             ...prev,
             page: newPage + 1
         }));
     };
 
     const handleChangeRowsPerPage = (newRowsPerPage) => {
-        setApp002UserDataParam(prev => ({
+        setApp003DeviceDataParam(prev => ({
             ...prev,
             size: newRowsPerPage,
             page: 1
@@ -171,90 +149,7 @@ const MasterDevice = () => {
     };
 
     const handleRequestSort = (property, order) => {
-        setApp002UserDataParam(prev => ({
-            ...prev,
-            sort: property,
-            order: order,
-            page: 1
-        }));
-    };
-
-    // Table Configuration Deleted User (Header Table, Handle Page and Rows, Handle Sort)
-    const app002UserDeletedColumns = [
-        {
-            dataField: "user_id",
-            text: "User ID",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'left',
-            minWidth: '100px',
-        },
-        {
-            dataField: "name",
-            text: "Name",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'left',
-            minWidth: '100px',
-        },
-        {
-            dataField: "role",
-            text: "Role",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'left',
-            minWidth: '100px',
-        },
-        {
-            dataField: "email",
-            text: "Email",
-            sort: true,
-            headerAlign: "center",
-            bodyAlign: 'left',
-            minWidth: '100px',
-        },
-        {
-            dataField: "action",
-            text: "Action",
-            headerAlign: "center",
-            bodyAlign: 'left',
-            minWidth: '100px',
-            formatter: (cellContent, app002UserDeletedData) => (
-                <>
-                    <Stack direction="row" spacing={1} justifyContent="center">
-                        <Tooltip title="Restore User" placement="top">
-                            <IconButton
-                                aria-label="restore"
-                                size="small"
-                                onClick={() => handleModalRestoreOpen(app002UserDeletedData)}
-                                color="info"
-                            >
-                                <RotateCcw size={18} />
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                </>
-            ),
-        },
-    ];
-
-    const handleChangePageDeleted = (newPage) => {
-        setApp002UserDeletedDataParam(prev => ({
-            ...prev,
-            page: newPage + 1
-        }));
-    };
-
-    const handleChangeRowsPerPageDeleted = (newRowsPerPage) => {
-        setApp002UserDeletedDataParam(prev => ({
-            ...prev,
-            size: newRowsPerPage,
-            page: 1
-        }));
-    };
-
-    const handleRequestSortDeleted = (property, order) => {
-        setApp002UserDeletedDataParam(prev => ({
+        setApp003DeviceDataParam(prev => ({
             ...prev,
             sort: property,
             order: order,
@@ -268,9 +163,9 @@ const MasterDevice = () => {
         try {
             const response = await getDevice(param);
             console.table(response.data.devices)
-            setApp002UserData(response?.data?.devices ? response.data.devices : []);
-            setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
+            setApp003DeviceData(response?.data?.devices ? response.data.devices : []);
+            setApp003DeviceTotalData(response?.data?.count_data ? response.data.count_data : 0);
+            app003SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
 
         } catch (error) {
@@ -282,140 +177,75 @@ const MasterDevice = () => {
     });
 
     useEffect(() => {
-        if (app002p01Page && active == "activeDevice") {
-            getAllDevice(app002UserDataParam);
+        if (app003p01Page) {
+            getAllDevice(app003DeviceDataParam);
         }
-    }, [app002UserDataParam, active]);
+    }, [app003DeviceDataParam]);
 
-    // Data From API Deleted User
-    const getAllDeletedUser = useCallback(async (param) => {
-        setLoadingData(true);
-        try {
-            const response = await getUserDeleted(param);
-            console.table(response.data.users)
-            setApp002UserDeletedData(response?.data?.users ? response.data.users : []);
-            setApp002UserDeletedTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app002SetTotalPageDeleted(response?.data?.total_pages ? response.data?.total_pages : 0);
-        } catch (error) {
-            console.error("Gagal mengambil data:", error);
-        } finally {
-            setLoadingData(false);
-        }
-    });
 
-    useEffect(() => {
-        if (app002p01Page && active == "deletedDevice") {
-            getAllDeletedUser(app002UserDeletedDataParam);
-        }
-    }, [app002UserDeletedDataParam, active]);
-
-    // Search and Filtering (Free Text and Role)
-    const roleOptions = [
-        { value: "ADMIN", label: "Admin" },
-        { value: "USER", label: "User" },
-        { value: "STAFF", label: "Staff" },
-    ];
-
-    const handleRoleChange = (event) => {
-        setRole(event)
-        setSearch("")
-
-        if (active == "activeDevice") {
-            setApp002UserDataParam(prev => ({
-                ...prev,
-                "page": 1,
-                "role": event,
-                "search": ""
-            }))
-        } else if (active == "deletedDevice") {
-            setApp002UserDeletedDataParam(prev => ({
-                ...prev,
-                "page": 1,
-                "role": event,
-                "search": ""
-            }))
-        }
-    }
-
+    // Search and Filtering (Free Text)
     const handleSearchState = () => {
-        if (active == "activeDevice") {
-            setApp002UserDataParam(prev => ({
-                ...prev,
-                page: 1,
-                search: search
-            }))
-        } else if (active == "deletedDevice") {
-            setApp002UserDeletedDataParam(prev => ({
-                ...prev,
-                page: 1,
-                search: search
-            }))
-        }
+        setApp003DeviceDataParam(prev => ({
+            ...prev,
+            page: 1,
+            search: search
+        }))
+
     }
 
     // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
-        setRole("");
-        setApp002UserDataParam({
+        setApp003DeviceDataParam({
             page: 1,
             size: 10,
             sort: "",
             order: "asc",
             search: "",
-            role: "",
-        });
-        setApp002UserDeletedDataParam({
-            page: 1,
-            size: 10,
-            sort: "",
-            order: "asc",
-            search: "",
-            role: "",
         });
     });
 
     // Form Add Modal
     const handleModalAddOpen = () => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalAddOpen(true)
     }
 
     // Form Edit Modal
     const handleModalEditOpen = (obj) => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalEditOpen(true)
-        setApp002UserEditData(obj)
+        setApp003DeviceEditData(obj)
     }
 
     // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
-        setApp002setMsg("")
+        setApp003setMsg("")
         setModalDeleteOpen(true)
-        setApp002UserDeleteData(obj)
+        setApp003DeviceDeleteData(obj)
     }
-    const app002HandleDeleteUser = () => {
-        if (app002UserDeleteData.user_id) {
-            deleteUserAction(app002UserDeleteData)
+    const app003HandleDeleteDevice = () => {
+        if (app003DeviceDeleteData.device_id) {
+            deleteDeviceAction(app003DeviceDeleteData)
         }
     }
-    const deleteUserAction = useCallback(async (param) => {
+    const deleteDeviceAction = useCallback(async (param) => {
         setLoadingData(true)
         try {
-            const response = await deleteUser(param.user_id)
+            const response = await deleteDevice(param.Device_id)
 
             if (response.status === 204 || response.status === 200) {
-                setApp002setMsg("User Has Been Successfully Deleted.")
-                setApp002setMsgStatus("success")
+                setApp003setMsg("Device Has Been Successfully Deleted.")
+                setApp003setMsgStatus("success")
             } else {
-                setApp002setMsg("Failed to delete user.")
-                setApp002setMsgStatus("error")
+                setApp003setMsg("Failed to delete Device.")
+                setApp003setMsgStatus("error")
             }
         } catch (error) {
             debugger
             console.log(error)
-            setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp002setMsgStatus("error")
+            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            setApp003setMsgStatus("error")
         } finally {
             setModalDeleteOpen(false)
             setLoadingDelete(false)
@@ -423,52 +253,19 @@ const MasterDevice = () => {
         }
     })
 
-    // Form Restore Modal
-    const handleModalRestoreOpen = (obj) => {
-        setApp002setMsg("")
-        setModalRestoreOpen(true)
-        setApp002UserRestoreData(obj)
-    }
-    const app002HandleRestoreUser = () => {
-        if (app002UserRestoreData.user_id) {
-            restoreUserAction(app002UserRestoreData)
-        }
-    }
-    const restoreUserAction = useCallback(async (param) => {
-        try {
-            const response = await restoreUser(param.user_id)
-
-            if (response.status === 201 || response.status === 200) {
-                setApp002setMsg("User Has Been Successfully Restored.")
-                setApp002setMsgStatus("success")
-            } else {
-                setApp002setMsg("Failed to restore user.")
-                setApp002setMsgStatus("error")
-            }
-        } catch (error) {
-            debugger
-            console.log(error)
-            setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp002setMsgStatus("error")
-        } finally {
-            setModalRestoreOpen(false)
-            refreshTable();
-        }
-    })
-
     return (
         <React.Fragment>
             <RootPageCustom
-                msgStateGet={app002Msg}
-                msgStateSet={setApp002setMsg}
-                msgStateGetStatus={app002MsgStatus}
+                msgStateGet={app003Msg}
+                msgStateSet={setApp003setMsg}
+                msgStateGetStatus={app003MsgStatus}
                 setFirstRender={setFirstRender}
             >
                 <Container
                     disableGutters
                     maxWidth={false}
                     sx={{
-                        display: app002p01Page ? "block" : "none",
+                        display: app003p01Page ? "block" : "none",
                         // py: 1,
                         px: 1,
                     }}
@@ -495,360 +292,151 @@ const MasterDevice = () => {
                             }}
                         >
 
-                            <Tabs
-                                value={active}
-                                onChange={handleTabChange}
-                            >
-                                <Tab label="Active Device" value="activeDevice"
-                                    sx={{
-                                        textTransform: 'none',
-                                    }}
-                                />
-                                <Tab label="Deleted Device" value="deletedDevice"
-                                    sx={{
-                                        textTransform: 'none',
-                                    }}
-                                />
-                            </Tabs>
-
-
                         </Grid>
 
-                        {/* Tab Active User */}
-                        {active === "activeDevice" && (
-                            <Box>
-                                <Grid container alignItems="center" size={12} sx={{ mb: 2 }}>
-                                    <Grid
-                                        size={{ xs: 4, sm: 3 }}
-                                        sx={{
-                                            pr: 2
+                        <Box >
+                            <Grid container alignItems="center" size={12} sx={{ mb: 2, justifyContent: 'space-between' }}>
+                                <Grid
+                                    size={{ xs: 4, sm: 3 }}
+                                    sx={{
+                                        pr: 2
+                                    }}
+                                >
+                                    <TextField
+                                        fullWidth
+                                        placeholder="Search"
+                                        value={search}
+                                        onChange={(e) => {
+                                            setSearch(e.target.value)
                                         }}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            placeholder="Search"
-                                            value={search}
-                                            onChange={(e) => {
-                                                setSearch(e.target.value)
-                                            }}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    handleSearchState()
-                                                }
-                                            }}
-                                            size="small"
-                                            sx={{
-                                                '& .MuiOutlinedInput-root': {
-                                                    borderRadius: 2,
-                                                    '& fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 1.5,
-                                                    },
-
-                                                    '&:hover fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 2.5
-                                                    },
-
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 2.5
-                                                    },
-                                                },
-                                            }}
-                                            slotProps={{
-                                                input: {
-                                                    endAdornment: (
-                                                        <IconButton
-                                                            aria-label="search button"
-                                                            onClick={handleSearchState}
-                                                            edge="end"
-                                                            size="small"
-                                                            sx={{
-                                                                color: 'text.secondary'
-                                                            }}
-                                                        >
-                                                            <Search size={18} />
-                                                        </IconButton>
-                                                    ),
-                                                }
-                                            }}
-                                        />
-                                    </Grid>
-
-
-                                    <Grid container size={{ xs: 4, sm: 2 }}>
-                                        <Autocomplete
-                                            fullWidth
-                                            options={roleOptions}
-                                            getOptionLabel={(option) => option.label}
-                                            value={roleOptions.find((opt) => opt.value === role) || null}
-                                            onChange={(event, newValue) => { handleRoleChange(newValue ? newValue.value : ""); }}
-                                            sx={{
-                                                '& .MuiAutocomplete-popupIndicator': {
-                                                    color: 'text.secondary',
-                                                },
-                                            }}
-                                            renderInput={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    placeholder="Role"
-                                                    size="small"
-                                                    fullWidth={true}
-                                                    sx={{
-                                                        '& .MuiOutlinedInput-root': {
-                                                            borderRadius: 2,
-                                                            '& fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 1.5,
-                                                            },
-
-                                                            '&:hover fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 2.5
-                                                            },
-
-                                                            '&.Mui-focused fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 2.5
-                                                            },
-                                                        },
-                                                    }}
-                                                />
-                                            )}
-                                            isOptionEqualToValue={(opt, val) => opt.value === val.value}
-                                            clearOnEscape
-                                        />
-                                    </Grid>
-
-                                    <Grid
-                                        container
-                                        size={{ xs: 4, sm: 7 }}
-                                        justifyContent="flex-end"
-                                        alignItems="center"
-                                        sx={{
-                                            pl: 2
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSearchState()
+                                            }
                                         }}
-                                    >
-                                        <Button
-                                            variant="contained"
-                                            color="success"
-                                            endIcon={<Plus size={18} />}
-                                            sx={{
-                                                textTransform: 'none',
-                                                '&:hover': {
-                                                    bgcolor: '#61A05A'
+                                        size="small"
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: 2,
+                                                '& fieldset': {
+                                                    borderColor: 'custom.line',
+                                                    borderWidth: 1.5,
                                                 },
-                                            }}
-                                            onClick={handleModalAddOpen}
-                                        >
-                                            Add User
-                                        </Button>
-                                    </Grid>
 
+                                                '&:hover fieldset': {
+                                                    borderColor: 'custom.line',
+                                                    borderWidth: 2.5
+                                                },
 
-
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: 'custom.line',
+                                                    borderWidth: 2.5
+                                                },
+                                            },
+                                        }}
+                                        slotProps={{
+                                            input: {
+                                                endAdornment: (
+                                                    <IconButton
+                                                        aria-label="search button"
+                                                        onClick={handleSearchState}
+                                                        edge="end"
+                                                        size="small"
+                                                        sx={{
+                                                            color: 'text.secondary'
+                                                        }}
+                                                    >
+                                                        <Search size={18} />
+                                                    </IconButton>
+                                                ),
+                                            }
+                                        }}
+                                    />
                                 </Grid>
 
 
 
-                                <TableCustom
-                                    keyField="user_id"
-                                    loadingData={loadingData}
-                                    columns={app002UserColumns}
-                                    appdata={app002UserData}
-                                    appdataTotal={app002UserTotalData}
-                                    totalPage={app002TotalPage}
-                                    rowsPerPageOption={[5, 10, 20, 25]}
-
-                                    page={app002UserDataParam.page - 1}
-                                    rowsPerPage={app002UserDataParam.size}
-                                    sortField={app002UserDataParam.sort}
-                                    sortOrder={app002UserDataParam.order}
-
-
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                    onRequestSort={handleRequestSort}
-                                />
-                            </Box>
-                        )}
-
-                        {/* Tab Deleted User */}
-                        {active === "deletedDevice" && (
-                            <Box>
-                                <Grid container alignItems="center" size={12} sx={{ mb: 2 }}>
-                                    <Grid
-                                        size={{ xs: 4, sm: 3 }}
+                                <Grid
+                                    container
+                                    size={{ xs: 4, sm: 7 }}
+                                    justifyContent="flex-end"
+                                    alignItems="center"
+                                    sx={{
+                                        pl: 2
+                                    }}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        endIcon={<Plus size={18} />}
                                         sx={{
-                                            pr: 2
+                                            textTransform: 'none',
+                                            '&:hover': {
+                                                bgcolor: '#61A05A'
+                                            },
                                         }}
+                                        onClick={handleModalAddOpen}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            placeholder="Search"
-                                            value={search}
-                                            onChange={(e) => {
-                                                setSearch(e.target.value)
-                                            }}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    handleSearchState()
-                                                }
-                                            }}
-                                            size="small"
-                                            sx={{
-                                                '& .MuiOutlinedInput-root': {
-                                                    borderRadius: 2,
-                                                    '& fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 1.5,
-                                                    },
-
-                                                    '&:hover fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 2.5
-                                                    },
-
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: 'custom.line',
-                                                        borderWidth: 2.5
-                                                    },
-                                                },
-                                            }}
-                                            slotProps={{
-                                                input: {
-                                                    endAdornment: (
-                                                        <IconButton
-                                                            aria-label="search button"
-                                                            onClick={handleSearchState}
-                                                            edge="end"
-                                                            size="small"
-                                                            sx={{
-                                                                color: 'text.secondary'
-                                                            }}
-                                                        >
-                                                            <Search size={18} />
-                                                        </IconButton>
-                                                    ),
-                                                }
-                                            }}
-                                        />
-                                    </Grid>
-
-
-                                    <Grid container size={{ xs: 4, sm: 2 }}>
-                                        <Autocomplete
-                                            fullWidth
-                                            options={roleOptions}
-                                            getOptionLabel={(option) => option.label}
-                                            value={roleOptions.find((opt) => opt.value === role) || null}
-                                            onChange={(event, newValue) => { handleRoleChange(newValue ? newValue.value : ""); }}
-                                            sx={{
-                                                '& .MuiAutocomplete-popupIndicator': {
-                                                    color: 'text.secondary',
-                                                },
-                                            }}
-                                            renderInput={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    placeholder="Role"
-                                                    size="small"
-                                                    fullWidth={true}
-                                                    sx={{
-                                                        '& .MuiOutlinedInput-root': {
-                                                            borderRadius: 2,
-                                                            '& fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 1.5,
-                                                            },
-
-                                                            '&:hover fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 2.5
-                                                            },
-
-                                                            '&.Mui-focused fieldset': {
-                                                                borderColor: 'custom.line',
-                                                                borderWidth: 2.5
-                                                            },
-                                                        },
-                                                    }}
-                                                />
-                                            )}
-                                            isOptionEqualToValue={(opt, val) => opt.value === val.value}
-                                            clearOnEscape
-                                        />
-                                    </Grid>
-
-                                    <Grid
-                                        container
-                                        size={{ xs: 4, sm: 7 }}
-                                        justifyContent="flex-end"
-                                        alignItems="center"
-                                        sx={{
-                                            pl: 2
-                                        }}
-                                    >
-                                    </Grid>
-
-
-
+                                        Add Device
+                                    </Button>
                                 </Grid>
 
 
 
-                                <TableCustom
-                                    keyField="user_id"
-                                    loadingData={loadingData}
-                                    columns={app002UserDeletedColumns}
-                                    appdata={app002UserDeletedData}
-                                    appdataTotal={app002UserDeletedTotalData}
-                                    totalPage={app002TotalPageDeleted}
-                                    rowsPerPageOption={[5, 10, 20, 25]}
-
-                                    page={app002UserDeletedDataParam.page - 1}
-                                    rowsPerPage={app002UserDeletedDataParam.size}
-                                    sortField={app002UserDeletedDataParam.sort}
-                                    sortOrder={app002UserDeletedDataParam.order}
+                            </Grid>
 
 
-                                    onPageChange={handleChangePageDeleted}
-                                    onRowsPerPageChange={handleChangeRowsPerPageDeleted}
-                                    onRequestSort={handleRequestSortDeleted}
-                                />
-                            </Box>
-                        )}
+
+                            <TableCustom
+                                keyField="device_id"
+                                loadingData={loadingData}
+                                columns={app003DeviceColumns}
+                                appdata={app003DeviceData}
+                                appdataTotal={app003DeviceTotalData}
+                                totalPage={app003TotalPage}
+                                rowsPerPageOption={[5, 10, 20, 25]}
+
+                                page={app003DeviceDataParam.page - 1}
+                                rowsPerPage={app003DeviceDataParam.size}
+                                sortField={app003DeviceDataParam.sort}
+                                sortOrder={app003DeviceDataParam.order}
+
+
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                onRequestSort={handleRequestSort}
+                            />
+                        </Box>
 
                     </Stack>
                 </Container>
 
                 {modalAddOpen && (
-                    <UserAdd
+                    <DeviceAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
                         // Props for message
-                        app002Msg={app002Msg}
-                        setApp002setMsg={setApp002setMsg}
-                        app002MsgStatus={app002MsgStatus}
-                        setApp002setMsgStatus={setApp002setMsgStatus}
+                        app003Msg={app003Msg}
+                        setApp003setMsg={setApp003setMsg}
+                        app003MsgStatus={app003MsgStatus}
+                        setApp003setMsgStatus={setApp003setMsgStatus}
                     >
-                    </UserAdd>
+                    </DeviceAdd>
                 )}
 
                 {modalEditOpen && (
-                    <UserEdit
+                    <DeviceEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}
 
                         // Props for message and data
-                        app002UserEditData={app002UserEditData}
-                        app002Msg={app002Msg}
-                        setApp002setMsg={setApp002setMsg}
-                        app002MsgStatus={app002MsgStatus}
-                        setApp002setMsgStatus={setApp002setMsgStatus}
+                        app003DeviceEditData={app003DeviceEditData}
+                        app003Msg={app003Msg}
+                        setApp003setMsg={setApp003setMsg}
+                        app003MsgStatus={app003MsgStatus}
+                        setApp003setMsgStatus={setApp003setMsgStatus}
                     />
                 )}
 
@@ -858,20 +446,9 @@ const MasterDevice = () => {
                         modalOpen={modalDeleteOpen}
                         modalClose={() => setModalDeleteOpen(false)}
                         loading={loadingDelete}
-                        onClick={app002HandleDeleteUser}
+                        onClick={app003HandleDeleteDevice}
                     />
                 )}
-
-                {modalRestoreOpen && (
-                    <PopupDeleteAndRestore
-                        status={"restore"}
-                        modalOpen={modalRestoreOpen}
-                        modalClose={() => setModalRestoreOpen(false)}
-                        loading={loadingRestore}
-                        onClick={app002HandleRestoreUser}
-                    />
-                )}
-
 
             </RootPageCustom>
         </React.Fragment >
