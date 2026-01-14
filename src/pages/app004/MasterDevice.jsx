@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
-import { getDevice, deleteDevice } from "../../utils/ListApi";
+import { getDevice, deleteDevice, getCluster } from "../../utils/ListApi";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
 import DeviceAdd from "./DeviceAdd";
@@ -22,19 +22,29 @@ import DeviceEdit from "./DeviceEdit";
 const MasterDevice = () => {
     // State First Page, Message, and Loading Effect
     const [firstRender, setFirstRender] = useState(false)
-    const [app003p01Page, setApp003p01Page] = useState(true);
+    const [app004p01Page, setApp004p01Page] = useState(true);
 
-    const [app003Msg, setApp003setMsg] = useState("");
-    const [app003MsgStatus, setApp003setMsgStatus] = useState("");
+    const [app004Msg, setApp004setMsg] = useState("");
+    const [app004MsgStatus, setApp004setMsgStatus] = useState("");
     const [loadingData, setLoadingData] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState(false)
 
     // State Data Device, Filtering, and Param
     const [search, setSearch] = useState("")
-    const [app003DeviceData, setApp003DeviceData] = useState([]);
-    const [app003DeviceTotalData, setApp003DeviceTotalData] = useState(0)
-    const [app003TotalPage, app003SetTotalPage] = useState(0)
-    const [app003DeviceDataParam, setApp003DeviceDataParam] = useState(
+    const [app004DeviceData, setApp004DeviceData] = useState([]);
+    const [app004DeviceTotalData, setApp004DeviceTotalData] = useState(0)
+    const [app004TotalPage, app004SetTotalPage] = useState(0)
+    const [app004DeviceDataParam, setApp004DeviceDataParam] = useState(
+        {
+            page: 1,
+            size: 10,
+            sort: "",
+            order: "asc",
+            search: "",
+        }
+    )
+    // Param for a while (Cluster doesnt need param for dropdown list)
+    const [app004ClusterDataParam, setApp004ClusterDataParam] = useState(
         {
             page: 1,
             size: 10,
@@ -49,11 +59,11 @@ const MasterDevice = () => {
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [app003DeviceEditData, setApp003DeviceEditData] = useState(null);
-    const [app003DeviceDeleteData, setApp003DeviceDeleteData] = useState(null)
+    const [app004DeviceEditData, setApp004DeviceEditData] = useState(null);
+    const [app004DeviceDeleteData, setApp004DeviceDeleteData] = useState(null)
 
     // Table Configuration Active Device (Header Table, Handle Page and Rows, Handle Sort)
-    const app003DeviceColumns = [
+    const app004DeviceColumns = [
         {
             dataField: "device_id",
             text: "Device ID",
@@ -131,14 +141,14 @@ const MasterDevice = () => {
     ];
 
     const handleChangePage = (newPage) => {
-        setApp003DeviceDataParam(prev => ({
+        setApp004DeviceDataParam(prev => ({
             ...prev,
             page: newPage + 1
         }));
     };
 
     const handleChangeRowsPerPage = (newRowsPerPage) => {
-        setApp003DeviceDataParam(prev => ({
+        setApp004DeviceDataParam(prev => ({
             ...prev,
             size: newRowsPerPage,
             page: 1
@@ -146,7 +156,7 @@ const MasterDevice = () => {
     };
 
     const handleRequestSort = (property, order) => {
-        setApp003DeviceDataParam(prev => ({
+        setApp004DeviceDataParam(prev => ({
             ...prev,
             sort: property,
             order: order,
@@ -160,9 +170,9 @@ const MasterDevice = () => {
         try {
             const response = await getDevice(param);
             console.table(response.data.devices)
-            setApp003DeviceData(response?.data?.devices ? response.data.devices : []);
-            setApp003DeviceTotalData(response?.data?.count_data ? response.data.count_data : 0);
-            app003SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
+            setApp004DeviceData(response?.data?.devices ? response.data.devices : []);
+            setApp004DeviceTotalData(response?.data?.count_data ? response.data.count_data : 0);
+            app004SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
 
 
         } catch (error) {
@@ -174,15 +184,34 @@ const MasterDevice = () => {
     });
 
     useEffect(() => {
-        if (app003p01Page) {
-            getAllDevice(app003DeviceDataParam);
+        if (app004p01Page) {
+            getAllDevice(app004DeviceDataParam);
         }
-    }, [app003DeviceDataParam]);
+    }, [app004DeviceDataParam]);
 
+    // State and Function for Dropdown Cluster
+    const [clusterOption, setClusterOption] = useState([])
+    const getAllCluster = useCallback(async (param) => {
+        setLoadingData(true);
+        try {
+            const response = await getCluster(param);
+            setClusterOption(response?.data?.clusters ? response.data.clusters : []);
+        } catch (error) {
+            console.error("Gagal mengambil data:", error);
+
+        } finally {
+            setLoadingData(false);
+        }
+    });
+
+    useEffect(() => {
+        debugger
+        getAllCluster(app004ClusterDataParam)
+    }, [])
 
     // Search and Filtering (Free Text)
     const handleSearchState = () => {
-        setApp003DeviceDataParam(prev => ({
+        setApp004DeviceDataParam(prev => ({
             ...prev,
             page: 1,
             search: search
@@ -193,7 +222,7 @@ const MasterDevice = () => {
     // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
-        setApp003DeviceDataParam({
+        setApp004DeviceDataParam({
             page: 1,
             size: 10,
             sort: "",
@@ -204,45 +233,45 @@ const MasterDevice = () => {
 
     // Form Add Modal
     const handleModalAddOpen = () => {
-        setApp003setMsg("")
+        setApp004setMsg("")
         setModalAddOpen(true)
     }
 
     // Form Edit Modal
     const handleModalEditOpen = (obj) => {
-        setApp003setMsg("")
+        setApp004setMsg("")
         setModalEditOpen(true)
-        setApp003DeviceEditData(obj)
+        setApp004DeviceEditData(obj)
     }
 
     // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
-        setApp003setMsg("")
+        setApp004setMsg("")
         setModalDeleteOpen(true)
-        setApp003DeviceDeleteData(obj)
+        setApp004DeviceDeleteData(obj)
     }
-    const app003HandleDeleteDevice = () => {
-        if (app003DeviceDeleteData.device_id) {
-            deleteDeviceAction(app003DeviceDeleteData)
+    const app004HandleDeleteDevice = () => {
+        if (app004DeviceDeleteData.device_id) {
+            deleteDeviceAction(app004DeviceDeleteData)
         }
     }
     const deleteDeviceAction = useCallback(async (param) => {
-        setLoadingData(true)
         try {
+            setLoadingDelete(true)
             const response = await deleteDevice(param.Device_id)
 
             if (response.status === 204 || response.status === 200) {
-                setApp003setMsg("Device Has Been Successfully Deleted.")
-                setApp003setMsgStatus("success")
+                setApp004setMsg("Device Has Been Successfully Deleted.")
+                setApp004setMsgStatus("success")
             } else {
-                setApp003setMsg("Failed to delete Device.")
-                setApp003setMsgStatus("error")
+                setApp004setMsg("Failed to delete Device.")
+                setApp004setMsgStatus("error")
             }
         } catch (error) {
             debugger
             console.log(error)
-            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp003setMsgStatus("error")
+            setApp004setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            setApp004setMsgStatus("error")
         } finally {
             setModalDeleteOpen(false)
             setLoadingDelete(false)
@@ -253,16 +282,16 @@ const MasterDevice = () => {
     return (
         <React.Fragment>
             <RootPageCustom
-                msgStateGet={app003Msg}
-                msgStateSet={setApp003setMsg}
-                msgStateGetStatus={app003MsgStatus}
+                msgStateGet={app004Msg}
+                msgStateSet={setApp004setMsg}
+                msgStateGetStatus={app004MsgStatus}
                 setFirstRender={setFirstRender}
             >
                 <Container
                     disableGutters
                     maxWidth={false}
                     sx={{
-                        display: app003p01Page ? "block" : "none",
+                        display: app004p01Page ? "block" : "none",
                         // py: 1,
                         px: 1,
                     }}
@@ -387,16 +416,16 @@ const MasterDevice = () => {
                             <TableCustom
                                 keyField="device_id"
                                 loadingData={loadingData}
-                                columns={app003DeviceColumns}
-                                appdata={app003DeviceData}
-                                appdataTotal={app003DeviceTotalData}
-                                totalPage={app003TotalPage}
+                                columns={app004DeviceColumns}
+                                appdata={app004DeviceData}
+                                appdataTotal={app004DeviceTotalData}
+                                totalPage={app004TotalPage}
                                 rowsPerPageOption={[5, 10, 20, 25]}
 
-                                page={app003DeviceDataParam.page - 1}
-                                rowsPerPage={app003DeviceDataParam.size}
-                                sortField={app003DeviceDataParam.sort}
-                                sortOrder={app003DeviceDataParam.order}
+                                page={app004DeviceDataParam.page - 1}
+                                rowsPerPage={app004DeviceDataParam.size}
+                                sortField={app004DeviceDataParam.sort}
+                                sortOrder={app004DeviceDataParam.order}
 
 
                                 onPageChange={handleChangePage}
@@ -414,10 +443,10 @@ const MasterDevice = () => {
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
                         // Props for message
-                        app003Msg={app003Msg}
-                        setApp003setMsg={setApp003setMsg}
-                        app003MsgStatus={app003MsgStatus}
-                        setApp003setMsgStatus={setApp003setMsgStatus}
+                        app004Msg={app004Msg}
+                        setApp004setMsg={setApp004setMsg}
+                        app004MsgStatus={app004MsgStatus}
+                        setApp004setMsgStatus={setApp004setMsgStatus}
                     >
                     </DeviceAdd>
                 )}
@@ -429,11 +458,11 @@ const MasterDevice = () => {
                         refreshTable={refreshTable}
 
                         // Props for message and data
-                        app003DeviceEditData={app003DeviceEditData}
-                        app003Msg={app003Msg}
-                        setApp003setMsg={setApp003setMsg}
-                        app003MsgStatus={app003MsgStatus}
-                        setApp003setMsgStatus={setApp003setMsgStatus}
+                        app004DeviceEditData={app004DeviceEditData}
+                        app004Msg={app004Msg}
+                        setApp004setMsg={setApp004setMsg}
+                        app004MsgStatus={app004MsgStatus}
+                        setApp004setMsgStatus={setApp004setMsgStatus}
                     />
                 )}
 
@@ -443,7 +472,7 @@ const MasterDevice = () => {
                         modalOpen={modalDeleteOpen}
                         modalClose={() => setModalDeleteOpen(false)}
                         loading={loadingDelete}
-                        onClick={app003HandleDeleteDevice}
+                        onClick={app004HandleDeleteDevice}
                     />
                 )}
 

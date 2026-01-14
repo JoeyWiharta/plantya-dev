@@ -398,8 +398,8 @@ const MasterUser = () => {
         }
     }
     const deleteUserAction = useCallback(async (param) => {
-        setLoadingData(true)
         try {
+            setLoadingDelete(true)
             const response = await deleteUser(param.user_id)
 
             if (response.status === 204 || response.status === 200) {
@@ -434,6 +434,7 @@ const MasterUser = () => {
     }
     const restoreUserAction = useCallback(async (param) => {
         try {
+            setLoadingRestore(true)
             const response = await restoreUser(param.user_id)
 
             if (response.status === 201 || response.status === 200) {
@@ -450,6 +451,7 @@ const MasterUser = () => {
             setApp002setMsgStatus("error")
         } finally {
             setModalRestoreOpen(false)
+            setLoadingRestore(false)
             refreshTable();
         }
     })

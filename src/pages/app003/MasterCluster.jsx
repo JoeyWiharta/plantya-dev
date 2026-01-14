@@ -207,12 +207,13 @@ const MasterCluster = () => {
     }
     const app003HandleDeleteCluster = () => {
         if (app003ClusterDeleteData.cluster_id) {
+
             deleteClusterAction(app003ClusterDeleteData)
         }
     }
     const deleteClusterAction = useCallback(async (param) => {
-        setLoadingData(true)
         try {
+            setLoadingDelete(true)
             const response = await deleteCluster(param.cluster_id)
 
             if (response.status === 204 || response.status === 200) {
