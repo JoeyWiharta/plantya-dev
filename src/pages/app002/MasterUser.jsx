@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, act } from "react";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
 import { getUser, deleteUser, getUserDeleted, restoreUser } from "../../utils/ListApi";
-import UserAdd from "./UserAdd";
-import UserEdit from "./UserEdit";
+import MasterUserAdd from "./MasterUserAdd";
+import MasterUserEdit from "./MasterUserEdit";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import Icon from '@mdi/react';
 import {
@@ -823,7 +823,7 @@ const MasterUser = () => {
                 </Container>
 
                 {modalAddOpen && (
-                    <UserAdd
+                    <MasterUserAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
@@ -833,11 +833,11 @@ const MasterUser = () => {
                         app002MsgStatus={app002MsgStatus}
                         setApp002setMsgStatus={setApp002setMsgStatus}
                     >
-                    </UserAdd>
+                    </MasterUserAdd>
                 )}
 
                 {modalEditOpen && (
-                    <UserEdit
+                    <MasterUserEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}

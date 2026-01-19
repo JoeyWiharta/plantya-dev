@@ -14,10 +14,10 @@ import {
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
 import { getCluster, deleteCluster } from "../../utils/ListApi";
-import ClusterAdd from "./ClusterAdd";
+import MasterClusterAdd from "./MasterClusterAdd";
+import MasterClusterEdit from "./MasterClusterEdit";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
-import ClusterEdit from "./ClusterEdit";
 
 const MasterCluster = () => {
     // State First Page, Message, and Loading Effect
@@ -394,7 +394,7 @@ const MasterCluster = () => {
                 </Container>
 
                 {modalAddOpen && (
-                    <ClusterAdd
+                    <MasterClusterAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
@@ -404,11 +404,11 @@ const MasterCluster = () => {
                         app003MsgStatus={app003MsgStatus}
                         setApp003setMsgStatus={setApp003setMsgStatus}
                     >
-                    </ClusterAdd>
+                    </MasterClusterAdd>
                 )}
 
                 {modalEditOpen && (
-                    <ClusterEdit
+                    <MasterClusterEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}

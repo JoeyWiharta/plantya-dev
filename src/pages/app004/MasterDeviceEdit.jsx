@@ -13,7 +13,7 @@ import FormSpinner from "../../components/common/FormSpinner";
 
 
 
-const DeviceEdit = (props) => {
+const MasterDeviceEdit = (props) => {
     // State for Loading Spinner
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [textLoading, setTextLoading] = useState("")
@@ -47,7 +47,7 @@ const DeviceEdit = (props) => {
             ({
                 device_name: Yup.string().required("Device Name is required."),
                 device_type: Yup.string().required("Device Type is required."),
-                cluster_id: Yup.string().required("Cluster Id is required."),
+                cluster_id: Yup.string().required("Cluster Name is required."),
                 status: Yup.string().required("Status is required."),
             }),
 
@@ -277,7 +277,7 @@ const DeviceEdit = (props) => {
                                     variant="body2" fontWeight="medium"
                                     mb={1}
                                 >
-                                    Cluster ID
+                                    Cluster Name
                                 </Typography>
 
                                 <Autocomplete
@@ -292,7 +292,7 @@ const DeviceEdit = (props) => {
                                         <TextField
                                             {...params}
                                             className="auth-field"
-                                            placeholder="Cluster Id"
+                                            placeholder="Cluster Name"
                                             variant="outlined"
                                             name="cluster_id"
                                             error={app004p03ValidInput.touched.cluster_id && Boolean(app004p03ValidInput.errors.cluster_id)}
@@ -401,7 +401,7 @@ const DeviceEdit = (props) => {
     )
 }
 
-DeviceEdit.propTypes = {
+MasterDeviceEdit.propTypes = {
     modalEditOpen: PropTypes.any,
     setModalEditOpen: PropTypes.any,
     refreshTable: PropTypes.any,
@@ -412,4 +412,4 @@ DeviceEdit.propTypes = {
     app004ClusterEditData: PropTypes.any,
 };
 
-export default DeviceEdit
+export default MasterDeviceEdit

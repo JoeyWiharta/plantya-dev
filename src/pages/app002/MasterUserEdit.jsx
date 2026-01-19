@@ -13,7 +13,7 @@ import FormSpinner from "../../components/common/FormSpinner";
 
 
 
-const UserEdit = (props) => {
+const MasterUserEdit = (props) => {
     // State for Loading Spinner
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [textLoading, setTextLoading] = useState("")
@@ -360,7 +360,7 @@ const UserEdit = (props) => {
     )
 }
 
-UserEdit.propTypes = {
+MasterUserEdit.propTypes = {
     modalEditOpen: PropTypes.any,
     setModalEditOpen: PropTypes.any,
     refreshTable: PropTypes.any,
@@ -371,4 +371,4 @@ UserEdit.propTypes = {
     app002UserEditData: PropTypes.any,
 };
 
-export default UserEdit
+export default MasterUserEdit

@@ -8,13 +8,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { addUser } from "../../utils/ListApi";
+import { addCluster } from "../../utils/ListApi";
 import FormSpinner from "../../components/common/FormSpinner";
 import { Mail } from "lucide-react";
 
 
 
-const UserAdd = (props) => {
+const MasterClusterAdd = (props) => {
 
   // State for Loading Spinner
   const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -22,17 +22,10 @@ const UserAdd = (props) => {
 
   useEffect(() => {
     if (props.modalAddOpen) {
-      app002p02ValidInput.resetForm()
+      app003p02ValidInput.resetForm()
     }
   }, [props.modalAddOpen])
 
-
-  // Role 
-  const roleOptions = [
-    { value: "ADMIN", label: "Admin" },
-    { value: "USER", label: "User" },
-    { value: "STAFF", label: "Staff" },
-  ];
 
   // Function Close, Reset, and Refresh After Submitting
   const handleClose = () => {
@@ -41,24 +34,15 @@ const UserAdd = (props) => {
   }
 
   // Validation Form
-  const app002p02ValidInput = useFormik({
+  const app003p02ValidInput = useFormik({
     initialValues:
     {
-      email: "",
-      name: "",
-      role: "",
+      clusterName: "",
     },
     validationSchema: Yup.object
       ({
-        email: Yup.string()
-          .required("Email is required.")
-          .matches(
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            "Please enter a valid email address."
-          ),
-        name: Yup.string()
-          .required("Name is required."),
-        role: Yup.string().required("Role is required."),
+        clusterName: Yup.string()
+          .required("Cluster Name is required."),
       }),
 
     onSubmit: async (values, { setSubmitting }) => {
@@ -66,25 +50,27 @@ const UserAdd = (props) => {
       setSubmitting(true)
       setLoadingSpinner(true)
       setTextLoading("Processing...")
-      await SaveUserAction(values)
+      await SaveClusterAction(values)
       setSubmitting(false)
     },
   });
 
-  const SaveUserAction = useCallback(async (param) => {
+  const SaveClusterAction = useCallback(async (param) => {
     try {
-      const response = await addUser(param)
+      const response = await addCluster({
+        cluster_name: param.clusterName
+      })
       debugger
       if (response.status === 201 || response.status === 200) {
-        props.setApp002setMsg("User Has Been Successfully Added.");
-        props.setApp002setMsgStatus("success");
+        props.setApp003setMsg("Cluster Has Been Successfully Added.");
+        props.setApp003setMsgStatus("success");
         props.refreshTable();
         handleClose()
       }
     } catch (error) {
       debugger
-      props.setApp002setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-      props.setApp002setMsgStatus("error")
+      props.setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+      props.setApp003setMsgStatus("error")
     } finally {
       setLoadingSpinner(false)
       setTextLoading("")
@@ -117,7 +103,7 @@ const UserAdd = (props) => {
             pr: 1,
           }}
         >
-          Add User
+          Add Cluster
 
           <IconButton
             aria-label="close"
@@ -159,12 +145,12 @@ const UserAdd = (props) => {
               sx={{
                 color: 'text.primary'
               }}>
-              Add a new user and complete the information below
+              Add a new cluster and complete the information below
             </DialogContentText>
 
             <Box
               component="form"
-              onSubmit={app002p02ValidInput.handleSubmit}
+              onSubmit={app003p02ValidInput.handleSubmit}
               sx={{
                 width: '100%',
                 display: 'flex',
@@ -180,27 +166,28 @@ const UserAdd = (props) => {
                   variant="body2" fontWeight="medium"
                   mb={1}
                 >
-                  Email
+                  Cluster Name
                 </Typography>
                 <TextField
                   className="auth-field"
                   variant="outlined"
-                  placeholder="Email"
-                  name="email"
+                  placeholder="Cluster Name"
+                  name="clusterName"
                   size="medium"
                   fullWidth
-                  value={app002p02ValidInput.values.email}
-                  onChange={app002p02ValidInput.handleChange}
-                  onBlur={app002p02ValidInput.handleBlur}
-                  error={app002p02ValidInput.touched.email && Boolean(app002p02ValidInput.errors.email)}
-                  helperText={app002p02ValidInput.touched.email && app002p02ValidInput.errors.email}
+                  value={app003p02ValidInput.values.clusterName}
+                  onChange={app003p02ValidInput.handleChange}
+                  onBlur={app003p02ValidInput.handleBlur}
+                  error={app003p02ValidInput.touched.clusterName && Boolean(app003p02ValidInput.errors.clusterName)}
+                  helperText={app003p02ValidInput.touched.clusterName && app003p02ValidInput.errors.clusterName}
                   slotProps={{
                     input: {
+                      spellCheck: false,
                       startAdornment: (
                         <InputAdornment position="start">
                           <MailOutlineOutlinedIcon
                             sx={{
-                              color: app002p02ValidInput.values.email === "" ? 'text.secondary' : 'text.primary'
+                              color: app003p02ValidInput.values.clusterName === "" ? 'text.secondary' : 'text.primary'
                             }}
                           />
 
@@ -208,85 +195,6 @@ const UserAdd = (props) => {
                       ),
                     },
                   }}
-                />
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="body2" fontWeight="medium"
-                  mb={1}
-                >
-                  Name
-                </Typography>
-                <TextField
-                  className="auth-field"
-                  placeholder="Name"
-                  name="name"
-                  size="medium"
-                  fullWidth
-                  value={app002p02ValidInput.values.name}
-                  onChange={app002p02ValidInput.handleChange}
-                  onBlur={app002p02ValidInput.handleBlur}
-                  error={app002p02ValidInput.touched.name && Boolean(app002p02ValidInput.errors.name)}
-                  helperText={app002p02ValidInput.touched.name && app002p02ValidInput.errors.name}
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccountCircleIcon
-                            sx={{
-                              color: app002p02ValidInput.values.name === "" ? 'text.secondary' : 'text.primary'
-                            }} />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-
-
-                />
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="body2" fontWeight="medium"
-                  mb={1}
-                >
-                  Role
-                </Typography>
-
-                <Autocomplete
-                  fullWidth
-                  options={roleOptions}
-                  getOptionLabel={(option) => option.label}
-                  value={roleOptions.find(opt => opt.value === app002p02ValidInput.values.role) || null}
-                  onChange={(event, newValue) => { app002p02ValidInput.setFieldValue('role', newValue ? newValue.value : '') }}
-                  onBlur={() => app002p02ValidInput.handleBlur('role')}
-                  isOptionEqualToValue={(option, value) => option.value === value.value}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      className="auth-field"
-                      placeholder="Role"
-                      variant="outlined"
-                      name="role"
-                      error={app002p02ValidInput.touched.role && Boolean(app002p02ValidInput.errors.role)}
-                      helperText={app002p02ValidInput.touched.role && app002p02ValidInput.errors.role}
-                      slotProps={{
-                        input: {
-                          ...params.InputProps,
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AdminPanelSettingsIcon
-                                sx={{
-                                  color: app002p02ValidInput.values.role ? 'text.primary' : 'text.secondary'
-                                }}
-                              />
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                    />
-                  )}
                 />
               </Box>
 
@@ -317,7 +225,7 @@ const UserAdd = (props) => {
                     minHeight: '50px',
                     borderRadius: '15px',
                     '&:hover': {
-                      bgcolor:'#61A05A'
+                      bgcolor: '#61A05A'
                     },
                   }}
                 >
@@ -332,14 +240,14 @@ const UserAdd = (props) => {
   )
 }
 
-UserAdd.propTypes = {
+MasterClusterAdd.propTypes = {
   modalAddOpen: PropTypes.any,
   setModalAddOpen: PropTypes.any,
   refreshTable: PropTypes.any,
-  app002Msg: PropTypes.any,
-  setApp002setMsg: PropTypes.any,
-  app002MsgStatus: PropTypes.any,
-  setApp002setMsgStatus: PropTypes.any,
+  app003Msg: PropTypes.any,
+  setApp003setMsg: PropTypes.any,
+  app003MsgStatus: PropTypes.any,
+  setApp003setMsgStatus: PropTypes.any,
 };
 
-export default UserAdd
+export default MasterClusterAdd

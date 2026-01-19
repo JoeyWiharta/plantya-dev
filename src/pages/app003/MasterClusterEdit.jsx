@@ -13,7 +13,7 @@ import FormSpinner from "../../components/common/FormSpinner";
 
 
 
-const ClusterEdit = (props) => {
+const MasterClusterEdit = (props) => {
     // State for Loading Spinner
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [textLoading, setTextLoading] = useState("")
@@ -262,7 +262,7 @@ const ClusterEdit = (props) => {
     )
 }
 
-ClusterEdit.propTypes = {
+MasterClusterEdit.propTypes = {
     modalEditOpen: PropTypes.any,
     setModalEditOpen: PropTypes.any,
     refreshTable: PropTypes.any,
@@ -273,4 +273,4 @@ ClusterEdit.propTypes = {
     app003ClusterEditData: PropTypes.any,
 };
 
-export default ClusterEdit
+export default MasterClusterEdit

@@ -16,8 +16,8 @@ import TableCustom from "../../components/common/TableCustom";
 import { getDevice, deleteDevice, getCluster } from "../../utils/ListApi";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
-import DeviceAdd from "./DeviceAdd";
-import DeviceEdit from "./DeviceEdit";
+import MasterDeviceAdd from "./MasterDeviceAdd";
+import MasterDeviceEdit from "./MasterDeviceEdit";
 
 const MasterDevice = () => {
     // State First Page, Message, and Loading Effect
@@ -41,6 +41,7 @@ const MasterDevice = () => {
             sort: "",
             order: "asc",
             search: "",
+            status: "",
         }
     )
     // Param for a while (Cluster doesnt need param for dropdown list)
@@ -89,8 +90,8 @@ const MasterDevice = () => {
             minWidth: '100px',
         },
         {
-            dataField: "cluster_id",
-            text: "Cluster ID",
+            dataField: "cluster_name",
+            text: "Cluster Name",
             sort: true,
             headerAlign: "center",
             bodyAlign: 'center',
@@ -231,6 +232,21 @@ const MasterDevice = () => {
             search: search
         }))
 
+    }
+
+    // Status Filtering
+    const [status, setStatus] = useState("")
+
+    const handleStatusChange = (event) => {
+        setStatus(event)
+        setSearch("")
+
+        setApp004DeviceDataParam(prev => ({
+            ...prev,
+            "page": 1,
+            "status": event,
+            "search": ""
+        }))
     }
 
     // Refresh Table Function
@@ -394,6 +410,50 @@ const MasterDevice = () => {
                                     />
                                 </Grid>
 
+                                <Grid container size={{ xs: 4, sm: 2 }}>
+                                    <Autocomplete
+                                        fullWidth
+                                        options={statusOption}
+                                        getOptionLabel={(option) => option.label}
+                                        value={statusOption.find((opt) => opt.value === status) || null}
+                                        onChange={(event, newValue) => { handleStatusChange(newValue ? newValue.value : ""); }}
+                                        sx={{
+                                            '& .MuiAutocomplete-popupIndicator': {
+                                                color: 'text.secondary',
+                                            },
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                placeholder="Status"
+                                                size="small"
+                                                fullWidth={true}
+                                                sx={{
+                                                    '& .MuiOutlinedInput-root': {
+                                                        borderRadius: 2,
+                                                        '& fieldset': {
+                                                            borderColor: 'custom.line',
+                                                            borderWidth: 1.5,
+                                                        },
+
+                                                        '&:hover fieldset': {
+                                                            borderColor: 'custom.line',
+                                                            borderWidth: 2.5
+                                                        },
+
+                                                        '&.Mui-focused fieldset': {
+                                                            borderColor: 'custom.line',
+                                                            borderWidth: 2.5
+                                                        },
+                                                    },
+                                                }}
+                                            />
+                                        )}
+                                        isOptionEqualToValue={(opt, val) => opt.value === val.value}
+                                        clearOnEscape
+                                    />
+                                </Grid>
+
 
 
                                 <Grid
@@ -452,7 +512,7 @@ const MasterDevice = () => {
                 </Container>
 
                 {modalAddOpen && (
-                    <DeviceAdd
+                    <MasterDeviceAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
@@ -466,11 +526,11 @@ const MasterDevice = () => {
                         clusterOption={clusterOption}
                         deviceTypeOption={deviceTypeOption}
                     >
-                    </DeviceAdd>
+                    </MasterDeviceAdd>
                 )}
 
                 {modalEditOpen && (
-                    <DeviceEdit
+                    <MasterDeviceEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}
