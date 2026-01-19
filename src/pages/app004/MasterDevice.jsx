@@ -42,6 +42,7 @@ const MasterDevice = () => {
             order: "asc",
             search: "",
             status: "",
+            clusterId: "",
         }
     )
     // Param for a while (Cluster doesnt need param for dropdown list)
@@ -249,15 +250,34 @@ const MasterDevice = () => {
         }))
     }
 
+    // Cluster Filtering
+    const [cluster, setCluster] = useState("")
+
+    const handleClusterChange = (event) => {
+        setCluster(event)
+        setSearch("")
+
+        setApp004DeviceDataParam(prev => ({
+            ...prev,
+            "page": 1,
+            "clusterId": event,
+            "search": ""
+        }))
+    }
+
     // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
+        setCluster("")
+        setStatus("")
         setApp004DeviceDataParam({
             page: 1,
             size: 10,
             sort: "",
             order: "asc",
             search: "",
+            status: "",
+            clusterId: ""
         });
     });
 
@@ -328,7 +348,7 @@ const MasterDevice = () => {
 
                 >
                     <Stack
-                        // spacing={2}
+                        spacing={2}
                         sx={{ overflowX: 'hidden' }}
                     >
                         <Grid
@@ -347,166 +367,203 @@ const MasterDevice = () => {
                                 mb: 2
                             }}
                         >
-
-                        </Grid>
-
-                        <Box >
-                            <Grid container alignItems="center" size={12} sx={{ mb: 2, justifyContent: 'space-between' }}>
-                                <Grid
-                                    size={{ xs: 4, sm: 3 }}
-                                    sx={{
-                                        pr: 2
+                            <Grid
+                                size={{ xs: 3, sm: 2 }}
+                                sx={{
+                                    pr: 2
+                                }}
+                            >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Search"
+                                    value={search}
+                                    onChange={(e) => {
+                                        setSearch(e.target.value)
                                     }}
-                                >
-                                    <TextField
-                                        fullWidth
-                                        placeholder="Search"
-                                        value={search}
-                                        onChange={(e) => {
-                                            setSearch(e.target.value)
-                                        }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                handleSearchState()
-                                            }
-                                        }}
-                                        size="small"
-                                        sx={{
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: 2,
-                                                '& fieldset': {
-                                                    borderColor: 'custom.line',
-                                                    borderWidth: 1.5,
-                                                },
-
-                                                '&:hover fieldset': {
-                                                    borderColor: 'custom.line',
-                                                    borderWidth: 2.5
-                                                },
-
-                                                '&.Mui-focused fieldset': {
-                                                    borderColor: 'custom.line',
-                                                    borderWidth: 2.5
-                                                },
-                                            },
-                                        }}
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: (
-                                                    <IconButton
-                                                        aria-label="search button"
-                                                        onClick={handleSearchState}
-                                                        edge="end"
-                                                        size="small"
-                                                        sx={{
-                                                            color: 'text.secondary'
-                                                        }}
-                                                    >
-                                                        <Search size={18} />
-                                                    </IconButton>
-                                                ),
-                                            }
-                                        }}
-                                    />
-                                </Grid>
-
-                                <Grid container size={{ xs: 4, sm: 2 }}>
-                                    <Autocomplete
-                                        fullWidth
-                                        options={statusOption}
-                                        getOptionLabel={(option) => option.label}
-                                        value={statusOption.find((opt) => opt.value === status) || null}
-                                        onChange={(event, newValue) => { handleStatusChange(newValue ? newValue.value : ""); }}
-                                        sx={{
-                                            '& .MuiAutocomplete-popupIndicator': {
-                                                color: 'text.secondary',
-                                            },
-                                        }}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                placeholder="Status"
-                                                size="small"
-                                                fullWidth={true}
-                                                sx={{
-                                                    '& .MuiOutlinedInput-root': {
-                                                        borderRadius: 2,
-                                                        '& fieldset': {
-                                                            borderColor: 'custom.line',
-                                                            borderWidth: 1.5,
-                                                        },
-
-                                                        '&:hover fieldset': {
-                                                            borderColor: 'custom.line',
-                                                            borderWidth: 2.5
-                                                        },
-
-                                                        '&.Mui-focused fieldset': {
-                                                            borderColor: 'custom.line',
-                                                            borderWidth: 2.5
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        )}
-                                        isOptionEqualToValue={(opt, val) => opt.value === val.value}
-                                        clearOnEscape
-                                    />
-                                </Grid>
-
-
-
-                                <Grid
-                                    container
-                                    size={{ xs: 4, sm: 7 }}
-                                    justifyContent="flex-end"
-                                    alignItems="center"
-                                    sx={{
-                                        pl: 2
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleSearchState()
+                                        }
                                     }}
-                                >
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-                                        endIcon={<Plus size={18} />}
-                                        sx={{
-                                            textTransform: 'none',
-                                            '&:hover': {
-                                                bgcolor: '#61A05A'
+                                    size="small"
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: 2,
+                                            '& fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 1.5,
                                             },
-                                        }}
-                                        onClick={handleModalAddOpen}
-                                    >
-                                        Add Device
-                                    </Button>
-                                </Grid>
 
+                                            '&:hover fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 2.5
+                                            },
 
-
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: 'custom.line',
+                                                borderWidth: 2.5
+                                            },
+                                        },
+                                    }}
+                                    slotProps={{
+                                        input: {
+                                            endAdornment: (
+                                                <IconButton
+                                                    aria-label="search button"
+                                                    onClick={handleSearchState}
+                                                    edge="end"
+                                                    size="small"
+                                                    sx={{
+                                                        color: 'text.secondary'
+                                                    }}
+                                                >
+                                                    <Search size={18} />
+                                                </IconButton>
+                                            ),
+                                        }
+                                    }}
+                                />
                             </Grid>
 
+                            <Grid container size={{ xs: 3, sm: 2 }} sx={{
+                                pr: 2
+                            }}>
+                                <Autocomplete
+                                    fullWidth
+                                    options={statusOption}
+                                    getOptionLabel={(option) => option.label}
+                                    value={statusOption.find((opt) => opt.value === status) || null}
+                                    onChange={(event, newValue) => { handleStatusChange(newValue ? newValue.value : ""); }}
+                                    sx={{
+                                        '& .MuiAutocomplete-popupIndicator': {
+                                            color: 'text.secondary',
+                                        },
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Status"
+                                            size="small"
+                                            fullWidth={true}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: 2,
+                                                    '& fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 1.5,
+                                                    },
+
+                                                    '&:hover fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                    isOptionEqualToValue={(opt, val) => opt.value === val.value}
+                                    clearOnEscape
+                                />
+                            </Grid>
+
+                            <Grid container size={{ xs: 3, sm: 2 }} sx={{
+                                    pr: 2
+                                }}>
+                                <Autocomplete
+                                    fullWidth
+                                    options={clusterOption}
+                                    getOptionLabel={(option) => option.label}
+                                    value={clusterOption.find((opt) => opt.value === cluster) || null}
+                                    onChange={(event, newValue) => { handleClusterChange(newValue ? newValue.value : ""); }}
+                                    sx={{
+                                        '& .MuiAutocomplete-popupIndicator': {
+                                            color: 'text.secondary',
+                                        },
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            placeholder="Cluster Name"
+                                            size="small"
+                                            fullWidth={true}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: 2,
+                                                    '& fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 1.5,
+                                                    },
+
+                                                    '&:hover fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: 'custom.line',
+                                                        borderWidth: 2.5
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                    isOptionEqualToValue={(opt, val) => opt.value === val.value}
+                                    clearOnEscape
+                                />
+                            </Grid>
+
+                            <Grid
+                                container
+                                size={{ xs: 3, sm: 6 }}
+                                justifyContent="flex-end"
+                                alignItems="center"
+                                sx={{
+                                    pl: 2
+                                }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    endIcon={<Plus size={18} />}
+                                    sx={{
+                                        textTransform: 'none',
+                                        '&:hover': {
+                                            bgcolor: '#61A05A'
+                                        },
+                                    }}
+                                    onClick={handleModalAddOpen}
+                                >
+                                    Add Device
+                                </Button>
+                            </Grid>
+                        </Grid>
 
 
-                            <TableCustom
-                                keyField="device_id"
-                                loadingData={loadingData}
-                                columns={app004DeviceColumns}
-                                appdata={app004DeviceData}
-                                appdataTotal={app004DeviceTotalData}
-                                totalPage={app004TotalPage}
-                                rowsPerPageOption={[5, 10, 20, 25]}
 
-                                page={app004DeviceDataParam.page - 1}
-                                rowsPerPage={app004DeviceDataParam.size}
-                                sortField={app004DeviceDataParam.sort}
-                                sortOrder={app004DeviceDataParam.order}
+                        <TableCustom
+                            keyField="device_id"
+                            loadingData={loadingData}
+                            columns={app004DeviceColumns}
+                            appdata={app004DeviceData}
+                            appdataTotal={app004DeviceTotalData}
+                            totalPage={app004TotalPage}
+                            rowsPerPageOption={[5, 10, 20, 25]}
+
+                            page={app004DeviceDataParam.page - 1}
+                            rowsPerPage={app004DeviceDataParam.size}
+                            sortField={app004DeviceDataParam.sort}
+                            sortOrder={app004DeviceDataParam.order}
 
 
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                onRequestSort={handleRequestSort}
-                            />
-                        </Box>
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            onRequestSort={handleRequestSort}
+                        />
 
                     </Stack>
                 </Container>
