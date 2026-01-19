@@ -25,6 +25,6 @@ export const deleteCluster = (clusterId) => axiosInstance("iot").delete(`/api/cl
 
 // app004 - Master Device
 export const getDevice = (params, config = {}) => axiosInstance("iot").get("/api/devices", { params, ...config });
-export const addDevice = (res) => axiosInstance("iot").post("/api/device", res)
-
+export const addDevice = (res) => axiosInstance("iot").post("/api/devices", res)
+export const editDevice = (deviceId, res, config = {}) => axiosInstance("iot").patch(`/api/devices/${deviceId}`, res, config)
 export const deleteDevice = (deviceId) => axiosInstance("iot").delete(`/api/devices/${deviceId}`)

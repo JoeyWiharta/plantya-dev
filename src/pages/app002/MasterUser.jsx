@@ -658,7 +658,7 @@ const MasterUser = () => {
                                     appdata={app002UserData}
                                     appdataTotal={app002UserTotalData}
                                     totalPage={app002TotalPage}
-                                    rowsPerPageOption={[5, 10, 20, 25]}
+                                    rowsPerPageOption={[2, 10, 20, 25]}
 
                                     page={app002UserDataParam.page - 1}
                                     rowsPerPage={app002UserDataParam.size}

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
-import { getDevice, addDevice, deleteDevice, getCluster } from "../../utils/ListApi";
+import { getDevice, deleteDevice, getCluster } from "../../utils/ListApi";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
 import DeviceAdd from "./DeviceAdd";
@@ -110,14 +110,14 @@ const MasterDevice = () => {
             headerAlign: "center",
             bodyAlign: 'left',
             minWidth: '100px',
-            formatter: (cellContent, app002DeviceData) => (
+            formatter: (cellContent, app004DeviceData) => (
                 <>
                     <Stack direction="row" spacing={1} justifyContent="center">
                         <Tooltip title="Update Device" placement="top">
                             <IconButton
                                 aria-label="edit"
                                 size="small"
-                                onClick={() => handleModalEditOpen(app002DeviceData)}
+                                onClick={() => handleModalEditOpen(app004DeviceData)}
                                 color="info"
                             >
                                 <SquarePen size={18} />
@@ -128,7 +128,7 @@ const MasterDevice = () => {
                             <IconButton
                                 aria-label="delete"
                                 size="small"
-                                onClick={() => handleModalDeleteOpen(app002DeviceData)}
+                                onClick={() => handleModalDeleteOpen(app004DeviceData)}
                                 color="error"
                             >
                                 <Trash2 size={18} />
@@ -194,8 +194,12 @@ const MasterDevice = () => {
     const [deviceTypeOption, setDeviceTypeOption] = useState([
         { value: "ACTUATOR", label: "Actuator" },
         { value: "Sensor", label: "Sensor" },
-    ]
-    )
+    ])
+    const [statusOption, setStatusOption] = useState([
+        { value: "ACTIVE", label: "Active" },
+        { value: "OFFLINE", label: "Offline" },
+        { value: "INACTIVE", label: "Inactive" },
+    ])
     const getAllCluster = useCallback(async (param) => {
         debugger
         setLoadingData(true);
@@ -268,7 +272,7 @@ const MasterDevice = () => {
     const deleteDeviceAction = useCallback(async (param) => {
         try {
             setLoadingDelete(true)
-            const response = await deleteDevice(param.Device_id)
+            const response = await deleteDevice(param.device_id)
 
             if (response.status === 204 || response.status === 200) {
                 setApp004setMsg("Device Has Been Successfully Deleted.")
@@ -477,6 +481,9 @@ const MasterDevice = () => {
                         setApp004setMsg={setApp004setMsg}
                         app004MsgStatus={app004MsgStatus}
                         setApp004setMsgStatus={setApp004setMsgStatus}
+                        clusterOption={clusterOption}
+                        deviceTypeOption={deviceTypeOption}
+                        statusOption={statusOption}
                     />
                 )}
 
