@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate } from "react-router-dom";
-import { ReactSession } from 'react-client-session';
 import { useAuth } from "../context/AuthContext";
 
 

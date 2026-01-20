@@ -1,6 +1,5 @@
 import { use, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ReactSession } from "react-client-session";
 import { useAuth } from "../../context/AuthContext";
 import { logoutApi } from "../../utils/ListApi";
 

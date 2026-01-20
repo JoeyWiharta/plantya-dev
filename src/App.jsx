@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { ReactSession } from 'react-client-session';
 import { AuthProtectedRoutes, PublicRoutes } from "./routes/Index";
 import Authmiddleware from "./routes/route";
 import AuthLayout from "./layout/AuthLayout";

@@ -26,7 +26,6 @@
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.562.0",
     "react": "^19.1.1",
-    "react-client-session": "^0.0.8",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.4",
     "reactstrap": "^9.2.3",

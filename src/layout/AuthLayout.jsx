@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ReactSession } from 'react-client-session';
 import PropTypes from "prop-types";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
