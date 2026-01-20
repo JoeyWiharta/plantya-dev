@@ -429,7 +429,7 @@ const Register = () => {
                                     Have an account?
                                     <Button
                                         component={Link}
-                                        to="/login"
+                                        to="/plantya/login"
                                         className="linkto-button"
                                     >
                                         Sign In
