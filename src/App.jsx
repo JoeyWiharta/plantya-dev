@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProtectedRoutes, PublicRoutes } from "./routes/Index";
-import Authmiddleware from "./routes/Route_temp";
+import Authmiddleware from "./routes/Route";
 import AuthLayout from "./layout/AuthLayout";
 import NonAuthLayout from "./layout/NonAuthLayout";
 import { useAuth } from "./context/AuthContext";
