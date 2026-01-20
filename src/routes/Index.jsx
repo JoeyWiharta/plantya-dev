@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Authmiddleware from "./Route";
-import LazyLoadRoutes from "./lazyLoadRoutes";
+import LazyLoadRoutes from "./LazyLoadRoutes";
 import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
 import Register from "../pages/Authentication/Register";
