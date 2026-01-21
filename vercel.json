@@ -8,11 +8,15 @@
     ],
     "rewrites": [
         {
+            "source": "/plantya/assets/:path*",
+            "destination": "/assets/:path*"
+        },
+        {
             "source": "/plantya",
             "destination": "/index.html"
         },
         {
-            "source": "/plantya/(?!assets/)(.*)",
+            "source": "/plantya/:path*",
             "destination": "/index.html"
         }
     ]
