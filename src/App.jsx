@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthProtectedRoutes, PublicRoutes } from "./routes/Index";
+import { authProtectedRoutes, publicRoutes } from "./routes/Index";
 import Authmiddleware from "./routes/Route";
 import AuthLayout from "./layout/AuthLayout";
 import NonAuthLayout from "./layout/NonAuthLayout";
@@ -12,15 +12,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          loginStatus ?
-            (<Navigate to="/plantya/dashboard" replace />) : (<Navigate to="/plantya/login" replace />)
-        }
-      />
-
-      {PublicRoutes.map((route, idx) => (
+      {publicRoutes.map((route, idx) => (
         <Route
           key={idx}
           path={route.path}
@@ -28,7 +20,7 @@ const App = () => {
         />
       ))}
 
-      {AuthProtectedRoutes.map((route, idx) => (
+      {authProtectedRoutes.map((route, idx) => (
         <Route
           key={idx}
           path={route.path}

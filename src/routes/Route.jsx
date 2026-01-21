@@ -11,7 +11,7 @@ const Authmiddleware = (props) => {
 
     if (!loginStatus.loginStatus) {
         return (
-            <Navigate to={{ pathname: "/plantya/login", state: { from: props.location } }} />
+            <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
         )
     } else {
         return (
