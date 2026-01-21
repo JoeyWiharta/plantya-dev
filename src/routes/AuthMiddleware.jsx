@@ -3,9 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 
-// Authmiddleware Function
-
-const Authmiddleware = (props) => {
+const AuthMiddleware = (props) => {
 
     const loginStatus = useAuth();
 
@@ -19,4 +17,4 @@ const Authmiddleware = (props) => {
         )
     }
 }
-export default Authmiddleware
+export default AuthMiddleware

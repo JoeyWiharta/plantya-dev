@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import PropTypes from "prop-types";
 import {
@@ -22,11 +21,13 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'; // Icon untuk Account Info
 import MenuIcon from '@mui/icons-material/Menu';
 import CodeIcon from '@mui/icons-material/Code';
+import { useAuth } from "../context/AuthContext";
 
 
 const Header = (props) => {
     const theme = useTheme()
-    const navigate = useNavigate();
+    const { logout } = useAuth();
+
 
     const [anchorEl, setAnchorEl] = useState(null);
     const handleProfileMenuOpen = (event) => {
@@ -52,7 +53,7 @@ const Header = (props) => {
 
     const handleLogout = () => {
         handleProfileMenuClose();
-        navigate("/plantya/logout");
+        logout()
     };
 
     const handleAccountInfo = () => {

@@ -1,61 +1,38 @@
-// menuRoutes.jsx
 import LazyLoadRoutes from "./LazyLoadRoutes";
-import { mdiAccountOutline, mdiHomeThermometerOutline, mdiAccessPointNetwork, mdiChartBoxOutline } from '@mdi/js';
+import {
+    mdiViewDashboardOutline,
+    mdiLayersTripleOutline,
+    mdiAccountOutline,
+    mdiHomeThermometerOutline,
+    mdiAccessPointNetwork,
+    mdiChartBoxOutline,
+    mdiFaceAgent,
+    mdiInformationOutline
+} from "@mdi/js";
 
-const DashboardRoute = () => [
+const MenuRoutes = [
+    { path: "/app001/dashboard", text: "Dashboard", icon: mdiViewDashboardOutline, component: LazyLoadRoutes(() => import("../pages/app001/Dashboard")), section: "main" },
     {
-        text: "Dashboard",
-        icon: mdiViewDashboardOutline,
-        path: "/dashboard"
-    }
-];
-
-const MasterDataRoutes = () => [
-    {
-        path: "/users",
-        text: "Master User",
-        icon: mdiAccountOutline,
-        component: LazyLoadRoutes(() => import("../pages/app002/MasterUser"))
+        text: "Master Data",
+        icon: mdiLayersTripleOutline,
+        section: "main",
+        sub: [
+            { path: "/app002/master/users", text: "Master User", icon: mdiAccountOutline, component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")) },
+            { path: "/app003/master/clusters", text: "Master Cluster", icon: mdiHomeThermometerOutline, component: LazyLoadRoutes(() => import("../pages/app003/MasterCluster")) },
+            { path: "/app004/master/devices", text: "Master Device", icon: mdiAccessPointNetwork, component: LazyLoadRoutes(() => import("../pages/app004/MasterDevice")) },
+        ],
     },
     {
-        path: "/clusters",
-        text: "Master Cluster",
-        icon: mdiHomeThermometerOutline,
-        component: LazyLoadRoutes(() => import("../pages/app003/MasterCluster"))
-    },
-    {
-        path: "/devices",
-        text: "Master Device",
-        icon: mdiAccessPointNetwork,
-        component: LazyLoadRoutes(() => import("../pages/app004/MasterDevice"))
-    },
-    {
-        path: "/master-contoh",
-        text: "Master Contoh",
-        icon: mdiHomeThermometerOutline,
-        component: LazyLoadRoutes(() => import("../pages/app005/MasterContoh"))
-    },
-];
-
-const ReportsRoutes = () => [
-    {
-        path: "/reports/table",
-        text: "Table Report",
+        text: "Reports",
         icon: mdiChartBoxOutline,
-        component: LazyLoadRoutes(() => import("../pages/Reports/Table"))
+        section: "main",
+        sub: [
+            { path: "/reports/table", text: "Table Report", icon: mdiChartBoxOutline, component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")), },
+            { path: "/reports/graph", text: "Graph Report", icon: mdiChartBoxOutline, component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")), },
+        ],
     },
-    {
-        path: "/reports/graph",
-        text: "Graph Report",
-        icon: mdiChartBoxOutline,
-        component: LazyLoadRoutes(() => import("../pages/Reports/Graph"))
-    }
-];
+    { text: "Support", path: "/support", icon: mdiFaceAgent, section: "footer", component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")), },
+    { text: "About", path: "/about", icon: mdiInformationOutline, section: "footer", component: LazyLoadRoutes(() => import("../pages/app002/MasterUser")), },
+]
 
-const MenuGroups = () => [
-    { title: "MAIN", items: [dashboardRoute] }, // Dashboard tetap masuk main
-    { title: "Master Data", items: masterDataRoutes },
-    { title: "Reports", items: reportsRoutes },
-];
-
-export default { DashboardRoute, MasterDataRoutes, ReportsRoutes, MenuGroups }
+export default MenuRoutes;

@@ -1,10 +1,10 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { authProtectedRoutes, publicRoutes } from "./routes/Index";
-import Authmiddleware from "./routes/Route";
 import AuthLayout from "./layout/AuthLayout";
 import NonAuthLayout from "./layout/NonAuthLayout";
 import { useAuth } from "./context/AuthContext";
+import AuthMiddleware from "./routes/AuthMiddleware";
 
 const App = () => {
   const { loginStatus } = useAuth();
@@ -25,9 +25,9 @@ const App = () => {
           key={idx}
           path={route.path}
           element={
-            <Authmiddleware>
+            <AuthMiddleware>
               <AuthLayout>{route.component}</AuthLayout>
-            </Authmiddleware>
+            </AuthMiddleware>
           }
         />
       ))}

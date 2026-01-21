@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { ExpandMore } from "@mui/icons-material";
-import { appMenuStructure } from "../routes/Index";
+import MenuRoutes from "../routes/MenuRoutes";
 import Icon from '@mdi/react';
 import SmallIcon from "../assets/SmallIcon.png"
 import BaseLogo from "../assets/BaseLogo.png"
@@ -30,13 +30,13 @@ const Sidebar = (props) => {
 
     // Mapping Menu Main and Footer dari index.jsx
     const menuItems = useMemo(() =>
-        appMenuStructure.filter(item => item.section === "main"),
-        [appMenuStructure]
+        MenuRoutes.filter(item => item.section === "main"),
+        [MenuRoutes]
     )
 
     const footerItems = useMemo(() =>
-        appMenuStructure.filter(item => item.section === "footer"),
-        [appMenuStructure]
+        MenuRoutes.filter(item => item.section === "footer"),
+        [MenuRoutes]
     )
 
     // Function Sidebar Expand
