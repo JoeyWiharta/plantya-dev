@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { ExpandMore } from "@mui/icons-material";
-import MenuRoutes from "../routes/MenuRoutes";
+import MenuRoutes from "../../routes/MenuRoutes";
 import Icon from '@mdi/react';
-import SmallIcon from "../assets/SmallIcon.png"
-import BaseLogo from "../assets/BaseLogo.png"
+import SmallIcon from "../../assets/SmallIcon.png"
+import BaseLogo from "../../assets/BaseLogo.png"
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+import Sidebar from "../components/layoutComponent/Sidebar";
+import Header from "../components/layoutComponent/Header";
 import { IconButton, Box, useTheme, useMediaQuery, Backdrop } from "@mui/material";
 import CodeIcon from '@mui/icons-material/Code';
 
