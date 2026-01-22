@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid, Container, Paper, Typography, Card, CardContent, Stack } from "@mui/material"
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Icon from "@mdi/react";
-import { mdiAccessPoint, mdiSprout, mdiChip, mdiBrain } from '@mdi/js';
+import { mdiAccessPoint, mdiSprout, mdiChip, mdiBrain, mdiWhiteBalanceSunny } from '@mdi/js';
 import { useTheme } from '@mui/material/styles';
 import LoginBg from "../assets/LoginBg.webp";
 import SmallIcon from "../assets/SmallIcon.png";
@@ -90,10 +90,13 @@ const NonAuthLayout = ({ children }) => {
                     }}
                 >
 
-                    <Stack>
+                    <Stack display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
                         <Box display={"flex"} flexDirection={"row"} gap={1.3} textAlign={"center"} alignItems={"center"}>
                             <Icon path={mdiSprout} size={1.5} className="bg-success rounded-2 p-1" />
                             <Typography variant="h5" fontWeight="medium">Plantya</Typography>
+                        </Box>
+                        <Box bgcolor={"background.paper"} color={"warning.main"} sx={{ borderRadius: '999px' }}>
+                            <Icon path={mdiWhiteBalanceSunny} size={2} className="p-2" />
                         </Box>
                     </Stack>
 
