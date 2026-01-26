@@ -73,7 +73,6 @@ const NonAuthLayout = (props) => {
             >
                 {/* LEFT SIDE */}
                 <Box
-                    onClick={props.toggleTheme}
                     bgcolor={"background.elevated"}
                     sx={{
                         cursor: "pointer",
@@ -98,7 +97,9 @@ const NonAuthLayout = (props) => {
                             <Icon path={mdiSprout} size={1.5} className="bg-success rounded-2 p-1" />
                             <Typography variant="h5" fontWeight="medium">Plantya</Typography>
                         </Box>
-                        <Box bgcolor={"background.paper"} color={"warning.main"} sx={{ borderRadius: '999px' }}>
+                        <Box bgcolor={"background.paper"} color={"warning.main"} sx={{ borderRadius: '999px' }}
+                            onClick={props.toggleTheme}
+                        >
                             <Icon path={mdiWhiteBalanceSunny} size={2} className="p-2" />
                         </Box>
                     </Stack>
@@ -171,8 +172,10 @@ const NonAuthLayout = (props) => {
                                     width: '90%',
                                     borderRadius: 4,
                                     overflow: 'hidden',
-                                    boxShadow: `0px 18px 45px rgba(0, 0, 0, 0.55),0px 0px 90px rgba(0, 124, 79, 0.25)`,
-
+boxShadow: `
+  0px 6px 16px rgba(0, 0, 0, 0.25),
+  0px 0px 24px rgba(0, 124, 79, 0.18)
+`,
                                 }}
                             >
                                 <Swiper
