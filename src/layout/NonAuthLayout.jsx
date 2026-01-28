@@ -271,15 +271,12 @@ const NonAuthLayout = (props) => {
                         borderBottomRightRadius: { xs: 5, md: 0 },
                         borderTopRightRadius: 5,
                         borderTopLeftRadius: 5,
-                        p: { xs: 4, sm: 5, md: 6 },
+                        p: 5,
                     }}
                 >
-                    <Box
-                        sx={{
-                            width: '100%',
-                        }}>
-                        {props.children}
-                    </Box>
+
+                    {props.children}
+
                 </Box>
             </Paper >
         </Container >

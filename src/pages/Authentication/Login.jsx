@@ -155,6 +155,7 @@ const Login = () => {
                         width: '100%',
                         display: "flex",
                         flexDirection: 'column',
+                        mb: 2
                     }}
                 >
                     <Typography variant="h5" fontWeight="medium" >Welcome Back</Typography>
