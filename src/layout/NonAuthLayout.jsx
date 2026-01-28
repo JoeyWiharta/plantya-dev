@@ -9,6 +9,10 @@ import SmallIcon from "../assets/SmallIcon.png";
 import Lottie from "lottie-react";
 import PropTypes from 'prop-types';
 import nonAuthIcon from "../assets/Icon//animation/nonAuthIcon.json"
+import {
+    LightModeIcon,
+    DarkModeIcon,
+} from '@/assets/Icon/muiIcon';
 
 
 // Import Swiper styles
@@ -114,11 +118,14 @@ const NonAuthLayout = (props) => {
                         </Box>
 
                         <IconButton
-                            color={"warning"}
-                            sx={{ borderRadius: '999px', bgcolor: 'background.paper' }}
+                            sx={{
+                                color: props.mode == "dark" ? "warning.main" : "text.dark",
+                                borderRadius: '999px',
+                                bgcolor: 'background.paper'
+                            }}
                             onClick={props.toggleTheme}
                         >
-                            <Icon path={mdiWhiteBalanceSunny} size={1} />
+                            {props.mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
                         </IconButton>
 
                     </Stack>

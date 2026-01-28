@@ -9,7 +9,8 @@ import {
     InputAdornment,
     Grid,
     Divider,
-    IconButton
+    IconButton,
+    Stack
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import PageSpinner from "../../components/common/PageSpinner";
@@ -143,7 +144,7 @@ const Login = () => {
                     width: '100%',
                     px: { xs: 1, sm: 2 },
                     py: { xs: 1, sm: 2 },
-                    gap: 2,
+                    gap: 3,
                 }}
             >
 
@@ -169,21 +170,21 @@ const Login = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        gap: 2.5,
+                        gap: 4,
                     }}
                 >
-                    <Box
+                    <Stack
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
                             gap: 1
                         }}
                     >
-                        <Typography variant="body2">Email or User ID</Typography>
+                        {/* <Typography variant="body2">Email or User ID</Typography> */}
                         <TextField
                             className="auth-field"
                             variant="outlined"
-                            placeholder="Email or User ID"
+                            label="Email or User ID"
+                            placeholder="Enter your email or user id"
                             name="username"
                             size="medium"
                             fullWidth
@@ -210,21 +211,20 @@ const Login = () => {
                                 },
                             }}
                         />
-                    </Box>
+                    </Stack>
 
-                    <Box
+                    <Stack
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
                             gap: 1,
-                            mb: 2
                         }}
                     >
-                        <Typography variant="body2">Password</Typography>
+                        {/* <Typography variant="body2">Password</Typography> */}
                         <TextField
                             className="auth-field"
                             variant="outlined"
-                            placeholder="Password"
+                            label="Password"
+                            placeholder="Enter your password"
                             name="password"
                             type={showPassword ? 'text' : 'password'}
                             size="medium"
@@ -272,7 +272,7 @@ const Login = () => {
                                 },
                             }}
                         />
-                    </Box>
+                    </Stack>
 
                     <Button
                         type="submit"
