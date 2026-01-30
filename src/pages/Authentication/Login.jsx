@@ -18,17 +18,19 @@ import AlertAuthMessage from "../../components/common/AlertAuthMessage";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from '@mui/material/styles';
 import { loginApi } from "../../utils/ListApi";
-import Icon from '@mdi/react';
-import { mdiEmailOutline, mdiLockOutline, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js';
 import {
     MailOutlineOutlinedIcon,
     LockOutlinedIcon,
     VisibilityOutlinedIcon,
     VisibilityOff,
+    LightModeIcon,
+    DarkModeIcon
 } from '@/assets/Icon/muiIcon';
+import { useThemeMode } from "../../context/ThemeContext";
+
 
 const Login = () => {
-    const theme = useTheme();
+    const { mode, toggleTheme } = useThemeMode();
     const { login } = useAuth();
     const [showAlert, setShowAlert] = useState(false)
     const [message, setMessage] = useState("");
@@ -149,24 +151,51 @@ const Login = () => {
                     justifyContent: 'center',
                     width: '100%',
                     px: { xs: 1, sm: 2 },
-                    py: { xs: 1, sm: 2 },
                     gap: 3,
                 }}
             >
 
                 {/* HEADER */}
-                <Box
+                <Stack
+                    sx={{
+                        textAlign: 'left',
+                        width: '100%',
+                        display: "flex",
+                        flexDirection: 'row',
+                        justifyContent: 'end',
+                        mb: 2,
+                    }}
+                >
+
+                    <Box
+                        display={"flex"}
+                        alignItems={"center"}
+                    >
+                        <IconButton
+                            sx={{
+                                color: mode == "dark" ? "warning.main" : "text.dark",
+                                borderRadius: '50%',
+                                bgcolor: 'background.elevated'
+                            }}
+                            onClick={toggleTheme}
+                        >
+                            {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                        </IconButton>
+                    </Box>
+                </Stack>
+
+                <Stack
                     sx={{
                         textAlign: 'left',
                         width: '100%',
                         display: "flex",
                         flexDirection: 'column',
+                        justifyContent: 'end',
                         mb: 2
-                    }}
-                >
+                    }}>
                     <Typography variant="h5" fontWeight="medium" >Welcome Back</Typography>
                     <Typography variant="body1" fontWeight="light" color="secondary">Please enter your details to access the dashboard.</Typography>
-                </Box>
+                </Stack>
 
                 {/* BODY (Form Container) */}
                 <Box
@@ -180,21 +209,14 @@ const Login = () => {
                         gap: 4,
                     }}
                 >
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            gap: 1
-                        }}
-                    >
-                        {/* <Typography variant="body2">Email or User ID</Typography> */}
+                    <Stack>
                         <TextField
                             className="auth-field"
                             variant="outlined"
                             label="Email or User ID"
                             placeholder="Enter your email or user id"
                             name="username"
-                            size="medium"
-                            fullWidth
+                            size="large"
                             value={formik.values.username}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -217,13 +239,7 @@ const Login = () => {
                         />
                     </Stack>
 
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            gap: 1,
-                        }}
-                    >
-                        {/* <Typography variant="body2">Password</Typography> */}
+                    <Stack>
                         <TextField
                             className="auth-field"
                             variant="outlined"
@@ -231,8 +247,7 @@ const Login = () => {
                             placeholder="Enter your password"
                             name="password"
                             type={showPassword ? 'text' : 'password'}
-                            size="medium"
-                            fullWidth
+                            size="large"
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -244,32 +259,23 @@ const Login = () => {
                                     autoComplete: 'off',
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <Icon
-                                                path={mdiLockOutline}
-                                                size={1}
-                                                color={
-                                                    formik.values.password === "" ? theme.palette.text.secondaryLight : theme.palette.text.primary
-                                                }
-                                                className="mx-2"
-                                            />
+                                            <LockOutlinedIcon
+                                                sx={{
+                                                    mx: 0.5,
+                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                }} />
                                         </InputAdornment>
                                     ),
                                     endAdornment: (
-                                        <InputAdornment position="end">
+                                        <InputAdornment position="start">
                                             <IconButton
-                                                aria-label={showPassword ? "Hide password" : "Show password"}
                                                 onClick={() => setShowPassword(!showPassword)}
                                                 edge="end"
-                                                size="small"
                                                 sx={{
-                                                    color: formik.values.password === "" ? theme.palette.text.secondaryLight : theme.palette.text.primary,
-                                                    mr: 0.5,
+                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
                                                 }}
                                             >
-                                                <Icon
-                                                    path={showPassword ? mdiEyeOutline : mdiEyeOffOutline}
-                                                    size={1}
-                                                />
+                                                {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
                                             </IconButton>
                                         </InputAdornment>
                                     )
@@ -284,10 +290,7 @@ const Login = () => {
                         size="large"
                         fullWidth
                         className="auth-button"
-                        sx={{
-                            // mt: 1,
-                            // minHeight: 56
-                        }}
+
                         disabled={formik.isSubmitting}
                     >
                         {formik.isSubmitting ? "Processing..." : "Login"}

@@ -22,8 +22,10 @@ import {
     LockOutlinedIcon,
     VisibilityOutlinedIcon,
     VisibilityOff,
+    LightModeIcon,
+    DarkModeIcon
 } from '@/assets/Icon/muiIcon';
-
+import { useThemeMode } from "../../context/ThemeContext";
 import { registerApi } from "../../utils/ListApi";
 import PopupModal from "../../components/common/PopupModal";
 
@@ -38,6 +40,8 @@ const Register = () => {
     const [showRePassword, setShowRePassword] = useState(false);
 
     const navigate = useNavigate()
+    const { mode, toggleTheme } = useThemeMode();
+
 
     const resetModalState = () => {
         setTypeModal("");
@@ -179,12 +183,31 @@ const Register = () => {
                         textAlign: 'left',
                         width: '100%',
                         display: "flex",
-                        flexDirection: 'column',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
                         mb: 2
                     }}
                 >
-                    <Typography variant="h5" fontWeight="medium" >Create Account</Typography>
-                    <Typography variant="body1" fontWeight="light" color="secondary">Join us to start monitoring your plantation.</Typography>
+                    <Box>
+                        <Typography variant="h5" fontWeight="medium" >Create Account</Typography>
+                        <Typography variant="body1" fontWeight="light" color="secondary">Join us to start monitoring your plantation.</Typography>
+                    </Box>
+                    <Box
+                        display={"flex"}
+                        alignItems={"center"}
+                    >
+                        <IconButton
+                            sx={{
+                                color: mode == "dark" ? "warning.main" : "text.dark",
+                                borderRadius: '50%',
+                                bgcolor: 'background.elevated'
+                            }}
+                            onClick={toggleTheme}
+                        >
+                            {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                        </IconButton>
+                    </Box>
+
                 </Stack>
 
                 {/* BODY (Form Container) */}
@@ -200,17 +223,7 @@ const Register = () => {
                     }}
                 >
 
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            gap: 1
-                        }}
-                    >
-                        {/* <Typography
-                            variant="body2" fontWeight="medium"
-                        >
-                            Username
-                        </Typography> */}
+                    <Stack>
                         <TextField
                             className="auth-field"
                             label="Username"
@@ -225,7 +238,7 @@ const Register = () => {
                             helperText={formik.touched.username && formik.errors.username}
                             slotProps={{
                                 input: {
-                                    spellCheck:false,
+                                    spellCheck: false,
                                     startAdornment: (
                                         <InputAdornment position="start" >
                                             <AccountCircleIcon
@@ -240,13 +253,7 @@ const Register = () => {
                         />
                     </Stack>
 
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            gap: 1
-                        }}
-                    >
-                        {/* <Typography variant="body2">Email</Typography> */}
+                    <Stack>
                         <TextField
                             className="auth-field"
                             variant="outlined"
@@ -278,18 +285,7 @@ const Register = () => {
                         />
                     </Stack>
 
-                    <Stack
-                        sx={{
-                            display: 'flex',
-                            gap: 1
-                        }}
-                    >
-
-                        {/* <Typography
-                            variant="body2" fontWeight="medium"
-                        >
-                            Password
-                        </Typography> */}
+                    <Stack>
                         <TextField
                             className="auth-field"
                             variant="outlined"
@@ -339,11 +335,6 @@ const Register = () => {
                             gap: 1
                         }}
                     >
-                        {/* <Typography
-                            variant="body2" fontWeight="medium"
-                        >
-                            Confirm Password
-                        </Typography> */}
                         <TextField
                             className="auth-field"
                             variant="outlined"
@@ -394,10 +385,6 @@ const Register = () => {
                         size="large"
                         fullWidth
                         className="auth-button"
-                        sx={{
-                            // mt: 1,
-                            // minHeight: 56,
-                        }}
                         disabled={formik.isSubmitting}
                     >
                         {formik.isSubmitting ? "Processing..." : "Create Account"}

@@ -14,6 +14,7 @@ import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
 import './styles/index.scss'
+import { ThemeProviderCustom } from './context/ThemeContext';
 
 const Root = () => {
   const [mode, setMode] = useState("dark");
@@ -29,13 +30,14 @@ const Root = () => {
   return (
     <BrowserRouter basename="/plantya">
       <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App
-            mode={mode}
-            toggleTheme={toggleTheme}
-          />
-        </ThemeProvider>
+        <ThemeProviderCustom>
+          {(theme) => (
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <App />
+            </ThemeProvider>
+          )}
+        </ThemeProviderCustom>
       </AuthProvider>
     </BrowserRouter>
   )

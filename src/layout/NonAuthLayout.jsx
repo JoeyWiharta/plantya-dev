@@ -31,7 +31,7 @@ const NonAuthLayout = (props) => {
         {
             icon: mdiAccessPoint,
             title: 'Realtime Monitoring',
-            desc: "Instant visibility into your plantation’s performance.",
+            desc: "Instant visibility into your plantation's performance.",
         },
         {
             icon: mdiChip,
@@ -76,55 +76,32 @@ const NonAuthLayout = (props) => {
                 <Box
                     bgcolor={"background.elevated"}
                     sx={{
-                        display: {
-                            xs: 'none',
-                            md: 'flex'
-                        },
+                        display: { xs: 'none', md: 'flex' },
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        py: 5,
-                        px: 5,
+                        p: 5,
                         flex: 1,
                         borderTopLeftRadius: 5,
                         borderBottomLeftRadius: 5,
                         overflow: 'hidden',
-                        position: 'relative',
                     }}
                 >
 
-                    <Stack display={"flex"} flexDirection={"row"} justifyContent={"space-between"}>
+                    <Stack display={"flex"} flexDirection={"row"} >
                         <Box
-                            display={"flex"}
-                            flexDirection={"row"}
+                            bgcolor={"background.paper"}
                             gap={1.5}
-                            textAlign={"center"}
-                            alignItems={"center"}
+                            py={0.5}
+                            px={1}
+                            borderRadius={2}
+                            display={"flex"}
+                            alignItems={"start"}
+                            justifyContent={"center"}
+                            color={"primary.main"}
                         >
-                            <Box
-                                bgcolor={"primary.main"}
-                                p={1}
-                                borderRadius={2}
-                                display={"flex"}
-                                alignItems={"center"}
-                                justifyContent={"center"}
-                                color={"text.light"}
-                            >
-                                <Icon path={mdiSprout} size={1} />
-                            </Box>
-                            <Typography variant="h5" fontWeight="medium">Plantya</Typography>
+                            <Icon path={mdiSprout} size={1} />
+                            <Typography variant="h5" fontWeight="medium" color="text.primary">Plantya</Typography>
                         </Box>
-
-                        <IconButton
-                            sx={{
-                                color: props.mode == "dark" ? "warning.main" : "text.dark",
-                                borderRadius: '999px',
-                                bgcolor: 'background.paper'
-                            }}
-                            onClick={props.toggleTheme}
-                        >
-                            {props.mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-                        </IconButton>
-
                     </Stack>
 
                     <Stack
@@ -259,19 +236,17 @@ const NonAuthLayout = (props) => {
                 {/* RIGHT SIDE */}
                 <Box
                     sx={{
-                        flex: 1,
-                        width: '100%',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        p: 5,
+                        flex: 1,
                         borderBottomLeftRadius: { xs: 5, md: 0 },
                         borderBottomRightRadius: { xs: 5, md: 0 },
                         borderTopRightRadius: 5,
                         borderTopLeftRadius: 5,
-                        p: 5,
                     }}
                 >
-
                     {props.children}
 
                 </Box>
@@ -282,8 +257,6 @@ const NonAuthLayout = (props) => {
 
 
 NonAuthLayout.propTypes = {
-    mode: PropTypes.any,
-    toggleTheme: PropTypes.any,
     children: PropTypes.any,
 };
 
