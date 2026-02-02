@@ -20,12 +20,15 @@ import { Pagination, Autoplay, Mousewheel, FreeMode } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useThemeMode } from "../context/ThemeContext";
 
 
 // import required modules
 
 const NonAuthLayout = (props) => {
     const theme = useTheme();
+    const { mode, toggleTheme } = useThemeMode();
+
 
     const cardContent = [
         {
@@ -52,12 +55,34 @@ const NonAuthLayout = (props) => {
             sx={{
                 minHeight: '100vh',
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
                 bgcolor: 'background.default',
                 p: { xs: 0, sm: 2 },
+                position: 'relative', // Tambahkan position: relative untuk container
             }}
         >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 20,
+                    zIndex: 10,
+                }}
+            >
+                <IconButton
+                    sx={{
+                        color: mode == "dark" ? "warning.main" : "text.primary",
+                        borderRadius: '50%',
+                        bgcolor: 'background.paper'
+                    }}
+                    onClick={toggleTheme}
+                >
+                    {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                </IconButton>
+            </Box>
+
             <Paper
                 elevation={0}
                 sx={{
@@ -72,6 +97,7 @@ const NonAuthLayout = (props) => {
                     boxShadow: `0px 18px 45px rgba(0, 0, 0, 0.55),0px 0px 90px rgba(0, 124, 79, 0.25)`,
                 }}
             >
+
                 {/* LEFT SIDE */}
                 <Box
                     bgcolor={"background.elevated"}
@@ -128,10 +154,10 @@ const NonAuthLayout = (props) => {
                         spacing={1}
                     >
                         <Box>
-                            <Typography variant="h5" fontWeight="medium" lineHeight={1.2}>
+                            <Typography variant="h5" fontWeight="medium" >
                                 Smart Monitoring for
                                 <br />
-                                <Box component="span" color="success.main">
+                                <Box color="success.main">
                                     Modern Growth.
                                 </Box>
                             </Typography>

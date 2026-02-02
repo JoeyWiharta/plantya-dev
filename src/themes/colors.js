@@ -9,19 +9,12 @@ const colors = {
         warning: "#FFC107",
         danger: "#DC3545",
     },
-
-    /* ================= BASE ================= */
-    base: {
-        white: "#FFFFFF",
-        black: "#000000"
-    },
-
+    
     /* ================= TEXT ================= */
     text: {
-        primaryDark: "#FFFFFF",
-        primaryLight: "#111827",
-        secondaryDark: "#A3B2AC",
-        secondaryLight: "#6B7280",
+        black: "#111827",
+        white: "#FFFFFF",
+        muted: "#9CA3AF",
     },
 
     /* ================= BACKGROUND ================= */
@@ -37,16 +30,14 @@ const colors = {
 
     /* ================= SURFACE (INPUT / FIELD) ================= */
     surface: {
-        inputLight: "#F3F4F6",
-        inputDark: "#222222",
-        inputDisabledDark: "#3A3A3A",
-        inputDisabledLight: "#E5E7EB",
+        input: "#F3F4F6",
+        inputDisabled: "#E5E7EB",
     },
 
     /* ================= BORDER / DIVIDER ================= */
     border: {
-        dark: "#99a19e",
-        light: "#D1D5DB",
+        default: "#D1D5DB",
+        subtle: "#99A19E",
     },
 
 }

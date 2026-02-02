@@ -1,4 +1,5 @@
 const buildComponents = () => ({
+    /* ================= PAPER ================= */
     MuiPaper: {
         styleOverrides: {
             root: ({ theme }) => ({
@@ -8,6 +9,7 @@ const buildComponents = () => ({
         },
     },
 
+    /* ================= DIVIDER ================= */
     MuiDivider: {
         styleOverrides: {
             root: ({ theme }) => ({
@@ -16,30 +18,23 @@ const buildComponents = () => ({
         },
     },
 
+    /* ================= TEXT FIELD ================= */
     MuiTextField: {
         styleOverrides: {
             root: ({ theme }) => ({
                 "&.auth-field": {
                     "& .MuiOutlinedInput-root": {
                         marginTop: 1,
-
-                        backgroundColor:
-                            theme.palette.mode === "dark"
-                                ? theme.palette.background.paper
-                                : theme.palette.background.paper,
-
+                        backgroundColor: theme.palette.background.paper,
                         borderRadius: "15px",
                         transition: "all 0.3s ease",
 
                         "&.Mui-disabled": {
-                            backgroundColor:
-                                theme.palette.mode === "dark"
-                                    ? theme.palette.action.disabledBackground
-                                    : theme.palette.action.disabledBackground,
+                            backgroundColor: theme.palette.action.disabledBackground,
 
                             "& .MuiInputBase-input": {
-                                color: theme.palette.text.secondaryLight,
-                                WebkitTextFillColor: theme.palette.text.secondaryLight,
+                                color: theme.palette.text.secondary,
+                                WebkitTextFillColor: theme.palette.text.secondary,
                             },
 
                             "& .MuiOutlinedInput-notchedOutline": {
@@ -47,7 +42,7 @@ const buildComponents = () => ({
                             },
 
                             "& .MuiInputAdornment-root .MuiSvgIcon-root": {
-                                color: theme.palette.text.secondaryLight,
+                                color: theme.palette.text.secondary,
                             },
                         },
 
@@ -66,7 +61,7 @@ const buildComponents = () => ({
                         },
 
                         "& input": {
-                            color: theme.palette.text.secondaryLight,
+                            color: theme.palette.text.secondary,
                         },
 
                         "& input:not(:placeholder-shown)": {
@@ -79,24 +74,15 @@ const buildComponents = () => ({
 
                         /* ===== Autofill Webkit ===== */
                         "& input:-webkit-autofill": {
-                            WebkitBoxShadow: `0 0 0 1000px ${theme.palette.mode === "dark"
-                                ? theme.palette.background.paper
-                                : theme.palette.background.paper
-                                } inset !important`,
-                            boxShadow: `0 0 0 1000px ${theme.palette.mode === "dark"
-                                ? theme.palette.background.paper
-                                : theme.palette.background.paper
-                                } inset !important`,
+                            WebkitBoxShadow: `0 0 0 1000px ${theme.palette.background.paper} inset !important`,
+                            boxShadow: `0 0 0 1000px ${theme.palette.background.paper} inset !important`,
                             WebkitTextFillColor: `${theme.palette.text.primary} !important`,
                             transition: "background-color 5000s ease-in-out 0s !important",
                         },
 
                         /* ===== Autofill Firefox ===== */
                         "& input:-moz-autofill": {
-                            background: `${theme.palette.mode === "dark"
-                                ? theme.palette.background.paper
-                                : theme.palette.background.paper
-                                } !important`,
+                            background: `${theme.palette.background.paper} !important`,
                             color: `${theme.palette.text.primary} !important`,
                         },
                     },
@@ -104,11 +90,9 @@ const buildComponents = () => ({
                     "& .MuiFormHelperText-root": {
                         position: "absolute",
                         top: "100%",
-                        left: "8px",
-                        right: "8px",
-                        marginTop: "4px",
-                        fontSize: "0.75rem",
-                        lineHeight: 1.3,
+                        left: 8,
+                        right: 8,
+                        marginTop: 4,
                         whiteSpace: "normal",
                         wordBreak: "break-word",
                         overflowWrap: "break-word",
@@ -124,9 +108,10 @@ const buildComponents = () => ({
             root: ({ theme }) => ({
                 "&.auth-button": {
                     backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.text.light,
+                    color: theme.palette.text.contastText,
                     borderRadius: 15,
-                    fontWeight: 600,
+                    fontWeight: 500,
+                    letterSpacing: 1,
 
                     "&:hover": {
                         backgroundColor: theme.palette.primary.light,

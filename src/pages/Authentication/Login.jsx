@@ -150,39 +150,13 @@ const Login = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100%',
+                    height: '100%',
                     px: { xs: 1, sm: 2 },
-                    gap: 3,
+                    gap: 5,
                 }}
             >
 
-                {/* HEADER */}
-                <Stack
-                    sx={{
-                        textAlign: 'left',
-                        width: '100%',
-                        display: "flex",
-                        flexDirection: 'row',
-                        justifyContent: 'end',
-                        mb: 2,
-                    }}
-                >
 
-                    <Box
-                        display={"flex"}
-                        alignItems={"center"}
-                    >
-                        <IconButton
-                            sx={{
-                                color: mode == "dark" ? "warning.main" : "text.dark",
-                                borderRadius: '50%',
-                                bgcolor: 'background.elevated'
-                            }}
-                            onClick={toggleTheme}
-                        >
-                            {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-                        </IconButton>
-                    </Box>
-                </Stack>
 
                 <Stack
                     sx={{
@@ -190,137 +164,144 @@ const Login = () => {
                         width: '100%',
                         display: "flex",
                         flexDirection: 'column',
-                        justifyContent: 'end',
-                        mb: 2
+                        justifyContent: 'center',
                     }}>
                     <Typography variant="h5" fontWeight="medium" >Welcome Back</Typography>
-                    <Typography variant="body1" fontWeight="light" color="secondary">Please enter your details to access the dashboard.</Typography>
+                    <Typography variant="body1" fontWeight="light" color="text.primary">Please enter your details to access the dashboard.</Typography>
                 </Stack>
 
                 {/* BODY (Form Container) */}
-                <Box
-                    component="form"
-                    onSubmit={formik.handleSubmit}
+                <Stack
                     sx={{
                         width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        gap: 4,
                     }}
                 >
-                    <Stack>
-                        <TextField
-                            className="auth-field"
-                            variant="outlined"
-                            label="Email or User ID"
-                            placeholder="Enter your email or user id"
-                            name="username"
-                            size="large"
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.username && Boolean(formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
-                            slotProps={{
-                                input: {
-                                    spellCheck: false,
-                                    startAdornment: (
-                                        <InputAdornment position="start" >
-                                            <MailOutlineOutlinedIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.username === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-                        />
-                    </Stack>
-
-                    <Stack>
-                        <TextField
-                            className="auth-field"
-                            variant="outlined"
-                            label="Password"
-                            placeholder="Enter your password"
-                            name="password"
-                            type={showPassword ? 'text' : 'password'}
-                            size="large"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            slotProps={{
-                                input: {
-                                    spellCheck: false,
-                                    autoComplete: 'off',
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <LockOutlinedIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                                sx={{
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
-                                                }}
-                                            >
-                                                {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                },
-                            }}
-                        />
-                    </Stack>
-
-                    <Button
-                        type="submit"
-                        variant="outlined"
-                        size="large"
-                        fullWidth
-                        className="auth-button"
-
-                        disabled={formik.isSubmitting}
+                    <Box
+                        component="form"
+                        onSubmit={formik.handleSubmit}
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: 5,
+                        }}
                     >
-                        {formik.isSubmitting ? "Processing..." : "Login"}
-                    </Button>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                gap: 4,
+                            }}
+                        >
+                            <Stack>
+                                <TextField
+                                    className="auth-field"
+                                    variant="outlined"
+                                    label="Email or User ID"
+                                    placeholder="Enter your email or user id"
+                                    name="username"
+                                    size="large"
+                                    value={formik.values.username}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.username && Boolean(formik.errors.username)}
+                                    helperText={formik.touched.username && formik.errors.username}
+                                    slotProps={{
+                                        input: {
+                                            spellCheck: false,
+                                            startAdornment: (
+                                                <InputAdornment position="start" >
+                                                    <MailOutlineOutlinedIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.username === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                />
+                            </Stack>
 
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', my: 1, width: '90%' }}>
-                            <Divider
-                                className="auth-divider"
-                                sx={{
-                                    flexGrow: 1,
-                                    opacity: '100%'
-                                }}
-                            />
-                            <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
-                            <Divider
-                                className="auth-divider"
-                                sx={{
-                                    flexGrow: 1,
-                                    opacity: '100%'
-                                }}
-                            />
+                            <Stack>
+                                <TextField
+                                    className="auth-field"
+                                    variant="outlined"
+                                    label="Password"
+                                    placeholder="Enter your password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    size="large"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.password && Boolean(formik.errors.password)}
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    slotProps={{
+                                        input: {
+                                            spellCheck: false,
+                                            autoComplete: 'off',
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <LockOutlinedIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="start">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        edge="end"
+                                                        sx={{
+                                                            color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                        }}
+                                                    >
+                                                        {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        },
+                                    }}
+                                />
+                            </Stack>
                         </Box>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2}>
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                size="large"
+                                fullWidth
+                                className="auth-button"
+
+                                disabled={formik.isSubmitting}
+                            >
+                                {formik.isSubmitting ? "Processing..." : "LOGIN"}
+                            </Button>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center', width: '90%' }}>
+                                <Divider
+                                    className="auth-divider"
+                                    sx={{
+                                        flexGrow: 1,
+                                        opacity: '100%'
+                                    }}
+                                />
+                                <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
+                                <Divider
+                                    className="auth-divider"
+                                    sx={{
+                                        flexGrow: 1,
+                                        opacity: '100%'
+                                    }}
+                                />
+                            </Box>
 
                             <Typography
                                 variant="body2"
@@ -334,9 +315,13 @@ const Login = () => {
                                     Sign Up
                                 </Button>
                             </Typography>
+
+
                         </Box>
+
+
                     </Box>
-                </Box>
+                </Stack>
 
             </Box>
 

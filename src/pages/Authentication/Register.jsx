@@ -174,7 +174,7 @@ const Register = () => {
                     width: '100%',
                     px: { xs: 1, sm: 2 },
                     py: { xs: 1, sm: 2 },
-                    gap: 3,
+                    gap: 5,
                 }}
             >
                 {/* HEADER */}
@@ -183,239 +183,227 @@ const Register = () => {
                         textAlign: 'left',
                         width: '100%',
                         display: "flex",
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        mb: 2
+                        flexDirection: 'column',
+                        justifyContent: 'center',
                     }}
                 >
-                    <Box>
-                        <Typography variant="h5" fontWeight="medium" >Create Account</Typography>
-                        <Typography variant="body1" fontWeight="light" color="secondary">Join us to start monitoring your plantation.</Typography>
-                    </Box>
-                    <Box
-                        display={"flex"}
-                        alignItems={"center"}
-                    >
-                        <IconButton
-                            sx={{
-                                color: mode == "dark" ? "warning.main" : "text.dark",
-                                borderRadius: '50%',
-                                bgcolor: 'background.elevated'
-                            }}
-                            onClick={toggleTheme}
-                        >
-                            {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-                        </IconButton>
-                    </Box>
-
+                    <Typography variant="h5" fontWeight="medium" >Create Account</Typography>
+                    <Typography variant="body1" fontWeight="light" color="text.primary">Join us to start monitoring your plantation.</Typography>
                 </Stack>
 
                 {/* BODY (Form Container) */}
-                <Box
-                    component="form"
-                    onSubmit={formik.handleSubmit}
+                <Stack
                     sx={{
                         width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        gap: 4,
                     }}
                 >
-
-                    <Stack>
-                        <TextField
-                            className="auth-field"
-                            label="Username"
-                            placeholder="Enter your username"
-                            name="username"
-                            size="medium"
-                            fullWidth
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.username && Boolean(formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
-                            slotProps={{
-                                input: {
-                                    spellCheck: false,
-                                    startAdornment: (
-                                        <InputAdornment position="start" >
-                                            <AccountCircleIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.username === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-                        />
-                    </Stack>
-
-                    <Stack>
-                        <TextField
-                            className="auth-field"
-                            variant="outlined"
-                            label="Email"
-                            placeholder="Enter your email address"
-                            name="email"
-                            size="medium"
-                            fullWidth
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                            slotProps={{
-                                input: {
-                                    spellCheck: false,
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <MailOutlineOutlinedIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.email === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                },
-                            }}
-
-                        />
-                    </Stack>
-
-                    <Stack>
-                        <TextField
-                            className="auth-field"
-                            variant="outlined"
-                            label="Password"
-                            placeholder="Enter your password"
-                            name="password"
-                            type={showPassword ? 'text' : 'password'}
-                            size="medium"
-                            fullWidth
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            slotProps={{
-                                input: {
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <LockOutlinedIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                                sx={{
-                                                    color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
-                                                }}
-                                            >
-                                                {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                },
-                            }}
-                        />
-                    </Stack>
-
-                    <Stack
+                    <Box
+                        component="form"
+                        onSubmit={formik.handleSubmit}
                         sx={{
+                            width: '100%',
                             display: 'flex',
-                            gap: 1
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            gap: 5,
                         }}
                     >
-                        <TextField
-                            className="auth-field"
-                            variant="outlined"
-                            label="Confirm password"
-                            placeholder="Confirm your password"
-                            name="rePassword"
-                            type={showRePassword ? 'text' : 'password'}
-                            size="medium"
-                            fullWidth
-                            value={formik.values.rePassword}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
-                            helperText={formik.touched.rePassword && formik.errors.rePassword}
-                            slotProps={{
-                                input: {
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <LockOutlinedIcon
-                                                sx={{
-                                                    mx: 0.5,
-                                                    color: formik.values.rePassword === "" ? 'text.secondary' : 'text.primary'
-                                                }} />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="start">
-                                            <IconButton
-                                                onClick={() => setShowRePassword(!showRePassword)}
-                                                edge="end"
-                                                sx={{
-                                                    color: formik.values.rePassword === "" ? 'text.secondary' : 'text.primary'
-                                                }}
-                                            >
-                                                {showRePassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                },
+
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                gap: 4,
                             }}
-                        />
-                    </Stack>
+                        >
+                            <Stack>
+                                <TextField
+                                    className="auth-field"
+                                    label="Username"
+                                    placeholder="Enter your username"
+                                    name="username"
+                                    size="medium"
+                                    fullWidth
+                                    value={formik.values.username}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.username && Boolean(formik.errors.username)}
+                                    helperText={formik.touched.username && formik.errors.username}
+                                    slotProps={{
+                                        input: {
+                                            spellCheck: false,
+                                            startAdornment: (
+                                                <InputAdornment position="start" >
+                                                    <AccountCircleIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.username === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                />
+                            </Stack>
 
+                            <Stack>
+                                <TextField
+                                    className="auth-field"
+                                    variant="outlined"
+                                    label="Email"
+                                    placeholder="Enter your email address"
+                                    name="email"
+                                    size="medium"
+                                    fullWidth
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
+                                    slotProps={{
+                                        input: {
+                                            spellCheck: false,
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <MailOutlineOutlinedIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.email === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
 
-                    <Button
-                        type="submit"
-                        variant="outlined"
-                        size="large"
-                        fullWidth
-                        className="auth-button"
-                        disabled={formik.isSubmitting}
-                    >
-                        {formik.isSubmitting ? "Processing..." : "Create Account"}
-                    </Button>
+                                />
+                            </Stack>
 
+                            <Stack>
+                                <TextField
+                                    className="auth-field"
+                                    variant="outlined"
+                                    label="Password"
+                                    placeholder="Enter your password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    size="medium"
+                                    fullWidth
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.password && Boolean(formik.errors.password)}
+                                    helperText={formik.touched.password && formik.errors.password}
+                                    slotProps={{
+                                        input: {
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <LockOutlinedIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="start">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        edge="end"
+                                                        sx={{
+                                                            color: formik.values.password === "" ? 'text.secondary' : 'text.primary'
+                                                        }}
+                                                    >
+                                                        {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        },
+                                    }}
+                                />
+                            </Stack>
 
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', my: 1, width: '90%' }}>
-                            <Divider
-                                className="auth-divider"
+                            <Stack
                                 sx={{
-                                    flexGrow: 1,
-                                    opacity: '100%'
+                                    display: 'flex',
+                                    gap: 1
                                 }}
-                            />
-                            <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
-                            <Divider
-                                className="auth-divider"
-                                sx={{
-                                    flexGrow: 1,
-                                    opacity: '100%'
-                                }}
-                            />
+                            >
+                                <TextField
+                                    className="auth-field"
+                                    variant="outlined"
+                                    label="Confirm password"
+                                    placeholder="Confirm your password"
+                                    name="rePassword"
+                                    type={showRePassword ? 'text' : 'password'}
+                                    size="medium"
+                                    fullWidth
+                                    value={formik.values.rePassword}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
+                                    helperText={formik.touched.rePassword && formik.errors.rePassword}
+                                    slotProps={{
+                                        input: {
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <LockOutlinedIcon
+                                                        sx={{
+                                                            mx: 0.5,
+                                                            color: formik.values.rePassword === "" ? 'text.secondary' : 'text.primary'
+                                                        }} />
+                                                </InputAdornment>
+                                            ),
+                                            endAdornment: (
+                                                <InputAdornment position="start">
+                                                    <IconButton
+                                                        onClick={() => setShowRePassword(!showRePassword)}
+                                                        edge="end"
+                                                        sx={{
+                                                            color: formik.values.rePassword === "" ? 'text.secondary' : 'text.primary'
+                                                        }}
+                                                    >
+                                                        {showRePassword ? <VisibilityOutlinedIcon /> : <VisibilityOff />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        },
+                                    }}
+                                />
+                            </Stack>
                         </Box>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2}>
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                size="large"
+                                fullWidth
+                                className="auth-button"
+                                disabled={formik.isSubmitting}
+                            >
+                                {formik.isSubmitting ? "Processing..." : "CREATE ACCOUNT"}
+                            </Button>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center', width: '90%' }}>
+                                <Divider
+                                    className="auth-divider"
+                                    sx={{
+                                        flexGrow: 1,
+                                        opacity: '100%'
+                                    }}
+                                />
+                                <Typography variant="body1" sx={{ mx: 2 }}>OR</Typography>
+                                <Divider
+                                    className="auth-divider"
+                                    sx={{
+                                        flexGrow: 1,
+                                        opacity: '100%'
+                                    }}
+                                />
+                            </Box>
+
 
                             <Typography
                                 variant="body2"
@@ -429,10 +417,11 @@ const Register = () => {
                                     Sign In
                                 </Button>
                             </Typography>
+
+
                         </Box>
                     </Box>
-
-                </Box>
+                </Stack>
             </Box>
 
         </React.Fragment >

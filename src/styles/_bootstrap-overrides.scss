@@ -1,0 +1,23 @@
+p,
+label,
+small,
+th,
+td,
+input,
+textarea {
+    font-size: 13px;
+}
+
+.btn,
+.table {
+    font-size: 13px;
+}
+
+// Bootstrap text color sync ke MUI
+.text-muted {
+    color: var(--mui-palette-text-secondary) !important;
+}
+
+.text-dark {
+    color: var(--mui-palette-text-primary) !important;
+}

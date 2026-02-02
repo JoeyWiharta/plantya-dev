@@ -25,7 +25,7 @@ const Dashboard = () => {
                     maxWidth={false}
                     sx={{
                         display: app001p01Page ? "block" : "none",
-                        bgcolor: 'secondary.main'
+                        bgcolor: 'background.paper'
                     }}
                 >
                     <Typography variant="h4" gutterBottom>
