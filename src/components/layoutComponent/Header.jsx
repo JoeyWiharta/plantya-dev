@@ -15,6 +15,10 @@ import {
     ClickAwayListener,
     Divider
 } from "@mui/material";
+import {
+    LightModeIcon,
+    DarkModeIcon,
+} from '@/assets/Icon/muiIcon';
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -22,11 +26,13 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import MenuIcon from '@mui/icons-material/Menu';
 import CodeIcon from '@mui/icons-material/Code';
 import { useAuth } from "../../context/AuthContext";
+import { useThemeMode } from "../../context/ThemeContext";
 
 
 const Header = (props) => {
     const theme = useTheme()
     const { logout } = useAuth();
+    const { mode, toggleTheme } = useThemeMode();
 
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -154,6 +160,29 @@ const Header = (props) => {
                             height: '100%',
                         }}
                     >
+                        <IconButton
+                            sx={{
+                                color: mode == "dark" ? "warning.main" : "text.primary",
+                            }}
+                            onClick={toggleTheme}
+                        >
+                            {mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                        </IconButton>
+
+                        <Box
+                            sx={{
+                                height: 40,
+                                display: 'flex',
+                                alignItems: 'center',
+                                mx: 1,
+                            }}
+
+                        >
+                            <Divider
+                                orientation="vertical"
+                                sx={{ border: '1px solid', height: '100%', borderColor: 'action.active' }}
+                            />
+                        </Box>
 
                         <IconButton
                             color="inherit"
