@@ -27,14 +27,17 @@ const Root = () => {
     setMode(prev => (prev === "dark" ? "light" : "dark"))
   }
 
+  // theme bug not undefined
   return (
     <BrowserRouter basename="/plantya">
       <AuthProvider>
         <ThemeProviderCustom>
-          <ThemeProvider>
-            <CssBaseline />
-            <App />
-          </ThemeProvider>
+          {(theme) => (
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <App />
+            </ThemeProvider>
+          )}
         </ThemeProviderCustom>
       </AuthProvider>
     </BrowserRouter>
