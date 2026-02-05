@@ -47,16 +47,16 @@ const colors = {
     /* ================= BACKGROUND ================= */
     background: {
         default: {
-            light: "#F5F7FA",
-            dark: "#121212",
+            light: "#F6F7F9",
+            dark: "#111315",
         },
         paper: {
-            light: "#FFFFFF",
-            dark: "#1E1E1E",
+            light: "#FAFAFA",
+            dark: "#1A1D21",
         },
         elevated: {
             light: "#F0F2F5",
-            dark: "#1A1A1A",
+            dark: "#22262B",
         },
     },
 

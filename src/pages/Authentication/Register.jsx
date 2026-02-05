@@ -14,22 +14,20 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import PageSpinner from "../../components/common/PageSpinner";
-import axiosInstance from "../../utils/AxiosInstance";
-import { useAuth } from "../../context/AuthContext";
 import {
     AccountCircleIcon,
     MailOutlineOutlinedIcon,
     LockOutlinedIcon,
     VisibilityOutlinedIcon,
     VisibilityOff,
-    LightModeIcon,
-    DarkModeIcon
+
 } from '@/assets/Icon/muiIcon';
-import { useThemeMode } from "../../context/ThemeContext";
 import { registerApi } from "../../utils/ListApi";
 import PopupModal from "../../components/common/PopupModal";
 
 const Register = () => {
+    const navigate = useNavigate()
+
     const [textLoading, setTextLoading] = useState("")
     const [typeModal, setTypeModal] = useState("");
     const [messageModal, setMessageModal] = useState("");
@@ -39,17 +37,12 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
 
-    const navigate = useNavigate()
-    const { mode, toggleTheme } = useThemeMode();
-
-
     const resetModalState = () => {
         setTypeModal("");
         setHeaderMessageModal("");
         setMessageModal("");
     };
 
-    // Function Handle Register
     const handleRegister = async (values) => {
         const response = await registerApi({
             name: values.username,
@@ -172,31 +165,17 @@ const Register = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100%',
-                    px: { xs: 1, sm: 2 },
-                    py: { xs: 1, sm: 2 },
+                    p: { xs: 1, sm: 2 },
                     gap: 5,
                 }}
             >
-                {/* HEADER */}
-                <Stack
-                    sx={{
-                        textAlign: 'left',
-                        width: '100%',
-                        display: "flex",
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                    }}
-                >
+                <Stack direction={"column"} textAlign={"left"} justifyContent={"center"} width={"100%"}>
                     <Typography variant="h2" fontWeight="medium" >Create Account</Typography>
                     <Typography variant="h6" fontWeight="light" color="text.primary">Join us to start monitoring your plantation.</Typography>
                 </Stack>
 
                 {/* BODY (Form Container) */}
-                <Stack
-                    sx={{
-                        width: '100%',
-                    }}
-                >
+                <Stack width={"100%"}>
                     <Box
                         component="form"
                         onSubmit={formik.handleSubmit}
@@ -215,13 +194,13 @@ const Register = () => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                gap: 2.5,
+                                gap: 4,
                             }}
                         >
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Username</Typography>
+                            <Stack>
                                 <TextField
                                     className="auth-field"
+                                    label="Username"
                                     placeholder="Enter your username"
                                     name="username"
                                     size="medium"
@@ -234,6 +213,8 @@ const Register = () => {
                                     slotProps={{
                                         input: {
                                             spellCheck: false,
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start" >
                                                     <AccountCircleIcon
@@ -248,10 +229,10 @@ const Register = () => {
                                 />
                             </Stack>
 
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Email</Typography>
+                            <Stack >
                                 <TextField
                                     className="auth-field"
+                                    label="Email"
                                     variant="outlined"
                                     placeholder="Enter your email address"
                                     name="email"
@@ -265,6 +246,8 @@ const Register = () => {
                                     slotProps={{
                                         input: {
                                             spellCheck: false,
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start">
                                                     <MailOutlineOutlinedIcon
@@ -280,11 +263,11 @@ const Register = () => {
                                 />
                             </Stack>
 
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Password</Typography>
+                            <Stack >
                                 <TextField
                                     className="auth-field"
                                     variant="outlined"
+                                    label="Password"
                                     placeholder="Enter your password"
                                     name="password"
                                     type={showPassword ? 'text' : 'password'}
@@ -297,6 +280,9 @@ const Register = () => {
                                     helperText={formik.touched.password && formik.errors.password}
                                     slotProps={{
                                         input: {
+                                            spellCheck: false,
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start">
                                                     <LockOutlinedIcon
@@ -324,10 +310,10 @@ const Register = () => {
                                 />
                             </Stack>
 
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Confirm Password</Typography>
+                            <Stack >
                                 <TextField
                                     className="auth-field"
+                                    label="Confirm Password"
                                     variant="outlined"
                                     placeholder="Confirm your password"
                                     name="rePassword"
@@ -341,6 +327,9 @@ const Register = () => {
                                     helperText={formik.touched.rePassword && formik.errors.rePassword}
                                     slotProps={{
                                         input: {
+                                            spellCheck: false,
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start">
                                                     <LockOutlinedIcon
@@ -400,9 +389,7 @@ const Register = () => {
                             </Box>
 
 
-                            <Typography
-                                variant="body1"
-                            >
+                            <Typography variant="body1">
                                 Already have an account?
                                 <Button
                                     component={Link}
@@ -412,13 +399,10 @@ const Register = () => {
                                     Sign In
                                 </Button>
                             </Typography>
-
-
                         </Box>
                     </Box>
                 </Stack>
-            </Box>
-
+            </Box >
         </React.Fragment >
     );
 };

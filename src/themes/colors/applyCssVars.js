@@ -23,6 +23,10 @@ export const applyCssVars = (mode = "dark") => {
         "--color-bg-paper",
         colors.background.paper[mode]
     );
+    root.style.setProperty(
+        "--color-bg-elevated",
+        colors.background.elevated[mode]
+    );
 
     /* ================= TEXT ================= */
     root.style.setProperty(

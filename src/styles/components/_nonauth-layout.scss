@@ -15,7 +15,6 @@
     }
 
     &-paper {
-        width: 90%;
         max-width: 1200px;
         max-height: 800px;
         display: flex;
@@ -23,8 +22,9 @@
     }
 
     &-left {
-        flex: 1;
+        display: flex;
         flex-direction: column;
+        flex: 1;
         justify-content: space-between;
         overflow: hidden;
     }
@@ -34,6 +34,40 @@
         flex-direction: column;
         flex: 1;
         justify-content: space-between;
+    }
+
+    &-swiper-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+
+        .swiper {
+            background: transparent;
+        }
+
+        .swiper-pagination {
+            position: relative;
+            margin-top: -10px;
+        }
+
+        .swiper-pagination-bullet {
+            background-color: var(--color-bg-elevated);
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+            background-color: var(--color-primary);
+        }
+    }
+
+    &-swiper-card {
+        width: 90%;
+        overflow: hidden;
+    }
+
+    &-copyright-section {
+        text-align: center;
+        opacity: 0.8;
     }
 
 }

@@ -16,30 +16,25 @@ import { Link, useNavigate } from "react-router-dom";
 import PageSpinner from "../../components/common/PageSpinner";
 import AlertAuthMessage from "../../components/common/AlertAuthMessage";
 import { useAuth } from "../../context/AuthContext";
-import { useTheme } from '@mui/material/styles';
 import { loginApi } from "../../utils/ListApi";
 import {
     MailOutlineOutlinedIcon,
     LockOutlinedIcon,
     VisibilityOutlinedIcon,
     VisibilityOff,
-    LightModeIcon,
-    DarkModeIcon
 } from '@/assets/Icon/muiIcon';
 import { useThemeMode } from "../../context/ThemeContext";
 
 
 const Login = () => {
-    const { mode, toggleTheme } = useThemeMode();
     const { login } = useAuth();
+    const navigate = useNavigate()
     const [showAlert, setShowAlert] = useState(false)
     const [message, setMessage] = useState("");
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const navigate = useNavigate()
 
-    // Function Handle Login
     const handleLogin = async (values) => {
         debugger
         const response = await loginApi({
@@ -49,30 +44,6 @@ const Login = () => {
         debugger
         return response
     }
-
-    // Login with state
-    const usrn = "Test"
-    const pass = 1234
-    const handeLoginState = () => {
-        const { username, password } = formik.values
-        if (username === usrn && password == pass) {
-            login({
-                username: usrn,
-                password: pass,
-                role: 'Admin'
-            })
-            navigate("/")
-        } else {
-            formik.setErrors({
-                username: "Username atau password salah",
-                password: "Username atau password salah",
-            });
-
-            formik.resetForm();
-        }
-    }
-
-
 
     // Validation Form
     const formik = useFormik({
@@ -88,7 +59,6 @@ const Login = () => {
             }),
 
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-            // Default state and submit form
             document.activeElement.blur();
             setSubmitting(true)
             setLoadingSpinner(true);
@@ -98,11 +68,8 @@ const Login = () => {
             try {
                 debugger
                 const response = await handleLogin(values)
-                // const response = await handeLoginState(values)
-
                 login(response.data.data)
                 navigate("/")
-
             } catch (error) {
                 debugger
                 setShowAlert(true)
@@ -111,7 +78,6 @@ const Login = () => {
                 } else {
                     setMessage("System is Unavailable. Please Try Again Later.");
                 }
-
             } finally {
                 setSubmitting(false);
                 setLoadingSpinner(false);
@@ -151,31 +117,17 @@ const Login = () => {
                     justifyContent: 'center',
                     width: '100%',
                     height: '100%',
-                    px: { xs: 1, sm: 2 },
+                    p: { xs: 1, sm: 2 },
                     gap: 5,
                 }}
             >
-
-
-
-                <Stack
-                    sx={{
-                        textAlign: 'left',
-                        width: '100%',
-                        display: "flex",
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                    }}>
+                <Stack direction={"column"} textAlign={"left"} justifyContent={"center"} width={"100%"}>
                     <Typography variant="h2" fontWeight="medium" >Welcome Back</Typography>
                     <Typography variant="h6" fontWeight="light" color="text.primary">Please enter your details to access the dashboard.</Typography>
                 </Stack>
 
                 {/* BODY (Form Container) */}
-                <Stack
-                    sx={{
-                        width: '100%',
-                    }}
-                >
+                <Stack width={"100%"}>
                     <Box
                         component="form"
                         onSubmit={formik.handleSubmit}
@@ -193,17 +145,17 @@ const Login = () => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                gap: 2.5,
+                                gap: 4,
                             }}
                         >
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Email or User ID</Typography>
+                            <Stack>
                                 <TextField
                                     className="auth-field"
                                     variant="outlined"
                                     placeholder="Enter your email or user id"
                                     name="username"
-                                    size="large"
+                                    size="medium"
+                                    label="Email or User ID"
                                     value={formik.values.username}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -212,6 +164,8 @@ const Login = () => {
                                     slotProps={{
                                         input: {
                                             spellCheck: false,
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start" >
                                                     <MailOutlineOutlinedIcon
@@ -226,15 +180,15 @@ const Login = () => {
                                 />
                             </Stack>
 
-                            <Stack spacing={0.3}>
-                                <Typography variant="h6">Password</Typography>
+                            <Stack >
                                 <TextField
                                     className="auth-field"
                                     variant="outlined"
                                     placeholder="Enter your password"
                                     name="password"
                                     type={showPassword ? 'text' : 'password'}
-                                    size="large"
+                                    size="medium"
+                                    label="Password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -243,7 +197,8 @@ const Login = () => {
                                     slotProps={{
                                         input: {
                                             spellCheck: false,
-                                            autoComplete: 'off',
+                                            autoCorrect: "off",
+                                            autoCapitalize: "none",
                                             startAdornment: (
                                                 <InputAdornment position="start">
                                                     <LockOutlinedIcon
@@ -315,16 +270,10 @@ const Login = () => {
                                     Sign Up
                                 </Button>
                             </Typography>
-
-
                         </Box>
-
-
                     </Box>
                 </Stack>
-
             </Box>
-
         </React.Fragment >
     );
 }

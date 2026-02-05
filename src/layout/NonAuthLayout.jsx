@@ -1,6 +1,15 @@
-import React from "react";
-import { Box, Grid, Container, Paper, Typography, Card, CardContent, Stack, IconButton } from "@mui/material"
-import { Swiper, SwiperSlide } from 'swiper/react'
+import PropTypes from 'prop-types';
+import {
+    Box,
+    Container,
+    Paper,
+    Typography,
+    Card,
+    CardContent,
+    Stack,
+    IconButton
+} from "@mui/material"
+import { useThemeMode } from "../context/ThemeContext";
 import Icon from "@mdi/react";
 import {
     mdiAccessPoint,
@@ -8,10 +17,9 @@ import {
     mdiChip,
     mdiBrain
 } from '@mdi/js';
-import { useTheme } from '@mui/material/styles';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import nonAuthIcon from "../assets/Icon/animation/nonAuthIcon.json"
 import Lottie from "lottie-react";
-import PropTypes from 'prop-types';
-import nonAuthIcon from "../assets/Icon//animation/nonAuthIcon.json"
 import {
     LightModeIcon,
     DarkModeIcon,
@@ -20,41 +28,35 @@ import { Pagination, Autoplay, Mousewheel, FreeMode } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useThemeMode } from "../context/ThemeContext";
 
-
-// import required modules
+const cardContent = [
+    {
+        icon: mdiAccessPoint,
+        title: 'Realtime Monitoring',
+        desc: "Instant visibility into your plantation's performance.",
+    },
+    {
+        icon: mdiChip,
+        title: 'Smart IoT Integration',
+        desc: "A unified network of smart farming devices.",
+    },
+    {
+        icon: mdiBrain,
+        title: 'Machine Learning Insights',
+        desc: "Intelligence that evolves with your crops.",
+    },
+]
 
 const NonAuthLayout = (props) => {
-    const theme = useTheme();
+
     const { mode, toggleTheme } = useThemeMode();
-
-
-    const cardContent = [
-        {
-            icon: mdiAccessPoint,
-            title: 'Realtime Monitoring',
-            desc: "Instant visibility into your plantation's performance.",
-        },
-        {
-            icon: mdiChip,
-            title: 'Smart IoT Integration',
-            desc: "A unified network of smart farming devices.",
-        },
-        {
-            icon: mdiBrain,
-            title: 'Machine Learning Insights',
-            desc: "Intelligence that evolves with your crops.",
-        },
-    ]
-
     return (
         <Container maxWidth={false} className="nonauth-root">
             <Box className="nonauth-theme-toggle">
                 <IconButton
                     sx={{
                         color: mode == "dark" ? "warning.main" : "text.primary",
-                        bgcolor: 'background.paper'
+                        bgcolor: 'background.elevated'
                     }}
                     onClick={toggleTheme}
                 >
@@ -69,13 +71,12 @@ const NonAuthLayout = (props) => {
                     bgcolor={"background.elevated"}
                     p={5}
                 >
-                    <Stack display={"flex"} flexDirection={"row"} gap={1.5} >
+                    <Stack direction={"row"} gap={1.5} px={3}>
                         <Icon path={mdiSprout} size={1} className="text-brand" />
                         <Typography variant="h2" fontWeight="medium" color="text.primary">Plantya</Typography>
                     </Stack>
 
                     <Stack
-                        display={"flex"}
                         alignSelf={"center"}
                         width={"60%"}
                         height={"40%"}
@@ -105,37 +106,18 @@ const NonAuthLayout = (props) => {
                         <Box sx={{ opacity: 0.8 }}>
                             <Typography variant="h6" fontWeight="light">
                                 Harness the power of machine learning to
-                                <br />
+                            </Typography>
+                            <Typography variant="h6" fontWeight="light">
                                 optimize your plantation's yield.
                             </Typography>
                         </Box>
                     </Stack>
 
                     <Stack>
-                        <Box display={"flex"} justifyContent={"center"} flexDirection={"row"}
-                            sx={{
-                                '& .swiper': {
-                                    background: 'transparent',
-                                },
-                                '& .swiper-pagination': {
-                                    position: 'relative',
-                                    mt: -1
-                                },
-                                '& .swiper-pagination-bullet': {
-                                    backgroundColor: 'rgba(255,255,255,0.3)',
-                                    opacity: 1,
-                                },
-                                '& .swiper-pagination-bullet-active': {
-                                    backgroundColor: 'success.main',
-                                },
-                            }}
-                        >
+                        <Box className="nonauth-swiper-container" >
                             <Card
-                                sx={{
-                                    width: '90%',
-                                    overflow: 'hidden',
-                                    boxShadow: `0px 6px 16px rgba(0, 0, 0, 0.25), 0px 0px 24px rgba(0, 124, 79, 0.18)`,
-                                }}
+                                elevation={5}
+                                className='nonauth-swiper-card'
                             >
                                 <Swiper
                                     modules={[Pagination, Autoplay, Mousewheel, FreeMode]}
@@ -185,10 +167,8 @@ const NonAuthLayout = (props) => {
                                     ))}
                                 </Swiper>
                             </Card>
-
                         </Box>
                     </Stack>
-
                 </Box >
 
                 <Box
@@ -197,7 +177,16 @@ const NonAuthLayout = (props) => {
                     py={3}
                 >
                     {props.children}
+
+                    <Box
+                        className="nonauth-copyright-section"
+                    >
+                        <Typography variant="body1" color="text.secondary">
+                            © {new Date().getFullYear()} Plantya. All rights reserved.
+                        </Typography>
+                    </Box>
                 </Box>
+
             </Paper >
         </Container >
     );
