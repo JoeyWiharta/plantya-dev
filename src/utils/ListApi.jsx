@@ -1,9 +1,9 @@
 import axiosInstance from "./AxiosInstance";
 
 // Login and Register
-export const loginApi = (res) => axiosInstance().post("/auth/login", res);
-export const registerApi = (res) => axiosInstance().post("/auth/register", res);
-export const logoutApi = (res) => axiosInstance().post("/auth/logout", res);
+export const loginApi = (res) => axiosInstance({ withCredentials: false }).post("/auth/login", res);
+export const registerApi = (res) => axiosInstance({ withCredentials: false }).post("/auth/register", res);
+export const logoutApi = (res) => axiosInstance({ withCredentials: false }).post("/auth/logout", res);
 
 // app002 - Master User
 export const getUser = (params, config = {}) => axiosInstance().get("/users", { params, ...config });

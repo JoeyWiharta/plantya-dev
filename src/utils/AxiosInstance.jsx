@@ -28,24 +28,18 @@ const axiosInstance = (additionalConfig = {}) => {
     const baseURL = import.meta.env[`VITE_BASE_URL_${ENV}`];
     if (!baseURL) {
         throw new Error(`BASE_URL not found for env "${ENV}"`);
-
     }
 
     return axios.create({
         baseURL,
-
-        //  Wait for Auth from Backend (withCredentials is Required later)
-        // Create 2 opt for auth doesnt need credent and other api needs 
-        // withCredentials: true,
-        // 
-
-        headers: {
-            Accept: "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-
-        },
-        ...additionalConfig,
+        withCredentials: true, // DEFAULT TRUE
+        // headers: {
+        //     Accept: "application/json",
+        //     ...(token && { Authorization: `Bearer ${token}` }),
+        // },
+        ...additionalConfig, // ⬅️ ini bisa override
     });
 };
+
 
 export default axiosInstance;
