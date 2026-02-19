@@ -32,7 +32,7 @@ const Register = () => {
     const [typeModal, setTypeModal] = useState("");
     const [messageModal, setMessageModal] = useState("");
     const [headerMessageModal, setHeaderMessageModal] = useState("");
-    const [showModal, setShowModal] = useState(true)
+    const [showModal, setShowModal] = useState(false)
     const [loadingSpinner, setLoadingSpinner] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
