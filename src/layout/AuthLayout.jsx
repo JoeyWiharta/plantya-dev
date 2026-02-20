@@ -8,7 +8,7 @@ import { ArrowBackIosIcon, ArrowForwardIosIcon } from "../assets/Icon/muiIcon/in
 // Constant Value
 const SIDEBAR_COLLAPSE_WIDTH = 60;
 const SIDEBAR_WIDTH = 250;
-const HEADER_HEIGHT = 70;
+const HEADER_HEIGHT = 60;
 
 const AuthLayout = (props) => {
     const theme = useTheme();
@@ -129,7 +129,7 @@ const AuthLayout = (props) => {
                     headerHeight={HEADER_HEIGHT}
                 />
 
-                <Box component="main" className="auth-layout-content" p={3}>
+                <Box component="main" className="auth-layout-content" p={2}>
                     {props.children}
                 </Box>
             </Box>

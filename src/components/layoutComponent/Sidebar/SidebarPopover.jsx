@@ -3,26 +3,33 @@ import {
     Popover,
     List,
     ListItemButton,
-    ListItemIcon,
     ListItemText,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Icon from "@mdi/react";
+
+const childButtonPopoverSx = {
+    py: 0.5,
+    px: 1,
+    transition: "all 0.3s ease",
+
+    "&.Mui-selected, &:hover": {
+        bgcolor: "transparent",
+        color: "primary.main",
+        borderRight: "3px solid",
+        borderColor: "primary.main",
+    },
+
+    "&.Mui-selected:hover": {
+        bgcolor: "transparent",
+    },
+};
 
 const SidebarPopover = (props) => {
-    const {
-        open,
-        anchorEl,
-        onClose,
-        item,
-        location,
-    } = props;
-
     return (
         <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={onClose}
+            open={props.open}
+            anchorEl={props.anchorEl}
+            onClose={props.onClose}
             anchorOrigin={{
                 vertical: "center",
                 horizontal: "right",
@@ -34,67 +41,36 @@ const SidebarPopover = (props) => {
             slotProps={{
                 paper: {
                     onMouseLeave: () => {
-                        setTimeout(onClose, 100);
+                        setTimeout(props.onClose, 100);
                     },
-                    className: "sidebar-popover",
                     sx: {
-                        p: 1,
+                        p: 2,
                         minWidth: "160px",
                         ml: 1,
-                        overflow: "visible",
                     },
                 },
             }}
         >
             <List
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1,
-                    color: "text.secondary",
-                }}
+                className="sidebar-body-child-popover"
+                sx={{ gap: 1 }}
             >
-                {item.sub?.map((sub, subIndex) => (
+                {props.item.sub?.map((sub, subIndex) => (
                     <ListItemButton
-                        key={subIndex}
+                        key={sub.path || sub.text}
                         component={Link}
                         to={sub.path}
-                        selected={location.pathname === sub.path}
-                        onClick={onClose}
-                        sx={{
-                            borderRadius: 35,
-                            "&.Mui-selected": {
-                                bgcolor: "layout.sidebarActive",
-                                color: "primary.main",
-                            },
-                            "&:hover": {
-                                bgcolor: "layout.sidebarActive",
-                                color: "primary.main",
-                            },
-                        }}
+                        selected={props.location.pathname === sub.path}
+                        onClick={props.onClose}
+                        sx={childButtonPopoverSx}
                     >
-                        <ListItemIcon
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                color: "text.secondary",
-                                ".Mui-selected &": {
-                                    color: "primary.main",
-                                },
-                                ".MuiListItemButton-root:hover &": {
-                                    color: "primary.main",
-                                },
-                            }}
-                        >
-                            <Icon path={sub.icon} size="24px" />
-                        </ListItemIcon>
 
                         <ListItemText
                             primary={sub.text}
                             sx={{
+                                transition: "opacity 0.3s ease, width 0.3s ease",
                                 "& .MuiListItemText-primary": {
-                                    fontWeight: "medium",
-                                    fontSize: "13px",
+                                    fontWeight: "600",
                                 },
                             }}
                         />

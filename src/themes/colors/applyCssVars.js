@@ -1,44 +1,30 @@
-import colors from "./colors";
+import buildPalette from "../palette";
 
 export const applyCssVars = (mode = "dark") => {
     const root = document.documentElement;
 
-    /* ================= BRAND ================= */
-    root.style.setProperty("--color-primary", colors.brand.primary.main);
-    root.style.setProperty("--color-primary-light", colors.brand.primary.light);
-    root.style.setProperty("--color-primary-dark", colors.brand.primary.dark);
+    const palette = buildPalette(mode);
 
-    root.style.setProperty("--color-secondary", colors.brand.secondary.main);
-    root.style.setProperty("--color-info", colors.brand.info.main);
-    root.style.setProperty("--color-success", colors.brand.success.main);
-    root.style.setProperty("--color-warning", colors.brand.warning.main);
-    root.style.setProperty("--color-error", colors.brand.error.main);
+    /* ================= BRAND ================= */
+    root.style.setProperty("--color-primary", palette.primary.main);
+    root.style.setProperty("--color-primary-light", palette.primary.light);
+    root.style.setProperty("--color-primary-dark", palette.primary.dark);
+
+    root.style.setProperty("--color-secondary", palette.secondary.main);
+    root.style.setProperty("--color-info", palette.info.main);
+    root.style.setProperty("--color-success", palette.success.main);
+    root.style.setProperty("--color-warning", palette.warning.main);
+    root.style.setProperty("--color-error", palette.error.main);
 
     /* ================= BACKGROUND ================= */
-    root.style.setProperty(
-        "--color-bg-default",
-        colors.background.default[mode]
-    );
-    root.style.setProperty(
-        "--color-bg-paper",
-        colors.background.paper[mode]
-    );
-    root.style.setProperty(
-        "--color-bg-elevated",
-        colors.background.elevated[mode]
-    );
+    root.style.setProperty("--color-bg-default", palette.background.default);
+    root.style.setProperty("--color-bg-paper", palette.background.paper);
+    root.style.setProperty("--color-bg-elevated", palette.background.elevated);
 
     /* ================= TEXT ================= */
-    root.style.setProperty(
-        "--color-text-primary",
-        colors.text.primary[mode]
-    );
-    root.style.setProperty(
-        "--color-text-secondary",
-        colors.text.secondary
-    );
+    root.style.setProperty("--color-text-primary", palette.text.primary);
+    root.style.setProperty("--color-text-secondary", palette.text.secondary);
 
     /* ================= BORDER ================= */
-    root.style.setProperty("--color-border", colors.border.default);
+    root.style.setProperty("--color-border", palette.divider);
 };
-

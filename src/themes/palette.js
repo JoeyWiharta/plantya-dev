@@ -64,7 +64,9 @@ const buildPalette = (mode = "dark") => {
                 ? colors.background.paper.dark
                 : colors.background.paper.light,
 
-            sidebarActive: "#ECFDF5"
+            sidebarActive: isDark
+                ? "#10B98126"
+                : "#ECFDF5",
         },
 
         text: {

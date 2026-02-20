@@ -9,4 +9,6 @@ export { default as ArrowBackIosIcon } from '@mui/icons-material/ArrowBackIos';
 export { default as ArrowForwardIosIcon } from '@mui/icons-material/ArrowForwardIos';
 export { default as DashboardIcon } from '@mui/icons-material/Dashboard';
 export { default as LayersIcon } from '@mui/icons-material/Layers';
-export { default as AssessmentOutlinedIcon  } from '@mui/icons-material/AssessmentOutlined';
+export { default as AssessmentOutlinedIcon } from '@mui/icons-material/AssessmentOutlined';
+export { default as SupportAgentOutlinedIcon } from '@mui/icons-material/SupportAgentOutlined';
+export { default as InfoOutlinedIcon } from '@mui/icons-material/InfoOutlined';
