@@ -26,7 +26,7 @@ const parentButtonSx = (isCollapsed) => ({
 
     ...(isCollapsed && {
         justifyContent: "center",
-        borderRadius: "15px",
+        borderRadius: "10px",
         px: 0,
         width: "36px",
         height: "36px",
