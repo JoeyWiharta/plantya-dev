@@ -10,7 +10,11 @@ const AppSidebarHeader = () => {
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton asChild size="lg">
+                <SidebarMenuButton
+                    asChild
+                    size="lg"
+                    className="cursor-default hover:bg-transparent focus-visible:ring-0 active:bg-transparent"
+                >
                     <div>
                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                             <Sprout className="size-4" />

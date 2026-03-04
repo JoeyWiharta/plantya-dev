@@ -13,7 +13,6 @@ import AppSidebarFooter from "./AppSidebarFooter";
 
 const AppSidebar = (props) => {
     const { state: sidebarState } = useSidebar();
-    console.log("Check Data User Sidebar", props.dataUser)
 
     return (
         <Sidebar collapsible="icon" side="left" variant="sidebar">
@@ -26,7 +25,7 @@ const AppSidebar = (props) => {
             </SidebarContent>
 
             <SidebarFooter>
-                <AppSidebarFooter dataUser={props.dataUser} />
+                <AppSidebarFooter userData={props.userData} />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

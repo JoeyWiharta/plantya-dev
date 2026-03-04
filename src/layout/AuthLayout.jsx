@@ -41,7 +41,6 @@ const AuthLayout = (props) => {
     //     setMobileOpen(false);
     // };
 
-    debugger
     const userData = useMemo(() => {
         const data = localStorage.getItem("user");
         return data ? JSON.parse(data) : null;

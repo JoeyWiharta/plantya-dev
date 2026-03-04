@@ -5,6 +5,7 @@ import {
     ChevronsUpDown,
     CreditCard,
     LogOut,
+    Moon,
     Sparkles,
 } from "lucide-react"
 import {
@@ -29,8 +30,18 @@ import {
 } from "@/components/ui/sidebar"
 
 const AppSidebarFooter = (props) => {
-    console.log(props.userData)
     const { isMobile } = useSidebar()
+    const initialName = (name) => {
+        if (!name) return "";
+        const words = name.trim().split(" ").filter(Boolean);
+        if (words.length === 1) {
+            return words[0][0].toUpperCase();
+        }
+        const first = words[0][0];
+        const last = words[words.length - 1][0];
+        return (first + last).toUpperCase();
+    };
+
 
     return (
         <SidebarMenu>
@@ -39,12 +50,11 @@ const AppSidebarFooter = (props) => {
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
                             <Avatar className="h-8 w-8 rounded-lg">
-                                {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                                {/* <AvatarFallback className="rounded-lg">CN</AvatarFallback> */}
+                                <AvatarFallback className="rounded-lg">{initialName(props.userData.username)}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{"Joey"}</span>
-                                <span className="truncate text-xs">{"joeywiharta23@gmail.com"}</span>
+                                <span className="truncate font-medium">{props.userData.username}</span>
+                                <span className="truncate text-xs">{props.userData.role}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -59,35 +69,27 @@ const AppSidebarFooter = (props) => {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                    <AvatarFallback className="rounded-lg">{initialName(props.userData.username)}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium">{"Joey"}</span>
-                                    <span className="truncate text-xs">{"joeywiharta23@gmail.com"}</span>
+                                    <span className="truncate font-medium">{props.userData.username}</span>
+                                    <span className="truncate text-xs">{props.userData.role}</span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
                                 <BadgeCheck />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCard />
-                                Billing
+                                Account Profile
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Bell />
                                 Notifications
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Moon />
+                                Theme
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
