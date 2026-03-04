@@ -3,10 +3,12 @@ import {
     BadgeCheck,
     Bell,
     ChevronsUpDown,
-    CreditCard,
+    SunMoon,
     LogOut,
     Moon,
-    Sparkles,
+    Sun,
+    Monitor,
+    User
 } from "lucide-react"
 import {
     Avatar,
@@ -21,6 +23,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent
 } from "@/components/ui/dropdown-menu"
 import {
     SidebarMenu,
@@ -28,19 +33,28 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useThemeMode } from "@/context/ThemeContext";
 
 const AppSidebarFooter = (props) => {
+    const { mode, setMode } = useThemeMode();
+
     const { isMobile } = useSidebar()
     const initialName = (name) => {
-        if (!name) return "";
-        const words = name.trim().split(" ").filter(Boolean);
-        if (words.length === 1) {
-            return words[0][0].toUpperCase();
+        if (name) {
+            const words = name.trim().split(" ").filter(Boolean);
+            if (words.length === 1) {
+                return words[0][0].toUpperCase();
+            } else {
+                const first = words[0][0];
+                const last = words[words.length - 1][0];
+                return (first + last).toUpperCase();
+            }
+        } else {
+            if (!name) return ""
         }
-        const first = words[0][0];
-        const last = words[words.length - 1][0];
-        return (first + last).toUpperCase();
     };
+
+
 
 
     return (
@@ -80,21 +94,42 @@ const AppSidebarFooter = (props) => {
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <BadgeCheck />
+                                <User />
                                 Account Profile
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Bell />
                                 Notifications
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Moon />
-                                Theme
-                            </DropdownMenuItem>
+
+                            <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
+                                    <SunMoon />
+                                    Theme
+                                </DropdownMenuSubTrigger>
+
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuItem onClick={() => setMode("light")}>
+                                        <Sun />
+                                        Light
+                                    </DropdownMenuItem>
+
+                                    <DropdownMenuItem onClick={() => setMode("dark")}>
+                                        <Moon />
+                                        Dark
+                                    </DropdownMenuItem>
+
+                                    <DropdownMenuItem onClick={() => setMode("system")}>
+                                        <Monitor />
+                                        System
+                                    </DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <LogOut />
+                        <DropdownMenuItem className="text-red-500 data-highlighted:text-red-500">
+                            <LogOut className="text-red-500" />
                             Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>

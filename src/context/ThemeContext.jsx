@@ -1,35 +1,40 @@
-import React, {
-    createContext,
-    useContext,
-    useMemo,
-    useState,
-    useEffect,
-} from "react";
-import createAppTheme from "../themes";
-import { applyCssVars } from "../themes/colors/applyCssVars";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext(null);
 
 export const ThemeProviderCustom = ({ children }) => {
-    const [mode, setMode] = useState(
-        () => localStorage.getItem("themeMode") || "dark"
-    );
+    const [mode, setMode] = useState(() => {
+        return localStorage.getItem("themeMode") || "system";
+    })
 
-    useEffect(() => {
-        applyCssVars(mode); // 🔥 SATU PINTU
-        document.documentElement.dataset.theme = mode;
-        localStorage.setItem("themeMode", mode);
-    }, [mode]);
-
-    const toggleTheme = () => {
-        setMode(prev => (prev === "dark" ? "light" : "dark"));
+    const applyTheme = (selectedMode) => {
+        if (selectedMode === "system") {
+            const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.classList.toggle("dark", systemDark);
+        } else {
+            document.documentElement.classList.toggle("dark", selectedMode === "dark");
+        }
     };
 
-    const theme = useMemo(() => createAppTheme(mode), [mode]);
+    useEffect(() => {
+        applyTheme(mode);
+        localStorage.setItem("themeMode", mode)
+    }, [mode]);
+
+    useEffect(() => {
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        const handleChange = () => {
+            if (mode === "system") {
+                applyTheme("system");
+            }
+        };
+        media.addEventListener("change", handleChange);
+        return () => media.removeEventListener("change", handleChange);
+    }, [mode]);
 
     return (
-        <ThemeContext.Provider value={{ mode, toggleTheme }}>
-            {children(theme)}
+        <ThemeContext.Provider value={{ mode, setMode }}>
+            {children}
         </ThemeContext.Provider>
     );
 };
