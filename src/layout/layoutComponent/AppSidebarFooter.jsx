@@ -34,9 +34,11 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 import { useThemeMode } from "@/context/ThemeContext";
+import { useAuth } from "@/context/AuthContext"
 
 const AppSidebarFooter = (props) => {
     const { mode, setMode } = useThemeMode();
+    const {logout} = useAuth()
 
     const { isMobile } = useSidebar()
     const initialName = (name) => {
@@ -128,7 +130,9 @@ const AppSidebarFooter = (props) => {
 
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-500 data-highlighted:text-red-500">
+                        <DropdownMenuItem className="text-red-500 data-highlighted:text-red-500"
+                            onClick={logout}
+                        >
                             <LogOut className="text-red-500" />
                             Log out
                         </DropdownMenuItem>
