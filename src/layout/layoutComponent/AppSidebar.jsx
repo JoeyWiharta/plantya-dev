@@ -4,7 +4,6 @@ import { SidebarProvider, Sidebar, SidebarInset, SidebarHeader, SidebarContent, 
 import MenuRoutes from "@/routes/MenuRoutes";
 import { Link } from "react-router-dom";
 import SmallIcon from "../../assets/images/SmallIcon.png"
-import { Sprout } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 
 import AppSidebarHeader from "./AppSidebarHeader";

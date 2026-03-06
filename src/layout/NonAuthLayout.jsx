@@ -1,51 +1,37 @@
+"use client"
+import React, { useRef } from 'react';
+import Lottie from 'lottie-react';
+import { Activity, Brain, Cpu, Sprout } from 'lucide-react';
 import PropTypes from 'prop-types';
-// import {
-//     Box,
-//     Container,
-//     Paper,
-//     Typography,
-//     Card,
-//     CardContent,
-//     Stack,
-//     IconButton
-// } from "@mui/material"
-// import { useThemeMode } from "../context/ThemeContext";
-// import Icon from "@mdi/react";
-// import {
-//     mdiAccessPoint,
-//     mdiSprout,
-//     mdiChip,
-//     mdiBrain
-// } from '@mdi/js';
-// import { Swiper, SwiperSlide } from 'swiper/react'
-// import nonAuthIcon from "../assets/Icon/animation/nonAuthIcon.json"
-// import Lottie from "lottie-react";
-// import {
-//     SunnyIcon,
-//     DarkModeIcon,
-// } from '@/assets/Icon/muiIcon';
-// import { Pagination, Autoplay, Mousewheel, FreeMode } from 'swiper/modules'
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import 'swiper/css/navigation';
+import { Card, CardContent } from "@/components/ui/card"
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import nonAuthIcon from "../assets/Icon/animation/nonAuthIcon.json"
+import { Toaster } from '@/components/ui/sonner';
 
-// const cardContent = [
-//     {
-//         icon: mdiAccessPoint,
-//         title: 'Realtime Monitoring',
-//         desc: "Instant visibility into your plantation's performance.",
-//     },
-//     {
-//         icon: mdiChip,
-//         title: 'Smart IoT Integration',
-//         desc: "A unified network of smart farming devices.",
-//     },
-//     {
-//         icon: mdiBrain,
-//         title: 'Machine Learning Insights',
-//         desc: "Intelligence that evolves with your crops.",
-//     },
-// ]
+const featureContent = [
+    {
+        icon: Activity,
+        title: 'Realtime Monitoring',
+        desc: "Instant visibility into your plantation's performance.",
+    },
+    {
+        icon: Cpu,
+        title: 'Smart IoT Integration',
+        desc: "A unified network of smart farming devices.",
+    },
+    {
+        icon: Brain,
+        title: 'Machine Learning Insights',
+        desc: "Intelligence that evolves with your crops.",
+    },
+]
 
 // const NonAuthLayout = (props) => {
 
@@ -194,12 +180,75 @@ import PropTypes from 'prop-types';
 // };
 
 const NonAuthLayout = ({ children }) => {
+    const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }))
+
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-            <div className="w-full max-w-sm md:max-w-4xl">
-                {children}
-            </div>
-        </div>
+        <>
+            <Toaster />
+            <div className="flex min-h-svh items-center justify-center bg-muted p-6 md:p-10">
+                <div className="w-full max-w-sm md:max-w-4xl">
+
+                    <Card className="overflow-hidden p-0">
+                        <CardContent className="grid p-0 md:grid-cols-2">
+                            <div className='hidden md:flex flex-col justify-between gap-6 bg-muted/50 p-8 border-r'>
+
+                                <div className='flex flex-row items-center gap-2 '>
+                                    <Sprout className='size-5 text-green-700' />
+                                    <span className='text-xl font-semibold tracking-tight'>Chlora</span>
+                                </div>
+
+                                <div className='flex flex-col items-center gap-4 text-center'>
+                                    <Lottie
+                                        animationData={nonAuthIcon}
+                                        loop
+                                        className='w-48 h-48'
+                                    />
+
+                                    <div>
+                                        <h2 className="text-xl font-semibold leading-snug">Smart Monitoring for</h2>
+                                        <h2 className="text-xl font-semibold leading-snug text-green-700">Modern Growth.</h2>
+
+
+                                        <p className="text-sm text-muted-foreground">
+                                            Harness the power of machine learning to optimize your plantation's yield.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <Carousel
+                                    plugins={[plugin.current]}
+                                    onMouseEnter={plugin.current.stop}
+                                    onMouseLeave={plugin.current.reset}
+                                    className="w-full"
+                                >
+                                    <CarouselContent>
+                                        {featureContent.map((item, index) => (
+                                            <CarouselItem key={index}>
+                                                <Card className="border shadow-none bg-background">
+                                                    <CardContent className="flex flex-row items-start gap-4 p-4">
+                                                        <div className="mt-0.5 shrink-0 text-green-700">
+                                                            <item.icon className="size-5" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-semibold">{item.title}</p>
+                                                            <p className="text-xs text-muted-foreground">{item.desc}</p>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                            </CarouselItem>
+                                        ))}
+                                    </CarouselContent>
+                                </Carousel>
+                            </div>
+
+                            <div className="flex flex-col justify-center p-6 md:p-8">
+                                {children}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div >
+        </>
     )
 }
 
