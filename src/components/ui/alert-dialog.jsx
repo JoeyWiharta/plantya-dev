@@ -81,6 +81,7 @@ function AlertDialogFooter({
       data-slot="alert-dialog-footer"
       className={cn(
         "flex flex-col-reverse gap-2 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
+        "border-t bg-muted/50 -mx-6 -mb-6 px-6 py-4 rounded-b-lg",
         className
       )}
       {...props} />

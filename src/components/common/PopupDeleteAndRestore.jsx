@@ -54,7 +54,7 @@ const PopupDeleteandRestore = (props) => {
                     </Button>
                     <Button
                         className="flex-1"
-                        variant={isRestore ? "default" : "destructive"}
+                        variant={isRestore ? "info" : "destructive"}
                         onClick={handleClick}
                         disabled={props.loading}
                     >

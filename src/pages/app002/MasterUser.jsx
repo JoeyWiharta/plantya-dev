@@ -564,7 +564,7 @@ const MasterUser = () => {
                 <div className={`${app002p01Page ? "flex" : "hidden"} flex-col gap-2`}>
 
                     {/* Page Header */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between px-6 mb-2">
                         <div>
                             <h1 className="text-xl font-semibold">User Management</h1>
                             <p className="text-sm text-muted-foreground">Manage and monitor system user accounts</p>
