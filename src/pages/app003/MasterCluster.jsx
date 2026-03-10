@@ -1,19 +1,4 @@
-import React, { useState, useEffect, useCallback, act } from "react";
-import {
-    Container,
-    Typography,
-    Grid,
-    TextField,
-    IconButton,
-    Stack,
-    Autocomplete,
-    Tooltip,
-    Button,
-    Box,
-    useTheme,
-    useMediaQuery,
-    Paper
-} from "@mui/material";
+import React, { useState, useEffect, useCallback } from "react";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
 import { getCluster, deleteCluster } from "../../utils/ListApi";
@@ -21,25 +6,27 @@ import MasterClusterAdd from "./MasterClusterAdd";
 import MasterClusterEdit from "./MasterClusterEdit";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
-import { AddIcon, DeviceHubIcon, SearchIcon } from "../../assets/Icon/muiIcon";
+import { Badge } from "@/components/ui/badge";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const MasterCluster = () => {
-    // State First Page, Message, and Loading Effect
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const [firstRender, setFirstRender] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [app003p01Page, setApp003p01Page] = useState(true);
-
-    const [app003Msg, setApp003setMsg] = useState("");
-    const [app003MsgStatus, setApp003setMsgStatus] = useState("");
-    const [loadingData, setLoadingData] = useState(false);
-    const [loadingDelete, setLoadingDelete] = useState(false)
-
-    // State Data Cluster, Filtering, and Param
-    const [search, setSearch] = useState("")
+    const [modalAddOpen, setModalAddOpen] = useState(false);
+    const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [app003ClusterEditData, setApp003ClusterEditData] = useState(null);
+    const [app003ClusterDeleteData, setApp003ClusterDeleteData] = useState(null)
     const [app003ClusterData, setApp003ClusterData] = useState([]);
     const [app003ClusterTotalData, setApp003ClusterTotalData] = useState(0)
     const [app003TotalPage, app003SetTotalPage] = useState(0)
+    const [search, setSearch] = useState("")
     const [app003ClusterDataParam, setApp003ClusterDataParam] = useState(
         {
             page: 1,
@@ -50,15 +37,6 @@ const MasterCluster = () => {
         }
     )
 
-
-    // State Add, Edit, and Delete Cluster
-    const [modalAddOpen, setModalAddOpen] = useState(false);
-    const [modalEditOpen, setModalEditOpen] = useState(false);
-    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [app003ClusterEditData, setApp003ClusterEditData] = useState(null);
-    const [app003ClusterDeleteData, setApp003ClusterDeleteData] = useState(null)
-
-    // Table Configuration Active Cluster (Header Table, Handle Page and Rows, Handle Sort)
     const app003ClusterColumns = [
         {
             dataField: "cluster_id",
@@ -87,31 +65,39 @@ const MasterCluster = () => {
             headerAlign: "center",
             bodyAlign: 'left',
             formatter: (cellContent, app003ClusterData) => (
-                <>
-                    <Stack direction="row" spacing={1} justifyContent="center">
-                        <Tooltip title="Update Cluster" placement="top">
-                            <IconButton
-                                aria-label="edit"
-                                size="small"
+                <div className="flex items-center justify-center gap-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-sm"
                                 onClick={() => handleModalEditOpen(app003ClusterData)}
-                                color="info"
                             >
-                                <SquarePen size={18} />
-                            </IconButton>
-                        </Tooltip>
+                                <SquarePen
+                                    className="text-blue-500"
+                                />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Edit</p>
+                        </TooltipContent>
+                    </Tooltip>
 
-                        <Tooltip title="Delete Cluster" placement="top">
-                            <IconButton
-                                aria-label="delete"
-                                size="small"
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-sm"
                                 onClick={() => handleModalDeleteOpen(app003ClusterData)}
-                                color="error"
                             >
-                                <Trash2 size={18} />
-                            </IconButton>
-                        </Tooltip>
-                    </Stack>
-                </>
+                                <Trash2 className="text-red-500" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Delete</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </div>
             ),
         },
     ];
@@ -142,20 +128,18 @@ const MasterCluster = () => {
 
     // Data From API Active Cluster
     const getAllCluster = useCallback(async (param) => {
-        setLoadingData(true);
+        setLoading(true);
         try {
             const response = await getCluster(param);
             console.table(response.data.clusters)
             setApp003ClusterData(response?.data?.clusters ? response.data.clusters : []);
             setApp003ClusterTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app003SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
-
-
         } catch (error) {
             console.error("Gagal mengambil data:", error);
 
         } finally {
-            setLoadingData(false);
+            setLoading(false);
         }
     });
 
@@ -166,7 +150,6 @@ const MasterCluster = () => {
     }, [app003ClusterDataParam]);
 
 
-    // Search and Filtering (Free Text)
     const handleSearchState = () => {
         setApp003ClusterDataParam(prev => ({
             ...prev,
@@ -190,153 +173,106 @@ const MasterCluster = () => {
 
     // Form Add Modal
     const handleModalAddOpen = () => {
-        setApp003setMsg("")
         setModalAddOpen(true)
     }
 
     // Form Edit Modal
     const handleModalEditOpen = (obj) => {
-        setApp003setMsg("")
         setModalEditOpen(true)
         setApp003ClusterEditData(obj)
     }
 
     // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
-        setApp003setMsg("")
         setModalDeleteOpen(true)
         setApp003ClusterDeleteData(obj)
     }
     const app003HandleDeleteCluster = () => {
         if (app003ClusterDeleteData.cluster_id) {
-
+            toast.dismiss()
             deleteClusterAction(app003ClusterDeleteData)
         }
     }
     const deleteClusterAction = useCallback(async (param) => {
+        const toastId = toast.loading("Loading...")
         try {
-            setLoadingDelete(true)
+            setLoading(true)
             const response = await deleteCluster(param.cluster_id)
 
             if (response.status === 204 || response.status === 200) {
-                setApp003setMsg("Cluster Has Been Successfully Deleted.")
-                setApp003setMsgStatus("success")
+                toast.success("Cluster Has Been Successfully Deleted.", { id: toastId })
+                refreshTable();
             } else {
-                setApp003setMsg("Failed to delete Cluster.")
-                setApp003setMsgStatus("error")
+                toast.error("Failed to delete Cluster.", { id: toastId })
             }
         } catch (error) {
-            debugger
-            console.log(error)
-            setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            setApp003setMsgStatus("error")
+            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
         } finally {
             setModalDeleteOpen(false)
-            setLoadingDelete(false)
-            refreshTable();
+            setLoading(false)
         }
     })
 
     return (
         <React.Fragment>
             <RootPageCustom
-                msgStateGet={app003Msg}
-                msgStateSet={setApp003setMsg}
-                msgStateGetStatus={app003MsgStatus}
                 setFirstRender={setFirstRender}
-                title="Clusters Management"
-                icon={<DeviceHubIcon fontSize="medium" />}
-                isMobile={isMobile}
             >
-                <Container
-                    maxWidth={false}
-                    hidden={!app003p01Page}
-                    disableGutters
-                    component={Paper}
-                    sx={{ overflow: "hidden", borderTopRightRadius: '0px', borderTopLeftRadius: isMobile ? "0px" : "10px" }}
-                >
+                <div className={`${app003p01Page ? "flex" : "hidden"} flex-col gap-2`}>
+                    <div className="flex items-center justify-between px-6 mb-2">
+                        <div>
+                            <h1 className="text-xl font-semibold">Cluster Management</h1>
+                            <p className="text-sm text-muted-foreground">Manage and monitor system clusters</p>
+                        </div>
+                        <Button
+                            size="sm"
+                            onClick={handleModalAddOpen}
+                        >
+                            <Plus />
+                            <span className="hidden sm:inline">Add Cluster</span>
+                        </Button>
+                    </div>
 
-                    <Box display={"flex"} flexDirection={"column"} gap={2} px={2} py={3}>
-                        <Stack>
-                            <Grid container spacing={2} alignItems={"center"}>
-                                <Grid size={{ xs: 12, sm: 12, md: 3 }}>
-                                    <TextField
-                                        fullWidth
-                                        placeholder="Search"
+                    <Card>
+                        <CardContent>
+                            <div className="flex items-center justify-end mb-4">
+                                <div className="relative w-full sm:w-48">
+                                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        placeholder="Search..."
                                         value={search}
-                                        onChange={(e) => { setSearch(e.target.value) }}
-                                        onKeyDown={(e) => { if (e.key === 'Enter') { handleSearchState() } }}
-                                        size="small"
-                                        slotProps={{
-                                            input: {
-                                                endAdornment: (
-                                                    <IconButton
-                                                        onClick={handleSearchState}
-                                                        edge="end"
-                                                        size="small"
-                                                        disableRipple
-
-                                                    >
-                                                        <SearchIcon fontSize="small" />
-                                                    </IconButton>
-                                                ),
-                                            }
-                                        }}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        onKeyDown={(e) => { if (e.key === "Enter") handleSearchState() }}
+                                        className="pl-8"
                                     />
-                                </Grid>
+                                </div>
+                            </div>
 
-                                <Grid size={{ xs: 12, md: 9 }} sx={{ display: 'flex', justifyContent: "flex-end" }}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleModalAddOpen}
-                                        fullWidth={isMobile ? true : false}
-                                        startIcon={<AddIcon fontSize="small" />}
-                                        sx={{ px: !isMobile ? 4 : 0 }}
-                                    >
-                                        Add
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Stack>
-
-                        <Stack >
-                            {/* <TableCustom
+                            <TableCustom
                                 keyField="cluster_id"
-                                loadingData={loadingData}
+                                loadingData={loading}
                                 columns={app003ClusterColumns}
                                 appdata={app003ClusterData}
                                 appdataTotal={app003ClusterTotalData}
                                 totalPage={app003TotalPage}
                                 rowsPerPageOption={[5, 10, 20, 25]}
-
                                 page={app003ClusterDataParam.page - 1}
                                 rowsPerPage={app003ClusterDataParam.size}
                                 sortField={app003ClusterDataParam.sort}
                                 sortOrder={app003ClusterDataParam.order}
-
-
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                                 onRequestSort={handleRequestSort}
-                            /> */}
-                        </Stack>
-
-                    </Box>
-
-
-                </Container>
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
 
                 {modalAddOpen && (
                     <MasterClusterAdd
                         modalAddOpen={modalAddOpen}
                         setModalAddOpen={setModalAddOpen}
                         refreshTable={refreshTable}
-                        // Props for message
-                        app003Msg={app003Msg}
-                        setApp003setMsg={setApp003setMsg}
-                        app003MsgStatus={app003MsgStatus}
-                        setApp003setMsgStatus={setApp003setMsgStatus}
                     >
                     </MasterClusterAdd>
                 )}
@@ -346,13 +282,7 @@ const MasterCluster = () => {
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
                         refreshTable={refreshTable}
-
-                        // Props for message and data
                         app003ClusterEditData={app003ClusterEditData}
-                        app003Msg={app003Msg}
-                        setApp003setMsg={setApp003setMsg}
-                        app003MsgStatus={app003MsgStatus}
-                        setApp003setMsgStatus={setApp003setMsgStatus}
                     />
                 )}
 
@@ -361,7 +291,7 @@ const MasterCluster = () => {
                         status={"delete"}
                         modalOpen={modalDeleteOpen}
                         modalClose={() => setModalDeleteOpen(false)}
-                        loading={loadingDelete}
+                        loading={loading}
                         onClick={app003HandleDeleteCluster}
                     />
                 )}

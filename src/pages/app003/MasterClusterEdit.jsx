@@ -2,21 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from 'prop-types';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, TextField, Stack, Box, InputAdornment, Select, Typography, Autocomplete } from "@mui/material";
-import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { editCluster } from "../../utils/ListApi";
-import FormSpinner from "../../components/common/FormSpinner";
-
-
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import toast from "react-hot-toast";
 
 const MasterClusterEdit = (props) => {
-    // State for Loading Spinner
     const [loadingSpinner, setLoadingSpinner] = useState(false);
-    const [textLoading, setTextLoading] = useState("")
 
     useEffect(() => {
         if (props.modalEditOpen) {
@@ -27,7 +22,6 @@ const MasterClusterEdit = (props) => {
         }
     }, [props.modalEditOpen])
 
-    // Function Close, Reset, and Refresh After Submitting
     const handleClose = () => {
         props.setModalEditOpen(false);
     }
@@ -40,40 +34,38 @@ const MasterClusterEdit = (props) => {
         },
         validationSchema: Yup.object
             ({
+                clusterId: Yup.string().required("Cluster Id is required."),
                 clusterName: Yup.string().required("Cluster Name is required."),
             }),
 
         onSubmit: async (values, { setSubmitting }) => {
-            debugger
+            toast.dismiss()
             setSubmitting(true)
             setLoadingSpinner(true)
-            setTextLoading("Processing...")
             await EditClusterAction(values)
             setSubmitting(false)
         },
     });
 
     const EditClusterAction = useCallback(async (param) => {
+        const toastId = toast.loading("Loading...")
         try {
-            debugger
             const response = await editCluster(
                 param.clusterId,
                 {
                     cluster_name: param.clusterName,
                 })
             if (response.status === 200) {
-                props.setApp003setMsg("Cluster Has Been Successfully Updated.");
-                props.setApp003setMsgStatus("success");
+                toast.success("Cluster Has Been Successfully Updated.", { id: toastId })
                 props.refreshTable();
                 handleClose()
             }
         } catch (error) {
             debugger
-            props.setApp003setMsg(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
-            props.setApp003setMsgStatus("error")
+            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
+
         } finally {
             setLoadingSpinner(false)
-            setTextLoading("")
         }
     })
 
@@ -81,153 +73,85 @@ const MasterClusterEdit = (props) => {
         <React.Fragment>
             <Dialog
                 open={props.modalEditOpen}
-                onClose={(event, reason) => {
-                    if (reason === 'backdropClick') return;
-                    handleClose()
-                }}
-                fullWidth={true}
-                maxWidth={"xs"}
-                scroll={"paper"}
+                onOpenChange={(open) => { if (!open) handleClose() }}
             >
-                <DialogTitle
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        pr: 1,
-                    }}
+                <DialogContent
+                    className="sm:max-w-md"
+                    onInteractOutside={(e) => e.preventDefault()}
+                    onOpenAutoFocus={(e) => e.preventDefault()}
                 >
-                    Update Cluster
+                    <DialogHeader>
+                        <DialogTitle>Edit Cluster</DialogTitle>
+                        <DialogDescription>Update the cluster information below
+                        </DialogDescription>
+                    </DialogHeader>
 
-                    <IconButton
-                        aria-label="close"
-                        onClick={handleClose}
-                        sx={{
-                            color: 'text.secondary'
-                        }}
+                    <form
+                        onSubmit={app003p03ValidInput.handleSubmit}
+                        className="flex flex-col gap-6"
                     >
-                        <CloseIcon />
-                    </IconButton>
-                </DialogTitle>
+                        <FieldGroup className="gap-2">
+                            <Field className="gap-2">
+                                <FieldLabel>Cluster Id</FieldLabel>
+                                <InputGroup className="overflow-hidden">
+                                    <InputGroupInput
+                                        id="clusterId"
+                                        name="clusterId"
+                                        type="text"
+                                        value={app003p03ValidInput.values.clusterId}
+                                        onChange={app003p03ValidInput.handleChange}
+                                        onBlur={app003p03ValidInput.handleBlur}
+                                        aria-invalid={app003p03ValidInput.touched.clusterId && !!app003p03ValidInput.errors.clusterId}
+                                        disabled
+                                    />
+                                </InputGroup>
+                                {app003p03ValidInput.touched.clusterId && app003p03ValidInput.errors.clusterId && (
+                                    <FieldDescription className="text-xs text-destructive">{app003p03ValidInput.errors.clusterId}</FieldDescription>
+                                )}
+                            </Field>
 
-                <DialogContent dividers={scroll === "paper"}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        overflowY: 'auto',
-                        '&::-webkit-scrollbar': {
-                            display: 'none',
-                        },
-                        scrollbarWidth: 'none',
-                        '-ms-overflow-style': 'none',
-                    }}
-                >
-                    <Stack
-                        spacing={4}
-                        sx={{
-                            p: 4
-                        }}>
+                            <Field className="gap-2">
+                                <FieldLabel>Cluster Name</FieldLabel>
+                                <InputGroup className="overflow-hidden">
+                                    <InputGroupInput
+                                        id="clusterName"
+                                        name="clusterName"
+                                        type="text"
+                                        value={app003p03ValidInput.values.clusterName}
+                                        onChange={app003p03ValidInput.handleChange}
+                                        onBlur={app003p03ValidInput.handleBlur}
+                                        aria-invalid={app003p03ValidInput.touched.clusterName && !!app003p03ValidInput.errors.clusterName}
+                                    />
+                                </InputGroup>
+                                {app003p03ValidInput.touched.clusterName && app003p03ValidInput.errors.clusterName && (
+                                    <FieldDescription className="text-xs text-destructive">{app003p03ValidInput.errors.clusterName}</FieldDescription>
+                                )}
+                            </Field>
+                        </FieldGroup>
 
-                        <FormSpinner
-                            open={loadingSpinner}
-                            text={textLoading}
-                        />
-
-                        <DialogContentText
-                            textAlign={"center"}
-                            sx={{
-                                color: 'text.primary'
-                            }}>
-                            Update cluster details to ensure accurate cluster management
-                        </DialogContentText>
-
-                        <Box
-                            component="form"
-                            onSubmit={app003p03ValidInput.handleSubmit}
-                            sx={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                gap: 3,
-                            }}
-                        >
-                            <Box>
-                                <Typography
-                                    variant="body2" fontWeight="medium"
-                                    mb={1}
-                                >
-                                    Cluster Id
-                                </Typography>
-                                <TextField
-                                    className="auth-field"
-                                    variant="outlined"
-                                    name="clusterId"
-                                    size="medium"
-                                    fullWidth
-                                    disabled
-                                    value={app003p03ValidInput.values.clusterId}
-                                />
-                            </Box>
-
-                            <Box>
-                                <Typography
-                                    variant="body2" fontWeight="medium"
-                                    mb={1}
-                                >
-                                    Cluster Name
-                                </Typography>
-                                <TextField
-                                    className="auth-field"
-                                    variant="outlined"
-                                    placeholder="Cluster Name"
-                                    name="clusterName"
-                                    size="medium"
-                                    fullWidth
-                                    value={app003p03ValidInput.values.clusterName}
-                                    onChange={app003p03ValidInput.handleChange}
-                                    onBlur={app003p03ValidInput.handleBlur}
-                                    error={app003p03ValidInput.touched.clusterName && Boolean(app003p03ValidInput.errors.clusterName)}
-                                    helperText={app003p03ValidInput.touched.clusterName && app003p03ValidInput.errors.clusterName}
-                                />
-                            </Box>
-
-                            <DialogActions sx={{ justifyContent: 'center', gap: 2, p: 0, mt: 2 }}  >
+                        <DialogFooter className="flex-row gap-2">
+                            <DialogClose asChild>
                                 <Button
-                                    color="main"
-                                    variant="contained"
-                                    fullWidth
-                                    sx={{
-                                        minHeight: '50px',
-                                        bgcolor: 'button.grey',
-                                        borderRadius: '15px',
-                                        '&:hover': {
-                                            bgcolor: 'button.grey',
-                                            opacity: 0.9,
-                                        },
-                                    }}
+                                    variant="outline"
+                                    className="flex-1"
                                     onClick={handleClose}
                                 >
-                                    CANCEL
+                                    Cancel
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    color="success"
-                                    variant="contained"
-                                    fullWidth
-                                    sx={{
-                                        minHeight: '50px',
-                                        borderRadius: '15px',
-                                        '&:hover': {
-                                            opacity: 0.9,
-                                        },
-                                    }}
-                                >
-                                    UPDATE
-                                </Button>
-                            </DialogActions>
-                        </Box>
-                    </Stack>
+                            </DialogClose>
+                            <Button
+                                type="submit"
+                                className="flex-1"
+                                disabled={loadingSpinner}
+                            >
+                                <Spinner
+                                    data-icon="inline-start"
+                                    className={loadingSpinner ? "flex" : 'hidden'}
+                                />
+                                {loadingSpinner ? "Saving..." : "Save Changes"}
+                            </Button>
+                        </DialogFooter>
+                    </form>
                 </DialogContent>
             </Dialog>
         </React.Fragment>
@@ -238,10 +162,6 @@ MasterClusterEdit.propTypes = {
     modalEditOpen: PropTypes.any,
     setModalEditOpen: PropTypes.any,
     refreshTable: PropTypes.any,
-    app003Msg: PropTypes.any,
-    setApp003setMsg: PropTypes.any,
-    app003MsgStatus: PropTypes.any,
-    setApp003setMsgStatus: PropTypes.any,
     app003ClusterEditData: PropTypes.any,
 };
 

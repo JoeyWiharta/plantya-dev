@@ -290,7 +290,7 @@ const MasterUser = () => {
 
 
     // Data From API Deleted User
-    
+
     const getAllDeletedUser = useCallback(async (param) => {
         setLoading(true);
         try {
@@ -409,27 +409,28 @@ const MasterUser = () => {
 
     const app002HandleDeleteUser = () => {
         if (app002UserDeleteData.user_id) {
+            toast.dismiss()
             deleteUserAction(app002UserDeleteData)
         }
     }
 
     const deleteUserAction = useCallback(async (param) => {
+        const toastId = toast.loading("Loading...")
         try {
-            toast.dismiss()
             setLoading(true)
             const response = await deleteUser(param.user_id)
 
             if (response.status === 204 || response.status === 200) {
-                toast.success("User Has Been Successfully Deleted.")
+                toast.success("User Has Been Successfully Deleted.", { id: toastId })
+                refreshTable();
             } else {
-                toast.error("Failed to delete user.")
+                toast.error("Failed to delete user.", { id: toastId })
             }
         } catch (error) {
-            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
         } finally {
             setModalDeleteOpen(false)
             setLoading(false)
-            refreshTable();
         }
     })
 
@@ -440,26 +441,27 @@ const MasterUser = () => {
     }
     const app002HandleRestoreUser = () => {
         if (app002UserRestoreData.user_id) {
+            toast.dismiss()
             restoreUserAction(app002UserRestoreData)
         }
     }
     const restoreUserAction = useCallback(async (param) => {
+        const toastId = toast.loading("Loading...")
         try {
-            toast.dismiss()
             setLoading(true)
             const response = await restoreUser(param.user_id)
 
             if (response.status === 201 || response.status === 200) {
-                toast.success("User Has Been Successfully Restored.")
+                toast.success("User Has Been Successfully Restored.", { id: toastId })
+                refreshTable();
             } else {
-                toast.error(error?.response?.data?.detail || "Failed to restore user.")
+                toast.error(error?.response?.data?.detail || "Failed to restore user.", { id: toastId })
             }
         } catch (error) {
-            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
         } finally {
             setModalRestoreOpen(false)
             setLoading(false)
-            refreshTable();
         }
     })
 
@@ -467,10 +469,8 @@ const MasterUser = () => {
         <React.Fragment>
             <RootPageCustom
                 setFirstRender={setFirstRender}
-
             >
                 <div className={`${app002p01Page ? "flex" : "hidden"} flex-col gap-2`}>
-
                     <div className="flex items-center justify-between px-6 mb-2">
                         <div>
                             <h1 className="text-xl font-semibold">User Management</h1>

@@ -55,6 +55,7 @@ const MasterUserEdit = (props) => {
     });
 
     const EditUserAction = useCallback(async (param) => {
+        const toastId = toast.loading("Loading...")
         try {
             const response = await editUser(
                 param.userId,
@@ -64,13 +65,13 @@ const MasterUserEdit = (props) => {
                     role: param.role
                 })
             if (response.status === 200) {
-                toast.success("User updated successfully.")
+                toast.success("User updated successfully.", { id: toastId })
                 props.refreshTable();
                 handleClose()
             }
         } catch (error) {
             debugger
-            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
         } finally {
             setLoadingSpinner(false)
         }
@@ -124,7 +125,7 @@ const MasterUserEdit = (props) => {
                                         id="email"
                                         name="email"
                                         type="text"
-                                        placeholder="e.g. john@example.com"
+                                        placeholder="Enter email address"
                                         value={app002p03ValidInput.values.email}
                                         onChange={app002p03ValidInput.handleChange}
                                         onBlur={app002p03ValidInput.handleBlur}
@@ -135,6 +136,26 @@ const MasterUserEdit = (props) => {
                                     <FieldDescription className="text-xs text-destructive">{app002p03ValidInput.errors.email}</FieldDescription>
                                 )}
                             </Field>
+
+                            <Field className="gap-2">
+                                <FieldLabel>Name</FieldLabel>
+                                <InputGroup className="overflow-hidden">
+                                    <InputGroupInput
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        placeholder="Enter full name"
+                                        value={app002p03ValidInput.values.name}
+                                        onChange={app002p03ValidInput.handleChange}
+                                        onBlur={app002p03ValidInput.handleBlur}
+                                        aria-invalid={app002p03ValidInput.touched.name && !!app002p03ValidInput.errors.name}
+                                    />
+                                </InputGroup>
+                                {app002p03ValidInput.touched.name && app002p03ValidInput.errors.name && (
+                                    <FieldDescription className="text-xs text-destructive">{app002p03ValidInput.errors.name}</FieldDescription>
+                                )}
+                            </Field>
+
 
                             <Field className="gap-2">
                                 <FieldLabel>Role</FieldLabel>

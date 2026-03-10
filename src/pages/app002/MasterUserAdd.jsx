@@ -12,7 +12,6 @@ import { Spinner } from "@/components/ui/spinner";
 import toast from "react-hot-toast";
 
 const MasterUserAdd = (props) => {
-
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
   useEffect(() => {
@@ -51,17 +50,18 @@ const MasterUserAdd = (props) => {
   });
 
   const SaveUserAction = useCallback(async (param) => {
+    const toastId = toast.loading("Loading...")
     try {
       debugger
       const response = await addUser(param)
       if (response.status === 201 || response.status === 200) {
-        toast.success("User Has Been Successfully Added.")
+        toast.success("User Has Been Successfully Added.", { id: toastId })
         props.refreshTable();
         handleClose()
       }
     } catch (error) {
       debugger
-      toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.")
+      toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
     } finally {
       setLoadingSpinner(false)
     }
@@ -95,7 +95,7 @@ const MasterUserAdd = (props) => {
                     id="email"
                     name="email"
                     type="text"
-                    placeholder="e.g. john@example.com"
+                    placeholder="Enter email address"
                     value={app002p02ValidInput.values.email}
                     onChange={app002p02ValidInput.handleChange}
                     onBlur={app002p02ValidInput.handleBlur}
@@ -114,7 +114,7 @@ const MasterUserAdd = (props) => {
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="e.g. John Doe"
+                    placeholder="Enter full name"
                     value={app002p02ValidInput.values.name}
                     onChange={app002p02ValidInput.handleChange}
                     onBlur={app002p02ValidInput.handleBlur}
