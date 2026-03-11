@@ -11,7 +11,7 @@ import SmallIcon from "./assets/images/SmallIcon.png"
 const link = document.querySelector("link[rel='icon']")
 link.href = SmallIcon
 
-const basename = import.meta.env.DEV ? "/chlora/" : "/chlora/"
+const basename = import.meta.env.DEV ? "/chlora/" : "/"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
