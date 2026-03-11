@@ -52,7 +52,12 @@ const MasterDeviceAdd = (props) => {
   const SaveDeviceAction = useCallback(async (param) => {
     const toastId = toast.loading("Loading...")
     try {
-      const response = await addDevice(param)
+      const response = await addDevice(
+        {
+          device_name: param.deviceName,
+          device_type: param.deviceType,
+          cluster_id: param.clusterId,
+        })
       if (response.status === 201 || response.status === 200) {
         toast.success("Device Has Been Successfully Added.", { id: toastId })
         props.refreshTable();
@@ -110,7 +115,7 @@ const MasterDeviceAdd = (props) => {
                 <Select
                   value={app004p02ValidInput.values.deviceType}
                   onValueChange={(val) => app004p02ValidInput.setFieldValue("deviceType", val)}
-                  // onOpenChange={() => app004p02ValidInput.setFieldTouched("deviceType", true)}
+                // onOpenChange={() => app004p02ValidInput.setFieldTouched("deviceType", true)}
                 >
                   <SelectTrigger
                     id="deviceType"
@@ -138,7 +143,7 @@ const MasterDeviceAdd = (props) => {
                 <Select
                   value={app004p02ValidInput.values.clusterName}
                   onValueChange={(val) => app004p02ValidInput.setFieldValue("clusterId", val)}
-                  // onOpenChange={() => app004p02ValidInput.setFieldTouched("clusterId", true)}
+                // onOpenChange={() => app004p02ValidInput.setFieldTouched("clusterId", true)}
                 >
                   <SelectTrigger
                     id="clusterId"

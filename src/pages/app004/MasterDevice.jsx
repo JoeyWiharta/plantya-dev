@@ -307,6 +307,7 @@ const MasterDevice = () => {
 
             if (response.status === 204 || response.status === 200) {
                 toast.success("Device Has Been Successfully Deleted.", { id: toastId })
+                refreshTable();
             } else {
                 toast.error("Failed to delete device.", { id: toastId })
             }
