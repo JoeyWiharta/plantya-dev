@@ -61,7 +61,6 @@ const MasterClusterEdit = (props) => {
                 handleClose()
             }
         } catch (error) {
-            debugger
             toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
 
         } finally {

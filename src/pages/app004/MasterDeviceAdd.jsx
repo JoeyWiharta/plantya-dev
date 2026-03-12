@@ -21,7 +21,6 @@ const MasterDeviceAdd = (props) => {
   }, [props.modalAddOpen])
 
   const handleClose = () => {
-    debugger
     props.setModalAddOpen(false);
   }
 

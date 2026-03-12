@@ -200,11 +200,9 @@ const MasterDevice = () => {
         { value: "OFFLINE", label: "Offline" },
     ])
     const getAllCluster = useCallback(async (param) => {
-        debugger
         setLoadingData(true);
         try {
             const response = await getCluster(param);
-            debugger
             setClusterOption(response?.data?.clusters ? response.data.clusters.map(cluster => ({
                 value: cluster.cluster_id,
                 label: cluster.cluster_name,

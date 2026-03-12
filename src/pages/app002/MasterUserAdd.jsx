@@ -52,7 +52,6 @@ const MasterUserAdd = (props) => {
   const SaveUserAction = useCallback(async (param) => {
     const toastId = toast.loading("Loading...")
     try {
-      debugger
       const response = await addUser(param)
       if (response.status === 201 || response.status === 200) {
         toast.success("User Has Been Successfully Added.", { id: toastId })
@@ -60,7 +59,6 @@ const MasterUserAdd = (props) => {
         handleClose()
       }
     } catch (error) {
-      debugger
       toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
     } finally {
       setLoadingSpinner(false)
