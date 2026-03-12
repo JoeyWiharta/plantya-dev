@@ -232,9 +232,9 @@ const MasterDevice = () => {
     // Status Filtering
     const [status, setStatus] = useState("")
 
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (e) => {
         const switchValue = e === "all" ? "" : e
-        setStatus(event)
+        setStatus(e)
         setSearch("")
 
         setApp004DeviceDataParam(prev => ({
@@ -248,9 +248,9 @@ const MasterDevice = () => {
     // Cluster Filtering
     const [cluster, setCluster] = useState("")
 
-    const handleClusterChange = (event) => {
+    const handleClusterChange = (e) => {
         const switchValue = e === "all" ? "" : e
-        setCluster(event)
+        setCluster(e)
         setSearch("")
 
         setApp004DeviceDataParam(prev => ({
