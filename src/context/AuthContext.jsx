@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 import { logoutApi } from "../utils/ListApi";
 import { setLogoutHandler } from "../utils/AxiosInstance";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext(null);
 
@@ -25,8 +26,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
+        const toastId = toast.loading("Loading...")
         try {
             await logoutApi();
+            toast.success("Logout successfully.", { id: toastId })
         } catch (e) {
             console.error(e);
         } finally {
@@ -39,10 +42,10 @@ export const AuthProvider = ({ children }) => {
 
     const clearAuthState = () => {
         // debugger
-        setUser(null);
-        setLoginStatus(false);
-        localStorage.removeItem("user");
-        localStorage.removeItem("loginStatus");
+        // setUser(null);
+        // setLoginStatus(false);
+        // localStorage.removeItem("user");
+        // localStorage.removeItem("loginStatus");
     }
 
     useEffect(() => {

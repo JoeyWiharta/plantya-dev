@@ -14,7 +14,6 @@ const AuthLayout = (props) => {
         const data = localStorage.getItem("user");
         return data ? JSON.parse(data) : null;
     }, []);
-    console.log(userData)
 
     return (
         <SidebarProvider>

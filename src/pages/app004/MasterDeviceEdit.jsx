@@ -53,7 +53,6 @@ const MasterDeviceEdit = (props) => {
     });
 
     const EditDeviceAction = useCallback(async (param) => {
-        console.log(param)
         const toastId = toast.loading("Loading...")
         try {
             const response = await editDevice(

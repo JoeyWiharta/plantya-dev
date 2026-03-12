@@ -166,18 +166,15 @@ const MasterDevice = () => {
 
     // Data From API Active Device
     const getAllDevice = useCallback(async (param) => {
+        toast.dismiss()
         setLoadingData(true);
         try {
             const response = await getDevice(param);
-            console.table(response.data.devices)
             setApp004DeviceData(response?.data?.devices ? response.data.devices : []);
             setApp004DeviceTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app004SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
-
-
         } catch (error) {
-            console.error("Gagal mengambil data:", error);
-
+            toast.error("Gagal mengambil data");
         } finally {
             setLoadingData(false);
         }
@@ -200,6 +197,7 @@ const MasterDevice = () => {
         { value: "OFFLINE", label: "Offline" },
     ])
     const getAllCluster = useCallback(async (param) => {
+        toast.dismiss()
         setLoadingData(true);
         try {
             const response = await getCluster(param);
@@ -208,8 +206,8 @@ const MasterDevice = () => {
                 label: cluster.cluster_name,
             })) : []);
         } catch (error) {
-            console.error("Gagal mengambil data:", error);
-
+            console.log(error)
+            // toast.error("Gagal mengambil data");
         } finally {
             setLoadingData(false);
         }

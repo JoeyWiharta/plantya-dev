@@ -233,18 +233,15 @@ const MasterUser = () => {
 
     // Data From API Active User
     const getAllUser = useCallback(async (param) => {
+        toast.dismiss()
         setLoading(true);
         try {
             const response = await getUser(param);
-            console.table(response.data.users)
             setApp002UserData(response?.data?.users ? response.data.users : []);
             setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
-
-
         } catch (error) {
-            console.error("Gagal mengambil data:", error);
-
+            toast.error("Gagal mengambil data")
         } finally {
             setLoading(false);
         }
@@ -292,17 +289,17 @@ const MasterUser = () => {
     // Data From API Deleted User
 
     const getAllDeletedUser = useCallback(async (param) => {
+        toast.dismiss()
         setLoading(true);
         try {
             const response = await getUserDeleted(param);
-            console.table(response.data.users)
             setApp002UserData(response?.data?.users ? response.data.users : []);
             setApp002UserTotalData(response?.data?.count_data ? response.data.count_data : 0);
 
 
             app002SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
         } catch (error) {
-            console.error("Gagal mengambil data:", error);
+            toast.error("Gagal mengambil data");
         } finally {
             setLoading(false);
         }
@@ -527,7 +524,7 @@ const MasterUser = () => {
                                             </Select>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2 sm:hidden">
+                                    <div className="flex items-center gap-2 sm:hidden mt-2">
                                         <div className="relative flex-1">
                                             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                                             <Input

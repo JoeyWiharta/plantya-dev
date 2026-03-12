@@ -126,16 +126,15 @@ const MasterCluster = () => {
 
     // Data From API Active Cluster
     const getAllCluster = useCallback(async (param) => {
+        toast.dismiss()
         setLoading(true);
         try {
             const response = await getCluster(param);
-            console.table(response.data.clusters)
             setApp003ClusterData(response?.data?.clusters ? response.data.clusters : []);
             setApp003ClusterTotalData(response?.data?.count_data ? response.data.count_data : 0);
             app003SetTotalPage(response?.data?.total_pages ? response.data?.total_pages : 0);
         } catch (error) {
-            console.error("Gagal mengambil data:", error);
-
+            toast.error("Gagal mengambil data");
         } finally {
             setLoading(false);
         }
