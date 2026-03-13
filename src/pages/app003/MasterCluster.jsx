@@ -203,7 +203,7 @@ const MasterCluster = () => {
                 toast.error("Failed to delete Cluster.", { id: toastId })
             }
         } catch (error) {
-            toast.error(error?.response?.data?.detail || "System is Unavailable. Please Try Again Later.", { id: toastId })
+            toast.error(error?.response?.data?.message || "System is Unavailable. Please Try Again Later.", { id: toastId })
         } finally {
             setModalDeleteOpen(false)
             setLoading(false)
