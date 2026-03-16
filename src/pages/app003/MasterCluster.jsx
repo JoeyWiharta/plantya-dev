@@ -126,7 +126,6 @@ const MasterCluster = () => {
 
     // Data From API Active Cluster
     const getAllCluster = useCallback(async (param) => {
-        toast.dismissAll()
         setLoading(true);
         try {
             const response = await getCluster(param);
@@ -186,7 +185,7 @@ const MasterCluster = () => {
     }
     const app003HandleDeleteCluster = () => {
         if (app003ClusterDeleteData.clusterId) {
-            toast.dismissAll()
+            toast.dismiss()
             deleteClusterAction(app003ClusterDeleteData)
         }
     }

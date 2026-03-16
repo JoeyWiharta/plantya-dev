@@ -33,10 +33,8 @@ const MasterUserAdd = (props) => {
     },
     validationSchema: Yup.object
       ({
-        email: Yup.string()
-          .required("Email is required.")
-          .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please enter a valid email address."),
-        name: Yup.string().required("Name is required."),
+        name: Yup.string().required("Name is required.").min(4, "Name must be at least 4 characters.").max(20, "Name must not exceed 20 characters.").matches(/^[A-Za-z\s]+$/, "Name can only contain letters and spaces."),
+        email: Yup.string().required("Email is required.").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please enter a valid email address."),
         role: Yup.string().required("Role is required."),
       }),
 
@@ -86,25 +84,6 @@ const MasterUserAdd = (props) => {
             className="flex flex-col gap-6"
           >
             <FieldGroup className="gap-2">
-              <Field className="gap-2">
-                <FieldLabel>Email Address</FieldLabel>
-                <InputGroup className="overflow-hidden">
-                  <InputGroupInput
-                    id="email"
-                    name="email"
-                    type="text"
-                    placeholder="Enter email address"
-                    value={app002p02ValidInput.values.email}
-                    onChange={app002p02ValidInput.handleChange}
-                    onBlur={app002p02ValidInput.handleBlur}
-                    aria-invalid={app002p02ValidInput.touched.email && !!app002p02ValidInput.errors.email}
-                  />
-                </InputGroup>
-                {app002p02ValidInput.touched.email && app002p02ValidInput.errors.email && (
-                  <FieldDescription className="text-xs text-destructive">{app002p02ValidInput.errors.email}</FieldDescription>
-                )}
-              </Field>
-
               <Field>
                 <FieldLabel>Name</FieldLabel>
                 <InputGroup className="overflow-hidden">
@@ -121,6 +100,25 @@ const MasterUserAdd = (props) => {
                 </InputGroup>
                 {app002p02ValidInput.touched.name && app002p02ValidInput.errors.name && (
                   <FieldDescription className="text-xs text-destructive">{app002p02ValidInput.errors.name}</FieldDescription>
+                )}
+              </Field>
+
+              <Field className="gap-2">
+                <FieldLabel>Email Address</FieldLabel>
+                <InputGroup className="overflow-hidden">
+                  <InputGroupInput
+                    id="email"
+                    name="email"
+                    type="text"
+                    placeholder="Enter email address"
+                    value={app002p02ValidInput.values.email}
+                    onChange={app002p02ValidInput.handleChange}
+                    onBlur={app002p02ValidInput.handleBlur}
+                    aria-invalid={app002p02ValidInput.touched.email && !!app002p02ValidInput.errors.email}
+                  />
+                </InputGroup>
+                {app002p02ValidInput.touched.email && app002p02ValidInput.errors.email && (
+                  <FieldDescription className="text-xs text-destructive">{app002p02ValidInput.errors.email}</FieldDescription>
                 )}
               </Field>
 

@@ -50,7 +50,7 @@ const MasterClusterAdd = (props) => {
         clusterName: param.clusterName
       })
       if (response.status === 201 || response.status === 200) {
-        toast.success("Cluster Has Been Successfully Added.", { id: toastId })
+        toast.success("Cluster added successfully.", { id: toastId })
         props.refreshTable();
         handleClose()
       }
