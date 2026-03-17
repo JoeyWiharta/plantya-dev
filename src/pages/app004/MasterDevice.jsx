@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import RootPageCustom from "../../components/common/RootPageCustom";
 import TableCustom from "../../components/common/TableCustom";
-import { getDevice, deleteDevice, getCluster } from "../../utils/ListApi";
+import { getDevice, deleteDevice, getComboCluster } from "../../utils/ListApi";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
-import { Trash2, SquarePen, Plus, Search, RotateCcw } from "lucide-react";
+import { Trash2, SquarePen, Plus, Search } from "lucide-react";
 import MasterDeviceAdd from "./MasterDeviceAdd";
 import MasterDeviceEdit from "./MasterDeviceEdit";
 import { Button } from "@/components/ui/button";
@@ -14,18 +14,31 @@ import toast from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-const MasterDevice = () => {
-    // State First Page, Message, and Loading Effect
-    const [firstRender, setFirstRender] = useState(false)
-    const [app004p01Page, setApp004p01Page] = useState(true);
-    const [loadingData, setLoadingData] = useState(false);
-    const [loadingDelete, setLoadingDelete] = useState(false)
+const deviceTypeOption = [
+    { value: "Actuator", label: "Actuator" },
+    { value: "Sensor", label: "Sensor" },
+]
 
-    // State Data Device, Filtering, and Param
-    const [search, setSearch] = useState("")
+const statusOptions = [
+    { value: "ONLINE", label: "Online" },
+    { value: "OFFLINE", label: "Offline" },
+]
+
+const MasterDevice = () => {
+    const [loading, setLoading] = useState(false);
+    const [modalAddOpen, setModalAddOpen] = useState(false);
+    const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
     const [app004DeviceData, setApp004DeviceData] = useState([]);
     const [app004DeviceTotalData, setApp004DeviceTotalData] = useState(0)
     const [app004TotalPage, app004SetTotalPage] = useState(0)
+    const [search, setSearch] = useState("")
+    const [status, setStatus] = useState("")
+    const [cluster, setCluster] = useState("")
+    const [clusterOption, setClusterOption] = useState([])
+    const [app004DeviceEditData, setApp004DeviceEditData] = useState(null);
+    const [app004DeviceDeleteData, setApp004DeviceDeleteData] = useState(null)
+
     const [app004DeviceDataParam, setApp004DeviceDataParam] = useState(
         {
             page: 1,
@@ -37,27 +50,8 @@ const MasterDevice = () => {
             clusterId: "",
         }
     )
-    // Param for a while (Cluster doesnt need param for dropdown list)
-    const [app004ClusterDataParam, setApp004ClusterDataParam] = useState(
-        {
-            page: 1,
-            size: 10,
-            sort: "",
-            order: "asc",
-            search: "",
-        }
-    )
 
-
-    // State Add, Edit, and Delete Device
-    const [modalAddOpen, setModalAddOpen] = useState(false);
-    const [modalEditOpen, setModalEditOpen] = useState(false);
-    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [app004DeviceEditData, setApp004DeviceEditData] = useState(null);
-    const [app004DeviceDeleteData, setApp004DeviceDeleteData] = useState(null)
-
-    // Table Configuration Active Device (Header Table, Handle Page and Rows, Handle Sort)
-    const app004DeviceColumns = [
+    const app004DeviceColumns = useMemo(() => [
         {
             dataField: "deviceId",
             text: "Device ID",
@@ -107,7 +101,7 @@ const MasterDevice = () => {
             dataField: "action",
             text: "Action",
             headerAlign: "center",
-            bodyAlign: 'left',
+            bodyAlign: 'center',
             formatter: (cellContent, app004DeviceData) => (
                 <div className="flex items-center justify-center gap-2">
                     <Tooltip>
@@ -138,7 +132,7 @@ const MasterDevice = () => {
                 </div>
             ),
         },
-    ];
+    ], []);
 
     const handleChangePage = (newPage) => {
         setApp004DeviceDataParam(prev => ({
@@ -164,76 +158,49 @@ const MasterDevice = () => {
         }));
     };
 
-    // Data From API Active Device
-    const getAllDevice = useCallback(async (param) => {
-        setLoadingData(true);
+    const fetchDevice = useCallback(async (param) => {
+        setLoading(true);
         try {
             const response = await getDevice(param);
-            setApp004DeviceData(response?.data?.devices ? response.data.devices : []);
-            setApp004DeviceTotalData(response?.data?.countData ? response.data.countData : 0);
-            app004SetTotalPage(response?.data?.totalPages ? response.data?.totalPages : 0);
+            setApp004DeviceData(response?.data?.devices ?? []);
+            setApp004DeviceTotalData(response?.data?.countData ?? 0);
+            app004SetTotalPage(response?.data?.totalPages ?? 0);
         } catch (error) {
-            if (error.isUnauthorized) return;
             toast.error("System is unavailable, please try again later.");
         } finally {
-            setLoadingData(false);
+            setLoading(false);
         }
-    });
+    }, []);
 
     useEffect(() => {
-        if (app004p01Page) {
-            getAllDevice(app004DeviceDataParam);
-        }
+        fetchDevice(app004DeviceDataParam);
     }, [app004DeviceDataParam]);
 
-    // State and Function for Dropdown Cluster
-    const [clusterOption, setClusterOption] = useState([])
-    const [deviceTypeOption, setDeviceTypeOption] = useState([
-        { value: "Actuator", label: "Actuator" },
-        { value: "Sensor", label: "Sensor" },
-    ])
-    const [statusOptions, setStatusOptions] = useState([
-        { value: "ONLINE", label: "Online" },
-        { value: "OFFLINE", label: "Offline" },
-    ])
-    const getAllCluster = useCallback(async (param) => {
-        setLoadingData(true);
+    const fetchCluster = useCallback(async () => {
         try {
-            const response = await getCluster(param);
-            setClusterOption(response?.data?.clusters ? response.data.clusters.map(cluster => ({
-                value: cluster.clusterId,
-                label: cluster.clusterName,
-            })) : []);
+            const response = await getComboCluster();
+            setClusterOption(response?.data?.list ?? []);
         } catch (error) {
-            console.log(error)
-            // toast.error("System is unavailable, please try again later.");
-        } finally {
-            setLoadingData(false);
+            toast.error("System is unavailable, please try again later.");
         }
-    });
+    }, []);
 
     useEffect(() => {
-        getAllCluster(app004ClusterDataParam)
+        fetchCluster()
     }, [])
 
-    // Search and Filtering (Free Text)
     const handleSearchState = () => {
         setApp004DeviceDataParam(prev => ({
             ...prev,
             page: 1,
             search: search
         }))
-
     }
-
-    // Status Filtering
-    const [status, setStatus] = useState("")
 
     const handleStatusChange = (e) => {
         const switchValue = e === "all" ? "" : e
         setStatus(e)
         setSearch("")
-
         setApp004DeviceDataParam(prev => ({
             ...prev,
             "page": 1,
@@ -242,14 +209,10 @@ const MasterDevice = () => {
         }))
     }
 
-    // Cluster Filtering
-    const [cluster, setCluster] = useState("")
-
     const handleClusterChange = (e) => {
         const switchValue = e === "all" ? "" : e
         setCluster(e)
         setSearch("")
-
         setApp004DeviceDataParam(prev => ({
             ...prev,
             "page": 1,
@@ -258,7 +221,6 @@ const MasterDevice = () => {
         }))
     }
 
-    // Refresh Table Function
     const refreshTable = useCallback(() => {
         setSearch("");
         setCluster("")
@@ -272,149 +234,136 @@ const MasterDevice = () => {
             status: "",
             clusterId: ""
         });
-    });
+    }, []);
 
-    // Form Add Modal
-    const handleModalAddOpen = () => {
-        setModalAddOpen(true)
-    }
-
-    // Form Edit Modal
     const handleModalEditOpen = (obj) => {
         setModalEditOpen(true)
         setApp004DeviceEditData(obj)
     }
 
-    // Form Delete Modal
     const handleModalDeleteOpen = (obj) => {
         setModalDeleteOpen(true)
         setApp004DeviceDeleteData(obj)
     }
-    const app004HandleDeleteDevice = () => {
-        if (app004DeviceDeleteData.deviceId) {
-            toast.dismiss()
-            deleteDeviceAction(app004DeviceDeleteData)
-        }
-    }
+
     const deleteDeviceAction = useCallback(async (param) => {
         const toastId = toast.loading("Loading...")
+        setLoading(true)
         try {
-            setLoadingDelete(true)
             const response = await deleteDevice(param.deviceId)
-
             if (response.status === 204 || response.status === 200) {
-                toast.success("Device Has Been Successfully Deleted.", { id: toastId })
+                toast.success("Device deleted successfully.", { id: toastId })
                 refreshTable();
             } else {
                 toast.error("Failed to delete device.", { id: toastId })
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is Unavailable. Please Try Again Later.", { id: toastId })
+            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
         } finally {
             setModalDeleteOpen(false)
-            setLoadingDelete(false)
+            setLoading(false)
         }
-    })
+    }, [])
+
+    const app004HandleDeleteDevice = () => { app004DeviceDeleteData?.deviceId && deleteDeviceAction(app004DeviceDeleteData) }
 
     return (
-        <React.Fragment>
-            <RootPageCustom
-                setFirstRender={setFirstRender}
-            >
-                <div className={`${app004p01Page ? "flex" : "hidden"} flex-col gap-2`}>
-                    <div className="flex items-center justify-between px-6 mb-2">
-                        <div>
-                            <h1 className="text-xl font-semibold">Device Management</h1>
-                            <p className="text-sm text-muted-foreground">Manage and monitor registered devices</p>
-                        </div>
-                        <Button
-                            size="sm"
-                            onClick={handleModalAddOpen}
-                        >
-                            <Plus />
-                            <span className="hidden sm:inline">Add Device</span>
-                        </Button>
+        <RootPageCustom>
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between px-6 mb-2">
+                    <div>
+                        <h1 className="text-xl font-semibold">Device Management</h1>
+                        <p className="text-sm text-muted-foreground">Manage and monitor registered devices</p>
                     </div>
-
-                    <Card>
-                        <CardContent>
-                            <div className="flex flex-wrap items-center justify-end gap-2 mb-4">
-                                <div className="relative w-full sm:w-48">
-                                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        placeholder="Search..."
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        onKeyDown={(e) => { if (e.key === "Enter") handleSearchState() }}
-                                        className="pl-8"
-                                    />
-                                </div>
-
-                                <Select value={cluster} onValueChange={handleClusterChange}>
-                                    <SelectTrigger className="flex-1 sm:w-36 sm:flex-none">
-                                        <SelectValue placeholder="All Cluster" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="all">All Cluster</SelectItem>
-                                            {clusterOption.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-
-                                <Select value={status} onValueChange={handleStatusChange}>
-                                    <SelectTrigger className="flex-1 sm:w-36 sm:flex-none">
-                                        <SelectValue placeholder="All Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectItem value="all">All Status</SelectItem>
-                                            {statusOptions.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <TableCustom
-                                keyField="deviceId"
-                                loadingData={loadingData}
-                                columns={app004DeviceColumns}
-                                appdata={app004DeviceData}
-                                appdataTotal={app004DeviceTotalData}
-                                totalPage={app004TotalPage}
-                                rowsPerPageOption={[5, 10, 20, 25]}
-                                page={app004DeviceDataParam.page - 1}
-                                rowsPerPage={app004DeviceDataParam.size}
-                                sortField={app004DeviceDataParam.sort}
-                                sortOrder={app004DeviceDataParam.order}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                onRequestSort={handleRequestSort}
-                            />
-                        </CardContent>
-                    </Card>
+                    <Button
+                        size="sm"
+                        onClick={() => setModalAddOpen(true)}
+                    >
+                        <Plus />
+                        <span className="hidden sm:inline">Add Device</span>
+                    </Button>
                 </div>
 
-                {modalAddOpen && (
-                    <MasterDeviceAdd
-                        modalAddOpen={modalAddOpen}
-                        setModalAddOpen={setModalAddOpen}
-                        refreshTable={refreshTable}
-                        clusterOption={clusterOption}
-                        deviceTypeOption={deviceTypeOption}
-                    >
-                    </MasterDeviceAdd>
-                )}
+                <Card>
+                    <CardContent>
+                        <div className="flex flex-wrap items-center justify-end gap-2 mb-4">
+                            <div className="relative w-full sm:w-48">
+                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    onKeyDown={(e) => { if (e.key === "Enter") handleSearchState() }}
+                                    className="pl-8"
+                                />
+                            </div>
 
-                {modalEditOpen && (
+                            <Select value={cluster} onValueChange={handleClusterChange}>
+                                <SelectTrigger className="flex-1 sm:w-36 sm:flex-none">
+                                    <SelectValue placeholder="All Cluster" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="all">All Cluster</SelectItem>
+                                        {clusterOption.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+                            <Select value={status} onValueChange={handleStatusChange}>
+                                <SelectTrigger className="flex-1 sm:w-36 sm:flex-none">
+                                    <SelectValue placeholder="All Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="all">All Status</SelectItem>
+                                        {statusOptions.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <TableCustom
+                            keyField="deviceId"
+                            loadingData={loading}
+                            columns={app004DeviceColumns}
+                            appdata={app004DeviceData}
+                            appdataTotal={app004DeviceTotalData}
+                            totalPage={app004TotalPage}
+                            rowsPerPageOption={[5, 10, 20, 25]}
+                            page={app004DeviceDataParam.page - 1}
+                            rowsPerPage={app004DeviceDataParam.size}
+                            sortField={app004DeviceDataParam.sort}
+                            sortOrder={app004DeviceDataParam.order}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            onRequestSort={handleRequestSort}
+                        />
+                    </CardContent>
+                </Card>
+            </div >
+
+            {modalAddOpen && (
+                <MasterDeviceAdd
+                    modalAddOpen={modalAddOpen}
+                    setModalAddOpen={setModalAddOpen}
+                    refreshTable={refreshTable}
+                    clusterOption={clusterOption}
+                    deviceTypeOption={deviceTypeOption}
+                >
+                </MasterDeviceAdd>
+            )}
+
+            {
+                modalEditOpen && (
                     <MasterDeviceEdit
                         modalEditOpen={modalEditOpen}
                         setModalEditOpen={setModalEditOpen}
@@ -424,20 +373,22 @@ const MasterDevice = () => {
                         deviceTypeOption={deviceTypeOption}
                         statusOption={statusOptions}
                     />
-                )}
+                )
+            }
 
-                {modalDeleteOpen && (
+            {
+                modalDeleteOpen && (
                     <PopupDeleteAndRestore
                         status={"delete"}
                         modalOpen={modalDeleteOpen}
                         modalClose={() => setModalDeleteOpen(false)}
-                        loading={loadingDelete}
+                        loading={loading}
                         onClick={app004HandleDeleteDevice}
                     />
-                )}
+                )
+            }
 
-            </RootPageCustom>
-        </React.Fragment >
+        </RootPageCustom >
     );
 }
 

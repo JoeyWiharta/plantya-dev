@@ -17,12 +17,15 @@ const MasterDeviceEdit = (props) => {
 
     useEffect(() => {
         if (props.modalEditOpen) {
-            app004p03ValidInput.resetForm()
-            app004p03ValidInput.setFieldValue("deviceId", props.app004DeviceEditData.deviceId)
-            app004p03ValidInput.setFieldValue("deviceName", props.app004DeviceEditData.deviceName)
-            app004p03ValidInput.setFieldValue("deviceType", props.app004DeviceEditData.deviceType)
-            app004p03ValidInput.setFieldValue("clusterId", props.app004DeviceEditData.clusterId)
-            app004p03ValidInput.setFieldValue("status", props.app004DeviceEditData.status)
+            app004p03ValidInput.resetForm({
+                values: {
+                    deviceId: props.app004DeviceEditData.deviceId,
+                    deviceName: props.app004DeviceEditData.deviceName,
+                    deviceType: props.app004DeviceEditData.deviceType,
+                    clusterId: props.app004DeviceEditData.clusterId,
+                    status: props.app004DeviceEditData.status,
+                }
+            })
         }
     }, [props.modalEditOpen])
 
@@ -65,187 +68,185 @@ const MasterDeviceEdit = (props) => {
                 }
             )
             if (response.status === 200) {
-                toast.success("Device Has Been Successfully Updated.", { id: toastId })
+                toast.success("Device updated successfully.", { id: toastId })
                 props.refreshTable();
                 handleClose()
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is Unavailable. Please Try Again Later.", { id: toastId })
+            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
         } finally {
             setLoadingSpinner(false)
         }
     })
 
     return (
-        <React.Fragment>
-            <Dialog
-                open={props.modalEditOpen}
-                onOpenChange={(open) => { if (!open) handleClose() }}
+        <Dialog
+            open={props.modalEditOpen}
+            onOpenChange={(open) => { if (!open) handleClose() }}
+        >
+            <DialogContent
+                className="sm:max-w-md"
+                onInteractOutside={(e) => e.preventDefault()}
+                onOpenAutoFocus={(e) => e.preventDefault()}
             >
-                <DialogContent
-                    className="sm:max-w-md"
-                    onInteractOutside={(e) => e.preventDefault()}
-                    onOpenAutoFocus={(e) => e.preventDefault()}
+                <DialogHeader>
+                    <DialogTitle>Edit Device</DialogTitle>
+                    <DialogDescription>Update the device information</DialogDescription>
+                </DialogHeader>
+
+                <form
+                    onSubmit={app004p03ValidInput.handleSubmit}
+                    className="flex flex-col gap-6"
                 >
-                    <DialogHeader>
-                        <DialogTitle>Edit Device</DialogTitle>
-                        <DialogDescription>Update the device information</DialogDescription>
-                    </DialogHeader>
-
-                    <form
-                        onSubmit={app004p03ValidInput.handleSubmit}
-                        className="flex flex-col gap-6"
-                    >
-                        <FieldGroup className="gap-2">
-                            <Field className="gap-2">
-                                <FieldLabel>Device Id</FieldLabel>
-                                <InputGroup className="overflow-hidden">
-                                    <InputGroupInput
-                                        id="deviceId"
-                                        name="deviceId"
-                                        type="text"
-                                        value={app004p03ValidInput.values.deviceId}
-                                        onChange={app004p03ValidInput.handleChange}
-                                        onBlur={app004p03ValidInput.handleBlur}
-                                        aria-invalid={app004p03ValidInput.touched.deviceId && !!app004p03ValidInput.errors.deviceId}
-                                        disabled
-                                    />
-                                </InputGroup>
-                                {app004p03ValidInput.touched.deviceId && app004p03ValidInput.errors.deviceId && (
-                                    <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceId}</FieldDescription>
-                                )}
-                            </Field>
-
-                            <Field className="gap-2">
-                                <FieldLabel>Device Name</FieldLabel>
-                                <InputGroup className="overflow-hidden">
-                                    <InputGroupInput
-                                        id="deviceName"
-                                        name="deviceName"
-                                        type="text"
-                                        placeholder="Enter device name"
-                                        value={app004p03ValidInput.values.deviceName}
-                                        onChange={app004p03ValidInput.handleChange}
-                                        onBlur={app004p03ValidInput.handleBlur}
-                                        aria-invalid={app004p03ValidInput.touched.deviceName && !!app004p03ValidInput.errors.deviceName}
-                                    />
-                                </InputGroup>
-                                {app004p03ValidInput.touched.deviceName && app004p03ValidInput.errors.deviceName && (
-                                    <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceName}</FieldDescription>
-                                )}
-                            </Field>
-
-                            <Field>
-                                <FieldLabel>Device Type</FieldLabel>
-                                <Select
-                                    value={app004p03ValidInput.values.deviceType}
-                                    onValueChange={(val) => app004p03ValidInput.setFieldValue("deviceType", val)}
-                                // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
-                                >
-                                    <SelectTrigger
-                                        id="deviceType"
-                                        aria-invalid={app004p03ValidInput.touched.deviceType && !!app004p03ValidInput.errors.deviceType}
-                                    >
-                                        <SelectValue placeholder="Select device type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {props.deviceTypeOption.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                {app004p03ValidInput.touched.deviceType && app004p03ValidInput.errors.deviceType && (
-                                    <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceType}</FieldDescription>
-                                )}
-                            </Field>
-
-                            <Field>
-                                <FieldLabel>Cluster Name</FieldLabel>
-                                <Select
-                                    value={app004p03ValidInput.values.clusterId}
-                                    onValueChange={(val) => app004p03ValidInput.setFieldValue("clusterId", val)}
-                                // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
-                                >
-                                    <SelectTrigger
-                                        id="clusterId"
-                                        aria-invalid={app004p03ValidInput.touched.clusterId && !!app004p03ValidInput.errors.clusterId}
-                                    >
-                                        <SelectValue placeholder="Select Cluster Name" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {props.clusterOption.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                {app004p03ValidInput.touched.clusterId && app004p03ValidInput.errors.clusterId && (
-                                    <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.clusterId}</FieldDescription>
-                                )}
-                            </Field>
-
-                            <Field>
-                                <FieldLabel>Status</FieldLabel>
-                                <Select
-                                    value={app004p03ValidInput.values.status}
-                                    onValueChange={(val) => app004p03ValidInput.setFieldValue("status", val)}
-                                // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
-                                >
-                                    <SelectTrigger
-                                        id="status"
-                                        aria-invalid={app004p03ValidInput.touched.status && !!app004p03ValidInput.errors.status}
-                                    >
-                                        <SelectValue placeholder="Select status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {props.statusOption.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                                {app004p03ValidInput.touched.status && app004p03ValidInput.errors.status && (
-                                    <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.status}</FieldDescription>
-                                )}
-                            </Field>
-                        </FieldGroup>
-
-                        <DialogFooter className="flex-row gap-2">
-                            <DialogClose asChild>
-                                <Button
-                                    variant="outline"
-                                    className="flex-1"
-                                    onClick={handleClose}
-                                >
-                                    Cancel
-                                </Button>
-                            </DialogClose>
-                            <Button
-                                type="submit"
-                                className="flex-1"
-                                disabled={loadingSpinner}
-                            >
-                                <Spinner
-                                    data-icon="inline-start"
-                                    className={loadingSpinner ? "flex" : 'hidden'}
+                    <FieldGroup className="gap-2">
+                        <Field className="gap-2">
+                            <FieldLabel>Device Id</FieldLabel>
+                            <InputGroup className="overflow-hidden">
+                                <InputGroupInput
+                                    id="deviceId"
+                                    name="deviceId"
+                                    type="text"
+                                    value={app004p03ValidInput.values.deviceId}
+                                    onChange={app004p03ValidInput.handleChange}
+                                    onBlur={app004p03ValidInput.handleBlur}
+                                    aria-invalid={app004p03ValidInput.touched.deviceId && !!app004p03ValidInput.errors.deviceId}
+                                    disabled
                                 />
-                                {loadingSpinner ? "Saving..." : "Save Changes"}
+                            </InputGroup>
+                            {app004p03ValidInput.touched.deviceId && app004p03ValidInput.errors.deviceId && (
+                                <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceId}</FieldDescription>
+                            )}
+                        </Field>
+
+                        <Field className="gap-2">
+                            <FieldLabel>Device Name</FieldLabel>
+                            <InputGroup className="overflow-hidden">
+                                <InputGroupInput
+                                    id="deviceName"
+                                    name="deviceName"
+                                    type="text"
+                                    placeholder="Enter device name"
+                                    value={app004p03ValidInput.values.deviceName}
+                                    onChange={app004p03ValidInput.handleChange}
+                                    onBlur={app004p03ValidInput.handleBlur}
+                                    aria-invalid={app004p03ValidInput.touched.deviceName && !!app004p03ValidInput.errors.deviceName}
+                                />
+                            </InputGroup>
+                            {app004p03ValidInput.touched.deviceName && app004p03ValidInput.errors.deviceName && (
+                                <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceName}</FieldDescription>
+                            )}
+                        </Field>
+
+                        <Field>
+                            <FieldLabel>Device Type</FieldLabel>
+                            <Select
+                                value={app004p03ValidInput.values.deviceType}
+                                onValueChange={(val) => app004p03ValidInput.setFieldValue("deviceType", val)}
+                            // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
+                            >
+                                <SelectTrigger
+                                    id="deviceType"
+                                    aria-invalid={app004p03ValidInput.touched.deviceType && !!app004p03ValidInput.errors.deviceType}
+                                >
+                                    <SelectValue placeholder="Select device type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {props.deviceTypeOption.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            {app004p03ValidInput.touched.deviceType && app004p03ValidInput.errors.deviceType && (
+                                <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.deviceType}</FieldDescription>
+                            )}
+                        </Field>
+
+                        <Field>
+                            <FieldLabel>Cluster Name</FieldLabel>
+                            <Select
+                                value={app004p03ValidInput.values.clusterId}
+                                onValueChange={(val) => app004p03ValidInput.setFieldValue("clusterId", val)}
+                            // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
+                            >
+                                <SelectTrigger
+                                    id="clusterId"
+                                    aria-invalid={app004p03ValidInput.touched.clusterId && !!app004p03ValidInput.errors.clusterId}
+                                >
+                                    <SelectValue placeholder="Select Cluster Name" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {props.clusterOption.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            {app004p03ValidInput.touched.clusterId && app004p03ValidInput.errors.clusterId && (
+                                <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.clusterId}</FieldDescription>
+                            )}
+                        </Field>
+
+                        <Field>
+                            <FieldLabel>Status</FieldLabel>
+                            <Select
+                                value={app004p03ValidInput.values.status}
+                                onValueChange={(val) => app004p03ValidInput.setFieldValue("status", val)}
+                            // onOpenChange={() => app004p03ValidInput.setFieldTouched("deviceType", true)}
+                            >
+                                <SelectTrigger
+                                    id="status"
+                                    aria-invalid={app004p03ValidInput.touched.status && !!app004p03ValidInput.errors.status}
+                                >
+                                    <SelectValue placeholder="Select status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {props.statusOption.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            {app004p03ValidInput.touched.status && app004p03ValidInput.errors.status && (
+                                <FieldDescription className="text-xs text-destructive">{app004p03ValidInput.errors.status}</FieldDescription>
+                            )}
+                        </Field>
+                    </FieldGroup>
+
+                    <DialogFooter className="flex-row gap-2">
+                        <DialogClose asChild>
+                            <Button
+                                variant="outline"
+                                className="flex-1"
+                                onClick={handleClose}
+                            >
+                                Cancel
                             </Button>
-                        </DialogFooter>
-                    </form>
-                </DialogContent>
-            </Dialog>
-        </React.Fragment>
+                        </DialogClose>
+                        <Button
+                            type="submit"
+                            className="flex-1"
+                            disabled={loadingSpinner}
+                        >
+                            <Spinner
+                                data-icon="inline-start"
+                                className={loadingSpinner ? "flex" : 'hidden'}
+                            />
+                            {loadingSpinner ? "Saving..." : "Save Changes"}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
     )
 }
 

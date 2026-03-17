@@ -16,7 +16,7 @@ const MasterDeviceAdd = (props) => {
 
   useEffect(() => {
     if (props.modalAddOpen) {
-      app004p02ValidInput.resetForm()
+      formik.resetForm()
     }
   }, [props.modalAddOpen])
 
@@ -25,7 +25,7 @@ const MasterDeviceAdd = (props) => {
   }
 
   // Validation Form
-  const app004p02ValidInput = useFormik({
+  const formik = useFormik({
     initialValues:
     {
       deviceName: "",
@@ -51,147 +51,140 @@ const MasterDeviceAdd = (props) => {
   const SaveDeviceAction = useCallback(async (param) => {
     const toastId = toast.loading("Loading...")
     try {
-      const response = await addDevice(
-        {
-          deviceName: param.deviceName,
-          deviceType: param.deviceType,
-          clusterId: param.clusterId,
-        })
+      const response = await addDevice(param)
       if (response.status === 201 || response.status === 200) {
-        toast.success("Device Has Been Successfully Added.", { id: toastId })
+        toast.success("Device added successfully.", { id: toastId })
         props.refreshTable();
         handleClose()
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "System is Unavailable. Please Try Again Later.", { id: toastId })
+      toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
     } finally {
       setLoadingSpinner(false)
     }
-  })
+  }, [])
 
   return (
-    <React.Fragment>
-      <Dialog
-        open={props.modalAddOpen}
-        onOpenChange={(open) => { if (!open) handleClose() }}
+    <Dialog
+      open={props.modalAddOpen}
+      onOpenChange={(open) => { if (!open) handleClose() }}
+    >
+      <DialogContent
+        className="sm:max-w-md"
+        onInteractOutside={(e) => e.preventDefault()}
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <DialogContent
-          className="sm:max-w-md"
-          onInteractOutside={(e) => e.preventDefault()}
-          onOpenAutoFocus={(e) => e.preventDefault()}
+        <DialogHeader>
+          <DialogTitle>Add Device</DialogTitle>
+          <DialogDescription>Add a new device to the master list</DialogDescription>
+        </DialogHeader>
+
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-6"
         >
-          <DialogHeader>
-            <DialogTitle>Add Device</DialogTitle>
-            <DialogDescription>Add a new device to the master list</DialogDescription>
-          </DialogHeader>
+          <FieldGroup className="gap-2">
+            <Field className="gap-2">
+              <FieldLabel>Device Name</FieldLabel>
+              <InputGroup className="overflow-hidden">
+                <InputGroupInput
+                  id="deviceName"
+                  name="deviceName"
+                  type="text"
+                  placeholder="Enter device name"
+                  value={formik.values.deviceName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  aria-invalid={formik.touched.deviceName && !!formik.errors.deviceName}
+                />
+              </InputGroup>
+              {formik.touched.deviceName && formik.errors.deviceName && (
+                <FieldDescription className="text-xs text-destructive">{formik.errors.deviceName}</FieldDescription>
+              )}
+            </Field>
 
-          <form
-            onSubmit={app004p02ValidInput.handleSubmit}
-            className="flex flex-col gap-6"
-          >
-            <FieldGroup className="gap-2">
-              <Field className="gap-2">
-                <FieldLabel>Device Name</FieldLabel>
-                <InputGroup className="overflow-hidden">
-                  <InputGroupInput
-                    id="deviceName"
-                    name="deviceName"
-                    type="text"
-                    placeholder="Enter device name"
-                    value={app004p02ValidInput.values.deviceName}
-                    onChange={app004p02ValidInput.handleChange}
-                    onBlur={app004p02ValidInput.handleBlur}
-                    aria-invalid={app004p02ValidInput.touched.deviceName && !!app004p02ValidInput.errors.deviceName}
-                  />
-                </InputGroup>
-                {app004p02ValidInput.touched.deviceName && app004p02ValidInput.errors.deviceName && (
-                  <FieldDescription className="text-xs text-destructive">{app004p02ValidInput.errors.deviceName}</FieldDescription>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel>Device Type</FieldLabel>
-                <Select
-                  value={app004p02ValidInput.values.deviceType}
-                  onValueChange={(val) => app004p02ValidInput.setFieldValue("deviceType", val)}
-                // onOpenChange={() => app004p02ValidInput.setFieldTouched("deviceType", true)}
+            <Field>
+              <FieldLabel>Device Type</FieldLabel>
+              <Select
+                value={formik.values.deviceType}
+                onValueChange={(val) => formik.setFieldValue("deviceType", val)}
+              // onOpenChange={() => formik.setFieldTouched("deviceType", true)}
+              >
+                <SelectTrigger
+                  id="deviceType"
+                  aria-invalid={formik.touched.deviceType && !!formik.errors.deviceType}
                 >
-                  <SelectTrigger
-                    id="deviceType"
-                    aria-invalid={app004p02ValidInput.touched.deviceType && !!app004p02ValidInput.errors.deviceType}
-                  >
-                    <SelectValue placeholder="Select device type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {props.deviceTypeOption.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {app004p02ValidInput.touched.deviceType && app004p02ValidInput.errors.deviceType && (
-                  <FieldDescription className="text-xs text-destructive">{app004p02ValidInput.errors.deviceType}</FieldDescription>
-                )}
-              </Field>
+                  <SelectValue placeholder="Select device type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {props.deviceTypeOption.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {formik.touched.deviceType && formik.errors.deviceType && (
+                <FieldDescription className="text-xs text-destructive">{formik.errors.deviceType}</FieldDescription>
+              )}
+            </Field>
 
-              <Field>
-                <FieldLabel>Cluster Name</FieldLabel>
-                <Select
-                  value={app004p02ValidInput.values.clusterName}
-                  onValueChange={(val) => app004p02ValidInput.setFieldValue("clusterId", val)}
-                // onOpenChange={() => app004p02ValidInput.setFieldTouched("clusterId", true)}
+            <Field>
+              <FieldLabel>Cluster Name</FieldLabel>
+              <Select
+                value={formik.values.clusterName}
+                onValueChange={(val) => formik.setFieldValue("clusterId", val)}
+              // onOpenChange={() => formik.setFieldTouched("clusterId", true)}
+              >
+                <SelectTrigger
+                  id="clusterId"
+                  aria-invalid={formik.touched.clusterId && !!formik.errors.clusterId}
                 >
-                  <SelectTrigger
-                    id="clusterId"
-                    aria-invalid={app004p02ValidInput.touched.clusterId && !!app004p02ValidInput.errors.clusterId}
-                  >
-                    <SelectValue placeholder="Select cluster name" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {props.clusterOption.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {app004p02ValidInput.touched.clusterId && app004p02ValidInput.errors.clusterId && (
-                  <FieldDescription className="text-xs text-destructive">{app004p02ValidInput.errors.clusterId}</FieldDescription>
-                )}
-              </Field>
+                  <SelectValue placeholder="Select cluster name" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {props.clusterOption.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {formik.touched.clusterId && formik.errors.clusterId && (
+                <FieldDescription className="text-xs text-destructive">{formik.errors.clusterId}</FieldDescription>
+              )}
+            </Field>
 
-              <DialogFooter className="flex-row gap-2">
-                <DialogClose asChild>
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </DialogClose>
+            <DialogFooter className="flex-row gap-2">
+              <DialogClose asChild>
                 <Button
-                  type="submit"
+                  variant="outline"
                   className="flex-1"
-                  disabled={loadingSpinner}
+                  onClick={handleClose}
                 >
-                  <Spinner
-                    data-icon="inline-start"
-                    className={loadingSpinner ? "flex" : 'hidden'}
-                  />
-                  {loadingSpinner ? "Saving..." : "Add Device"}
+                  Cancel
                 </Button>
-              </DialogFooter>
-            </FieldGroup>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </React.Fragment>
+              </DialogClose>
+              <Button
+                type="submit"
+                className="flex-1"
+                disabled={loadingSpinner}
+              >
+                <Spinner
+                  data-icon="inline-start"
+                  className={loadingSpinner ? "flex" : 'hidden'}
+                />
+                {loadingSpinner ? "Saving..." : "Add Device"}
+              </Button>
+            </DialogFooter>
+          </FieldGroup>
+        </form>
+      </DialogContent>
+    </Dialog>
   )
 }
 

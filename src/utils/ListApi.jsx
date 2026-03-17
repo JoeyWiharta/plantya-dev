@@ -9,21 +9,22 @@ export const registerApi = (res) => auth.post("/auth/register", res);
 export const logoutApi = (res) => auth.post("/auth/logout", res);
 
 // app002 - Master User
-export const getUser = (params, config = {}) => management.get("/users", { params, ...config });
-export const getUserDeleted = (params, config = {}) => management.get("/users/deleted", { params, ...config });
+export const getUser = (params) => management.get("/users", { params });
+export const getUserDeleted = (params) => management.get("/users/deleted", { params });
 export const addUser = (res) => management.post("/users", res);
-export const editUser = (userId, res, config = {}) => management.patch(`/users/${userId}`, res, config);
+export const editUser = (userId, res) => management.patch(`/users/${userId}`, res);
 export const deleteUser = (userId) => management.delete(`/users/${userId}`);
 export const restoreUser = (userId) => management.post(`/users/deleted/${userId}/restore`);
 
 // app003 - Master Cluster
-export const getCluster = (params, config = {}) => management.get("/clusters", { params, ...config });
+export const getCluster = (params) => management.get("/clusters", { params });
 export const addCluster = (res) => management.post("/clusters", res);
-export const editCluster = (clusterId, res, config = {}) => management.patch(`/clusters/${clusterId}`, res, config);
+export const editCluster = (clusterId, res) => management.patch(`/clusters/${clusterId}`, res);
 export const deleteCluster = (clusterId) => management.delete(`/clusters/${clusterId}`);
+export const getComboCluster = () => management.get("/clusters/list");
 
 // app004 - Master Device
-export const getDevice = (params, config = {}) => management.get("/devices", { params, ...config });
+export const getDevice = (params) => management.get("/devices", { params });
 export const addDevice = (res) => management.post("/devices", res);
-export const editDevice = (deviceId, res, config = {}) => management.patch(`/devices/${deviceId}`, res, config);
+export const editDevice = (deviceId, res) => management.patch(`/devices/${deviceId}`, res);
 export const deleteDevice = (deviceId) => management.delete(`/devices/${deviceId}`);
