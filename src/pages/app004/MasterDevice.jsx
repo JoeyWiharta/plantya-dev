@@ -268,22 +268,13 @@ const MasterDevice = () => {
     const app004HandleDeleteDevice = () => { app004DeviceDeleteData?.deviceId && deleteDeviceAction(app004DeviceDeleteData) }
 
     return (
-        <RootPageCustom>
-            <div className="flex flex-col gap-2  px-3">
-                <div className="flex items-center justify-between mb-2">
-                    <div>
-                        <h1 className="text-xl font-semibold">Device Management</h1>
-                        <p className="text-sm text-muted-foreground">Manage and monitor registered devices</p>
-                    </div>
-                    <Button
-                        size="sm"
-                        onClick={() => setModalAddOpen(true)}
-                    >
-                        <Plus />
-                        <span className="hidden sm:inline">Add Device</span>
-                    </Button>
-                </div>
-
+        <RootPageCustom
+            title={"Device Management"}
+            desc={"Manage and monitor registered devices"}
+            setModalAddOpen={setModalAddOpen}
+            buttonLabel={"Add Device"}
+        >
+            <div className="flex flex-col gap-2">
                 <Card>
                     <CardContent>
                         <div className="flex flex-wrap items-center justify-end gap-2 mb-4">

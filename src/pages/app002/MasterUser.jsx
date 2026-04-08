@@ -259,23 +259,13 @@ const MasterUser = () => {
     const app002HandleRestoreUser = () => app002UserRestoreData?.userId && handleUserAction("restore", app002UserRestoreData)
 
     return (
-        <RootPageCustom>
-            <div className="flex flex-col gap-2  px-3">
-                <div className="flex items-center justify-between mb-2">
-                    <div>
-                        <h1 className="text-xl font-semibold">User Management</h1>
-                        <p className="text-sm text-muted-foreground">Manage and monitor system user accounts</p>
-                    </div>
-                    <Button
-                        size="sm"
-                        onClick={() => setModalAddOpen(true)}
-                        className={selectedTab === "active" ? "flex" : "hidden"}
-                    >
-                        <Plus />
-                        <span className="hidden sm:inline">Add User</span>
-                    </Button>
-                </div>
-
+        <RootPageCustom
+            title={"User Management"}
+            desc={"Manage and monitor system user accounts"}
+            setModalAddOpen={setModalAddOpen}
+            buttonLabel={"Add User"}
+        >
+            <div className="flex flex-col gap-2">
                 <Card>
                     <CardContent>
                         <Tabs value={selectedTab} onValueChange={handleTabChange}>

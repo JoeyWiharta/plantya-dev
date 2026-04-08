@@ -196,22 +196,13 @@ const MasterCluster = () => {
 
 
     return (
-        <RootPageCustom>
-            <div className="flex flex-col gap-2  px-3">
-                <div className="flex items-center justify-between mb-2">
-                    <div>
-                        <h1 className="text-xl font-semibold">Cluster Management</h1>
-                        <p className="text-sm text-muted-foreground">Manage and monitor system clusters</p>
-                    </div>
-                    <Button
-                        size="sm"
-                        onClick={() => setModalAddOpen(true)}
-                    >
-                        <Plus />
-                        <span className="hidden sm:inline">Add Cluster</span>
-                    </Button>
-                </div>
-
+        <RootPageCustom
+            title={"Cluster Management"}
+            desc={"Manage and monitor system clusters"}
+            setModalAddOpen={setModalAddOpen}
+            buttonLabel={"Add Cluster"}
+        >
+            <div className="flex flex-col gap-2">
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-end mb-4">

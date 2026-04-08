@@ -6,3 +6,13 @@ export const capitalizeWords = (text = "") => {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 };
+
+export const formatDate = (date) => {
+    if (!date) return "";
+
+    return new Date(date).toLocaleDateString("en-US", {
+        month: "long",
+        day: "2-digit",
+        year: "numeric",
+    });
+};
