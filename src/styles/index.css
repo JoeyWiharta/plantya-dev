@@ -145,6 +145,15 @@ body {
 
 }
 
+@layer utilities {
+    .scrollbar-minimal {
+        @apply [&::-webkit-scrollbar]:w-1
+               [&::-webkit-scrollbar-track]:bg-transparent
+               [&::-webkit-scrollbar-thumb]:bg-border
+               [&::-webkit-scrollbar-thumb]:rounded-full;
+    }
+}
+
 
 /* [data-sidebar="menu-button"][data-active="true"],
 [data-sidebar="menu-sub-button"][data-active="true"] {

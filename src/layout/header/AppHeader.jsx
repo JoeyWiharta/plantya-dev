@@ -5,6 +5,7 @@ import BreadcrumbCustom from "@/components/common/BreadcrumbCustom"
 import { Bell, CalendarDays } from "lucide-react"
 import { formatDate } from "@/components/common/Regex"
 import { Button } from "@/components/ui/button"
+import Notification from "./Notification"
 
 const AppHeader = () => {
     const [date, setDate] = useState(new Date())
@@ -13,13 +14,14 @@ const AppHeader = () => {
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 justify-between">
             <div className="flex items-center gap-2">
                 <SidebarTrigger />
-                <Separator
-                    orientation="vertical"
-                    className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <BreadcrumbCustom />
+                <div className="hidden sm:flex items-center gap-2">
+                    <Separator
+                        orientation="vertical"
+                        className="mr-2 data-[orientation=vertical]:h-4"
+                    />
+                    <BreadcrumbCustom />
 
-
+                </div>
             </div>
 
             <div className="flex flex-row gap-8 items-center">
@@ -34,9 +36,7 @@ const AppHeader = () => {
                     <p className="text-sm font-medium">{formatDate(date)}</p>
                 </div>
 
-                <Button className="rounded-full" variant="outline" size="icon-sm">
-                    <Bell />
-                </Button>
+                <Notification />
             </div>
 
         </header>
