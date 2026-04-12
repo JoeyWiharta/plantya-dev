@@ -1,7 +1,9 @@
-import axiosInstance from "./AxiosInstance";
+import axiosInstance from "./ApiHelper";
+import SseInstance from "./SseHelper";
 
-const auth = axiosInstance("auth", { withCredentials: false });
-const management = axiosInstance("management");
+const auth = axiosInstance("auth")
+const management = axiosInstance("management")
+const managementSse = SseInstance("management")
 
 // Login and Register
 export const loginApi = (res) => auth.post("/auth/login", res);
@@ -28,3 +30,10 @@ export const getDevice = (params) => management.get("/devices", { params });
 export const addDevice = (res) => management.post("/devices", res);
 export const editDevice = (deviceId, res) => management.patch(`/devices/${deviceId}`, res);
 export const deleteDevice = (deviceId) => management.delete(`/devices/${deviceId}`);
+
+
+// Notification
+export const getNotication = () => management.get("/notifications")
+export const updateNotificationOne = (notifId, res) => management.patch(`/notifications/${notifId}/read`, res);
+export const updateNotificationAll = () => management.patch(`/notifications/read-all`);
+export const subscribeNotificationSse = () => managementSse("/notifications/subscribe")

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 import { logoutApi } from "../utils/ListApi";
-import { setLogoutHandler } from "../utils/AxiosInstance";
+import { setLogoutHandler } from "../utils/ApiHelper";
 import toast from "react-hot-toast";
 
 export const AuthContext = createContext(null);

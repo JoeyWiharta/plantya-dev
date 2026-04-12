@@ -143,7 +143,7 @@ const Dashboard = () => {
                                         </div>
 
                                         <Tooltip>
-                                            <TooltipTrigger>
+                                            <TooltipTrigger asChild>
                                                 <Button variant="outline" size="icon-lg">
                                                     <ChevronRight />
                                                 </Button>
@@ -162,11 +162,11 @@ const Dashboard = () => {
 
                     {/* Mapping show for 4 card by data */}
 
-                    {/* <div className="grid grid-cols-12 gap-6">
+                    <div className="grid grid-cols-12 gap-6">
                         <PotCard
                             potData={allData}
                         />
-                    </div> */}
+                    </div>
                 </div>
 
 

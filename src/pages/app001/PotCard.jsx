@@ -42,22 +42,22 @@ const PotCard = ({ potData }) => {
 
                         <div className="grid grid-cols-2 gap-2">
                             <Card className="flex flex-row items-center gap-2 px-3 py-2">
-                                <Thermometer size={14} className="text-orange-400 flex-shrink-0" />
+                                <Thermometer size={14} className="text-orange-400 shrink-0" />
                                 <span className="text-xs">Temp</span>
                                 <span className="text-xs font-medium ml-auto">{pot.temp}°C</span>
                             </Card>
                             <Card className="flex flex-row items-center gap-2 px-3 py-2">
-                                <Droplet size={14} className="text-blue-400 flex-shrink-0" />
+                                <Droplet size={14} className="text-blue-400 shrink-0" />
                                 <span className="text-xs">Humidity</span>
                                 <span className="text-xs font-medium ml-auto">{pot.humidity}%</span>
                             </Card>
                             <Card className="flex flex-row items-center gap-2 px-3 py-2">
-                                <Sprout size={14} className="text-green-500 flex-shrink-0" />
+                                <Sprout size={14} className="text-green-500 shrink-0" />
                                 <span className="text-xs">Soil</span>
                                 <span className="text-xs font-medium ml-auto">{pot.soilMoisture}%</span>
                             </Card>
                             <Card className="flex flex-row items-center gap-2 px-3 py-2">
-                                <Battery size={14} className="text-yellow-400 flex-shrink-0" />
+                                <Battery size={14} className="text-yellow-400 shrink-0" />
                                 <span className="text-xs">Battery</span>
                                 <span className="text-xs font-medium ml-auto">{pot.battery}%</span>
                             </Card>
