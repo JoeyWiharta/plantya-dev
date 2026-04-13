@@ -238,7 +238,7 @@ const Notification = (props) => {
                             {notificationDataVisible.map((data) => (
                                 <div
                                     key={data.id}
-                                    className={`flex gap-3 px-4 py-3 cursor-pointer border-b last:border-b-0 transition-colors ${!data.isRead ? "bg-muted/30" : "hover:bg-muted/20"}`}
+                                    className={`items-center flex gap-3 px-4 py-3 cursor-pointer border-b last:border-b-0 transition-colors ${!data.isRead ? "bg-muted/30" : "hover:bg-muted/20"}`}
                                     onClick={() => handleReadNotif(data)}
                                 >
                                     <div className="shrink-0 mt-0.5">
