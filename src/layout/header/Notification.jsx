@@ -46,16 +46,6 @@ const Notification = (props) => {
     }, [])
     // -------------------- Hit API On First Render -------------------- //
 
-useEffect(() => {
-    const isBattery = true // ganti false untuk test anomali
-
-    toast(isBattery ? "Device sensor-999 battery at 4.0% (below 5%)" : "Anomaly Detected at Device Sensor-999", {
-        icon: isBattery 
-            ? <BatteryLow size={18} className="text-red-500" /> 
-            : <TriangleAlert size={18} className="text-yellow-500" />
-    })
-}, [])
-
     // -------------------- Listen SSE Subscribe Notification -------------------- //
     useEffect(() => {
         const eventSource = subscribeNotificationSse()
@@ -64,7 +54,7 @@ useEffect(() => {
                 const jsonResponse = JSON.parse(event.data)
                 setNotificationUnread(jsonResponse?.unreadCount)
                 if (jsonResponse?.notification) {
-                    toast(jsonResponse?.notification?.message, { icon: jsonResponse?.notification?.notificationType === "BATTERY" ? <BatteryLow size={16} className="text-red-500" /> : <TriangleAlert size={16} className="text-yellow-500" /> })
+                    toast(jsonResponse?.notification?.message, { icon: jsonResponse?.notification?.notificationType === "BATTERY" ? <BatteryLow className="text-red-500" /> : <TriangleAlert className="text-yellow-500" /> })
                 }
                 fetchNotification()
             }

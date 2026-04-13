@@ -38,7 +38,7 @@ const Dashboard = () => {
                     {/* First Row Wrapper */}
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
-                        <Card className="overflow-hidden">
+                        <Card className="">
                             <CardContent className="flex flex-row items-center gap-6">
                                 <div className="flex items-center justify-center w-12 h-12 shrink-0 rounded-xl bg-green-500/10">
                                     <Leaf className="text-green-400" />
@@ -66,7 +66,7 @@ const Dashboard = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className=" flex justify-center overflow-hidden">
+                        <Card className=" flex justify-center ">
                             <CardContent className="flex flex-row items-center gap-6">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-amber-500/10">
                                     <AlertTriangle className="text-amber-400" />
@@ -91,7 +91,7 @@ const Dashboard = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className=" flex justify-center overflow-hidden">
+                        <Card className=" flex justify-center ">
                             <CardContent className="flex flex-row items-center gap-6">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-500/10">
                                     <CalendarDays className="text-green-400" />
@@ -116,7 +116,7 @@ const Dashboard = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className=" flex justify-center overflow-hidden">
+                        <Card className=" flex justify-center ">
                             <CardContent className="flex flex-row items-center gap-6">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500/10">
                                     <Clock className="text-orange-400" />
@@ -160,13 +160,14 @@ const Dashboard = () => {
                     </div>
 
 
+                    {/* Layout card agak eror bug */}
                     {/* Mapping show for 4 card by data */}
 
-                    <div className="grid grid-cols-12 gap-6">
+                    {/* <div className="grid grid-cols-12 gap-6">
                         <PotCard
                             potData={allData}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
 
