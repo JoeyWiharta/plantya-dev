@@ -123,7 +123,6 @@ const Notification = (props) => {
 
     // -------------------- Read All Notification -------------------- //
     const handleReadAllNotif = useCallback(async () => {
-        debugger
         const previousData = notificationData
         const previousUnread = notificationUnread
         setNotificationData((prev) => prev.map((data) => ({ ...data, isRead: true })))
