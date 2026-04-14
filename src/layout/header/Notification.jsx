@@ -236,7 +236,7 @@ const Notification = (props) => {
                             ))}
                         </>
                     ) : notificationData.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground h-64">
+                        <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground h-60">
                             <BellOff className="w-6 h-6 opacity-50" />
                             <p className="text-sm font-medium">You're all caught up</p>
                             <p className="text-xs opacity-70">No new notifications</p>
@@ -279,13 +279,11 @@ const Notification = (props) => {
                     )}
                 </div>
 
-                {notificationData.length > 0 && (
-                    <div className="py-2 border-t">
-                        <p className="text-xs text-muted-foreground/60 text-center">
-                            Showing notifications from the last 14 days
-                        </p>
-                    </div>
-                )}
+                <div className="py-2 border-t">
+                    <p className="text-xs text-muted-foreground/60 text-center">
+                        Showing notifications from the last 14 days
+                    </p>
+                </div>
             </PopoverContent >
         </Popover >
     )
