@@ -9,7 +9,8 @@ import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
+
 
 const MasterUserAdd = (props) => {
   const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -39,7 +40,6 @@ const MasterUserAdd = (props) => {
       }),
 
     onSubmit: async (values, { setSubmitting }) => {
-      toast.dismiss()
       setSubmitting(true)
       setLoadingSpinner(true)
       await SaveUserAction(values)
@@ -48,16 +48,16 @@ const MasterUserAdd = (props) => {
   });
 
   const SaveUserAction = useCallback(async (param) => {
-    const toastId = toast.loading("Loading...")
     try {
-      const response = await addUser(param)
-      if (response.status === 201 || response.status === 200) {
-        toast.success("User added successfully.", { id: toastId })
-        props.refreshTable();
-        handleClose()
-      }
+      await ToasterCustom.promise(addUser(param), {
+        loading: "Creating user...",
+        success: "User added successfully.",
+        error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+      })
+      props.refreshTable()
+      handleClose()
     } catch (error) {
-      toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+      console.log(error)
     } finally {
       setLoadingSpinner(false)
     }

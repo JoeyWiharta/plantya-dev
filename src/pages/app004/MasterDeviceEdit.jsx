@@ -9,7 +9,7 @@ import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const MasterDeviceEdit = (props) => {
     const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -47,7 +47,6 @@ const MasterDeviceEdit = (props) => {
             }),
 
         onSubmit: async (values, { setSubmitting }) => {
-            toast.dismiss()
             setSubmitting(true)
             setLoadingSpinner(true)
             await EditDeviceAction(values)
@@ -56,28 +55,27 @@ const MasterDeviceEdit = (props) => {
     });
 
     const EditDeviceAction = useCallback(async (param) => {
-        const toastId = toast.loading("Loading...")
         try {
-            const response = await editDevice(
-                param.deviceId,
+            await ToasterCustom.promise(editDevice(param.deviceId, {
+                deviceName: param.deviceName,
+                deviceType: param.deviceType,
+                clusterId: param.clusterId,
+                status: param.status
+            }),
                 {
-                    deviceName: param.deviceName,
-                    deviceType: param.deviceType,
-                    clusterId: param.clusterId,
-                    status: param.status
+                    loading: "Saving changes...",
+                    success: "Device updated successfully.",
+                    error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
                 }
             )
-            if (response.status === 200) {
-                toast.success("Device updated successfully.", { id: toastId })
-                props.refreshTable();
-                handleClose()
-            }
+            props.refreshTable();
+            handleClose()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             setLoadingSpinner(false)
         }
-    })
+    }, [])
 
     return (
         <Dialog

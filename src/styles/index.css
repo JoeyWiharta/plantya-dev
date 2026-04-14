@@ -160,3 +160,17 @@ body {
     background-color: var(--sidebar-primary) !important;
     color: var(--sidebar-primary-foreground) !important;
 } */
+
+
+/* Custom Icon Close Toaster Sonner */
+[data-sonner-toast] [data-button] {
+    background: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    opacity: 0.5;
+}
+
+[data-sonner-toast] [data-button]:hover {
+    opacity: 1;
+    background: transparent !important;
+}

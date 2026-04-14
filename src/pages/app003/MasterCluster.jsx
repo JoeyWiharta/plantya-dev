@@ -6,7 +6,7 @@ import MasterClusterAdd from "./MasterClusterAdd";
 import MasterClusterEdit from "./MasterClusterEdit";
 import PopupDeleteAndRestore from "../../components/common/PopupDeleteAndRestore";
 import { Trash2, SquarePen, Plus, Search } from "lucide-react";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -131,7 +131,7 @@ const MasterCluster = () => {
             setApp003ClusterTotalData(response?.data?.countData ?? 0);
             app003SetTotalPage(response?.data?.totalPages ?? 0);
         } catch (error) {
-            toast.error("System is unavailable, please try again later.");
+            ToasterCustom.error("System is unavailable, please try again later.")
         } finally {
             setLoading(false);
         }
@@ -174,18 +174,18 @@ const MasterCluster = () => {
     }
 
     const deleteClusterAction = useCallback(async (param) => {
-        const toastId = toast.loading("Loading...")
         setLoading(true)
         try {
-            const response = await deleteCluster(param.clusterId)
-            if (response?.status === 204 || response?.status === 200) {
-                toast.success("Cluster deleted successfully.", { id: toastId })
-                refreshTable();
-            } else {
-                toast.error("Failed to delete Cluster.", { id: toastId })
+            await ToasterCustom.promise(
+                deleteCluster(param.clusterId), {
+                loading: "Loading...",
+                success: "Cluster deleted successfully.",
+                error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
             }
+            )
+            refreshTable()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             setModalDeleteOpen(false)
             setLoading(false)

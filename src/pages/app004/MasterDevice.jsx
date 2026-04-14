@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -166,7 +166,7 @@ const MasterDevice = () => {
             setApp004DeviceTotalData(response?.data?.totalElements ?? 0);
             app004SetTotalPage(response?.data?.totalPages ?? 0);
         } catch (error) {
-            toast.error("System is unavailable, please try again later.");
+            ToasterCustom.error("System is unavailable, please try again later.")
         } finally {
             setLoading(false);
         }
@@ -176,12 +176,13 @@ const MasterDevice = () => {
         fetchDevice(app004DeviceDataParam);
     }, [app004DeviceDataParam]);
 
+    // List Combo Cluster 
     const fetchCluster = useCallback(async () => {
         try {
             const response = await getComboCluster();
             setClusterOption(response?.data?.list ?? []);
         } catch (error) {
-            toast.error("System is unavailable, please try again later.");
+            console.log(error)
         }
     }, []);
 
@@ -247,18 +248,18 @@ const MasterDevice = () => {
     }
 
     const deleteDeviceAction = useCallback(async (param) => {
-        const toastId = toast.loading("Loading...")
         setLoading(true)
         try {
-            const response = await deleteDevice(param.deviceId)
-            if (response.status === 204 || response.status === 200) {
-                toast.success("Device deleted successfully.", { id: toastId })
-                refreshTable();
-            } else {
-                toast.error("Failed to delete device.", { id: toastId })
+            await ToasterCustom.promise(
+                deleteDevice(param.deviceId), {
+                loading: "Loading...",
+                success: "Device deleted successfully.",
+                error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
             }
+            )
+            refreshTable()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             setModalDeleteOpen(false)
             setLoading(false)

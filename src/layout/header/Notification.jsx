@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { BatteryLow, Bell, BellOff, CheckCheck, TriangleAlert } from "lucide-react"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { getNotication, subscribeNotificationSse, updateNotificationAll, updateNotificationOne } from "@/utils/ListApi";
-import toast from "react-hot-toast"
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DEFAULT_NOTIF_SHOW = 5
@@ -34,7 +34,7 @@ const Notification = (props) => {
                 setNotificationUnread(response?.data?.notifications?.filter((data) => !data.isRead).length)
             }
         } catch (error) {
-            toast.error("System is unavailable, please try again later.");
+            ToasterCustom.error("System is unavailable, please try again later.")
         }
     }, [])
     // -------------------- Fetch API -------------------- //
@@ -54,7 +54,11 @@ const Notification = (props) => {
                 const jsonResponse = JSON.parse(event.data)
                 setNotificationUnread(jsonResponse?.unreadCount)
                 if (jsonResponse?.notification) {
-                    toast(jsonResponse?.notification?.message, { icon: jsonResponse?.notification?.notificationType === "BATTERY" ? <BatteryLow className="text-red-500" /> : <TriangleAlert className="text-yellow-500" /> })
+                    ToasterCustom.info(jsonResponse?.notification?.message, {
+                        icon: jsonResponse?.notification?.notificationType === "BATTERY"
+                            ? <BatteryLow size={16} className="text-red-500" />
+                            : <TriangleAlert size={16} className="text-yellow-500" />
+                    })
                 }
                 fetchNotification()
             }
@@ -112,21 +116,25 @@ const Notification = (props) => {
                 prev.map((data) => data.id === param.id ? { ...data, isRead: false } : data)
             )
             setNotificationUnread((prev) => prev + 1)
-            toast.error("Failed to read notification.")
+            ToasterCustom.error("Failed to read notification.")
         }
     }, [])
     // -------------------- Read Each Notification -------------------- //
 
     // -------------------- Read All Notification -------------------- //
     const handleReadAllNotif = useCallback(async () => {
+        debugger
+        const previousData = notificationData
+        const previousUnread = notificationUnread
         setNotificationData((prev) => prev.map((data) => ({ ...data, isRead: true })))
         setNotificationUnread(0)
 
         try {
             await updateNotificationAll()
         } catch (error) {
-            fetchNotification()
-            toast.error("Failed to read all notifications.")
+            setNotificationData(previousData)
+            setNotificationUnread(previousUnread)
+            ToasterCustom.error("Failed to read all notifications.")
         }
     }, [])
     // -------------------- Read All Notification -------------------- //
@@ -210,25 +218,25 @@ const Notification = (props) => {
 
                 <div
                     onScroll={handleScrollData}
-                    className="flex flex-col max-h-64 sm:max-h-72 overflow-y-auto scrollbar-minimal"
+                    className="flex flex-col  max-h-64 overflow-y-auto scrollbar-minimal"
                 >
                     {flagLoadingNotif ? (
-                        <div className="px-4 py-3 space-y-1">
+                        <>
                             {[...Array(4)].map((_, i) => (
-                                <div key={i} className="flex gap-3 px-0 py-3 border-b last:border-b-0">
+                                <div key={i} className="flex items-center gap-3 px-4 py-3 border-b last:border-b-0">
                                     <Skeleton className="h-8 w-8 rounded-full shrink-0" />
                                     <div className="flex-1 space-y-2 min-w-0">
-                                        <Skeleton className="h-3.5 w-3/4" />
-                                        <Skeleton className="h-3 w-1/4" />
+                                        <Skeleton className="h-3.5 w-11/12" />
+                                        <Skeleton className="h-3 w-2/12" />
                                     </div>
                                     <div className="shrink-0 flex items-center">
-                                        <Skeleton className="w-1.5 h-1.5 rounded-full" />
+                                        <Skeleton className="w-2 h-2 rounded-full" />
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </>
                     ) : notificationData.length === 0 ? (
-                        <div className="flex flex-col items-center py-10 gap-2 text-muted-foreground">
+                        <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground h-64">
                             <BellOff className="w-6 h-6 opacity-50" />
                             <p className="text-sm font-medium">You're all caught up</p>
                             <p className="text-xs opacity-70">No new notifications</p>
@@ -238,7 +246,7 @@ const Notification = (props) => {
                             {notificationDataVisible.map((data) => (
                                 <div
                                     key={data.id}
-                                    className={`items-center flex gap-3 px-4 py-3 cursor-pointer border-b last:border-b-0 transition-colors ${!data.isRead ? "bg-muted/30" : "hover:bg-muted/20"}`}
+                                    className={`flex items-center gap-3 px-4 py-3 cursor-pointer border-b last:border-b-0 transition-colors ${!data.isRead ? "bg-muted/30" : "hover:bg-muted/20"}`}
                                     onClick={() => handleReadNotif(data)}
                                 >
                                     <div className="shrink-0 mt-0.5">
@@ -271,7 +279,7 @@ const Notification = (props) => {
                     )}
                 </div>
 
-                {notificationData.length > 0 && !flagLoadingNotif && (
+                {notificationData.length > 0 && (
                     <div className="py-2 border-t">
                         <p className="text-xs text-muted-foreground/60 text-center">
                             Showing notifications from the last 14 days

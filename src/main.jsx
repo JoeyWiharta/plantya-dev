@@ -5,8 +5,8 @@ import App from "../src/App"
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProviderCustom } from './context/ThemeContext';
 import "./styles/index.css"
-import { ToasterCustom } from './components/common/ToasterCustom';
 import SmallIcon from "./assets/images/SmallIcon.png"
+import { Toaster } from './components/ui/sonner';
 
 const link = document.querySelector("link[rel='icon']")
 link.href = SmallIcon
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter basename={basename}>
       <AuthProvider>
         <ThemeProviderCustom>
-          <ToasterCustom />
+          <Toaster position="top-right" expand={true} visibleToasts={3}/>
           <App />
         </ThemeProviderCustom>
       </AuthProvider>

@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardTitle, CardHeader } from "@/com
 import SmallIcon from "../../assets/images/SmallIcon.png"
 import { Link, useNavigate } from "react-router-dom";
 import { registerApi } from "../../utils/ListApi";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const initialValues = {
     name: "",
@@ -33,7 +33,6 @@ const RegisterForm = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleBeforeRegister = (setSubmitting) => {
-        toast.dismiss()
         if (isSubmittingRef.current) return false
         isSubmittingRef.current = true
         setSubmitting(true)
@@ -46,11 +45,10 @@ const RegisterForm = () => {
         return response;
     };
 
-    const handleRegisterSuccess = (toastId, resetForm) => {
+    const handleRegisterSuccess = (resetForm) => {
         setTimeout(() => {
-            toast.loading("Redirecting to login...", { id: toastId })
+            ToasterCustom.info("Redirecting to login...")
             setTimeout(() => {
-                toast.dismiss()
                 resetForm()
                 setShowPassword(false)
                 setShowConfirmPassword(false)
@@ -72,16 +70,18 @@ const RegisterForm = () => {
         validationSchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             if (!handleBeforeRegister(setSubmitting)) return
-            const toastId = toast.loading("Creating account...")
             try {
-                const response = await handleRegister(values)
-                toast.success(response?.data?.message, { id: toastId })
-                handleRegisterSuccess(toastId, resetForm)
+                await ToasterCustom.promise(handleRegister(values), {
+                    loading: "Creating account...",
+                    success: (res) => res?.data?.message || "Account created successfully.",
+                    error: (err) => err?.response?.data?.message || "Service unavailable. Please try again later."
+                })
+                handleRegisterSuccess(resetForm)
             } catch (error) {
-                toast.error(error?.response?.data?.message || "Service unavailable. Please try again later.", { id: toastId })
+                console.log(error)
                 handleRegisterError(setSubmitting)
             }
-        },
+        }
     });
 
     return (

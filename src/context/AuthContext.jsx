@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
-
 import { logoutApi } from "../utils/ListApi";
 import { setLogoutHandler } from "../utils/ApiHelper";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 export const AuthContext = createContext(null);
 
@@ -20,18 +19,19 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => {
         setUser(userData);
         setLoginStatus(true);
-
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("loginStatus", "true");
     };
 
     const logout = async () => {
-        const toastId = toast.loading("Loading...")
         try {
-            await logoutApi();
-            toast.success("Logout successfully.", { id: toastId })
-        } catch (e) {
-            console.error(e);
+            await ToasterCustom.promise(logoutApi(), {
+                loading: "Logging out...",
+                success: "Logout successfully.",
+                error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+            })
+        } catch (error) {
+            console.log(error);
         } finally {
             setUser(null);
             setLoginStatus(false);
@@ -41,13 +41,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const clearAuthState = () => {
-        debugger
         setUser(null);
         setLoginStatus(false);
         localStorage.removeItem("user");
         localStorage.removeItem("loginStatus");
-        toast.dismiss();
-        toast.error("Token expired, please login to continue.");
+        ToasterCustom.error("Token expired, please login to continue.")
     }
 
     useEffect(() => {

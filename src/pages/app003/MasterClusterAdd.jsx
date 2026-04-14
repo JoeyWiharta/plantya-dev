@@ -7,7 +7,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { addCluster } from "../../utils/ListApi";
 
 const MasterClusterAdd = (props) => {
@@ -35,7 +35,6 @@ const MasterClusterAdd = (props) => {
       }),
 
     onSubmit: async (values, { setSubmitting }) => {
-      toast.dismiss()
       setSubmitting(true)
       setLoadingSpinner(true)
       await SaveClusterAction(values)
@@ -44,16 +43,16 @@ const MasterClusterAdd = (props) => {
   });
 
   const SaveClusterAction = useCallback(async (param) => {
-    const toastId = toast.loading("Loading...")
     try {
-      const response = await addCluster(param)
-      if (response.status === 201 || response.status === 200) {
-        toast.success("Cluster added successfully.", { id: toastId })
-        props.refreshTable();
-        handleClose()
-      }
+      await ToasterCustom.promise(addCluster(param), {
+        loading: "Creating cluster...",
+        success: "Cluster added successfully.",
+        error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+      })
+      props.refreshTable();
+      handleClose()
     } catch (error) {
-      toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+      console.log(error)
     } finally {
       setLoadingSpinner(false)
     }

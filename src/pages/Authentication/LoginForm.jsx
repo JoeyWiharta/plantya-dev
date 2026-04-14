@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
-import toast from "react-hot-toast";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardTitle, CardHeader } from "@/components/ui/card";
 import SmallIcon from "../../assets/images/SmallIcon.png"
 import { useAuth } from "../../context/AuthContext";
 import { loginApi } from "../../utils/ListApi";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const validationSchema = Yup.object({
     userIdOrEmail: Yup.string().required("Email or UserID is required."),
@@ -30,7 +30,6 @@ const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleBeforeLogin = (setSubmitting) => {
-        toast.dismiss()
         if (isSubmittingRef.current) return false
         isSubmittingRef.current = true
         setSubmitting(true)
@@ -65,13 +64,15 @@ const LoginForm = () => {
         validationSchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             if (!handleBeforeLogin(setSubmitting)) return
-            const toastId = toast.loading("Logging in...")
             try {
-                const response = await handleLogin(values)
-                toast.success(response?.data?.message, { id: toastId })
+                const response = await ToasterCustom.promise(handleLogin(values), {
+                    loading: "Logging in...",
+                    success: (res) => res?.data?.message || "Login successful.",
+                    error: (err) => err?.response?.data?.message || "Service unavailable. Please try again later."
+                })
                 handleLoginSuccess(response.data.data, resetForm)
             } catch (error) {
-                toast.error(error?.response?.data?.message || "Service unavailable. Please try again later.", { id: toastId })
+                console.log(error)
                 handleLoginError(setSubmitting)
             }
         },

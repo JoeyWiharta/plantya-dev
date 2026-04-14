@@ -8,7 +8,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const MasterClusterEdit = (props) => {
     const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -42,7 +42,6 @@ const MasterClusterEdit = (props) => {
             }),
 
         onSubmit: async (values, { setSubmitting }) => {
-            toast.dismiss()
             setSubmitting(true)
             setLoadingSpinner(true)
             await EditClusterAction(values)
@@ -51,20 +50,20 @@ const MasterClusterEdit = (props) => {
     });
 
     const EditClusterAction = useCallback(async (param) => {
-        const toastId = toast.loading("Loading...")
         try {
-            const response = await editCluster(
-                param.clusterId,
+            await ToasterCustom.promise(editCluster(param.clusterId, {
+                clusterName: param.clusterName,
+            }),
                 {
-                    clusterName: param.clusterName,
-                })
-            if (response.status === 200) {
-                toast.success("Cluster updated successfully.", { id: toastId })
-                props.refreshTable();
-                handleClose()
-            }
+                    loading: "Saving changes...",
+                    success: "Cluster updated successfully.",
+                    error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+                }
+            )
+            props.refreshTable();
+            handleClose()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             setLoadingSpinner(false)
         }

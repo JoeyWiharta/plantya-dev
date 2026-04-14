@@ -13,12 +13,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Input } from "@/components/ui/input"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const roleOptions = [
     { value: "ADMIN", label: "Admin" },
     { value: "USER", label: "User" },
-    { value: "STAFF", label: "Staff" },
 ];
 
 const MasterUser = () => {
@@ -174,7 +173,7 @@ const MasterUser = () => {
             setApp002UserTotalData(response?.data?.totalElements ?? 0);
             app002SetTotalPage(response?.data?.totalPages ?? 0);
         } catch {
-            toast.error("System is unavailable, please try again later.");
+            ToasterCustom.error("System is unavailable, please try again later.")
         } finally {
             setLoading(false);
         }
@@ -237,18 +236,19 @@ const MasterUser = () => {
     }
 
     const handleUserAction = useCallback(async (type, param) => {
-        const toastId = toast.loading("Loading...")
         setLoading(true)
         try {
-            const response = await (type === "delete" ? deleteUser(param.userId) : restoreUser(param.userId))
-            if (response?.status === 204 || response?.status === 200) {
-                toast.success(`User ${type}d successfully.`, { id: toastId })
-                refreshTable()
-            } else {
-                toast.error(`Failed to ${type} user.`, { id: toastId })
-            }
+            await ToasterCustom.promise(
+                type === "delete" ? deleteUser(param.userId) : restoreUser(param.userId),
+                {
+                    loading: "Loading...",
+                    success: `User ${type}d successfully.`,
+                    error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+                }
+            )
+            refreshTable()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             type === "delete" ? setModalDeleteOpen(false) : setModalRestoreOpen(false)
             setLoading(false)
@@ -263,7 +263,7 @@ const MasterUser = () => {
             title={"User Management"}
             desc={"Manage and monitor system user accounts"}
             setModalAddOpen={setModalAddOpen}
-            buttonLabel={"Add User"}
+            buttonLabel={selectedTab === "active" ? "Add User" : undefined}
         >
             <div className="flex flex-col gap-2">
                 <Card>

@@ -9,7 +9,7 @@ import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import toast from "react-hot-toast";
+import { ToasterCustom } from "@/components/common/ToasterCustom";
 
 const MasterUserEdit = (props) => {
     const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -45,7 +45,6 @@ const MasterUserEdit = (props) => {
             }),
 
         onSubmit: async (values, { setSubmitting }) => {
-            toast.dismiss()
             setSubmitting(true)
             setLoadingSpinner(true)
             await EditUserAction(values)
@@ -54,22 +53,22 @@ const MasterUserEdit = (props) => {
     });
 
     const EditUserAction = useCallback(async (param) => {
-        const toastId = toast.loading("Loading...")
         try {
-            const response = await editUser(
-                param.userId,
+            await ToasterCustom.promise(editUser(param.userId, {
+                email: param.email,
+                name: param.name,
+                role: param.role
+            }),
                 {
-                    email: param.email,
-                    name: param.name,
-                    role: param.role
-                })
-            if (response.status === 200) {
-                toast.success("User updated successfully.", { id: toastId })
-                props.refreshTable();
-                handleClose()
-            }
+                    loading: "Saving changes...",
+                    success: "User updated successfully.",
+                    error: (err) => err?.response?.data?.message || "System is unavailable, please try again later."
+                }
+            )
+            props.refreshTable();
+            handleClose()
         } catch (error) {
-            toast.error(error?.response?.data?.message || "System is unavailable, please try again later.", { id: toastId })
+            console.log(error)
         } finally {
             setLoadingSpinner(false)
         }
