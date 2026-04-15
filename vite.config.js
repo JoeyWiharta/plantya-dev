@@ -6,7 +6,11 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
   return {
-    base: mode === "development" ? "/chlora/" : "/",
+    // yang lama hrusnya kesini
+    // base: mode === "development" ? "/chlora/" : "/",
+
+    // Test yang baru
+    base: "/chlora/",
     plugins: [
       react(),
       tailwindcss(),
