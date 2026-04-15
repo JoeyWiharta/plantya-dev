@@ -16,3 +16,13 @@ export const formatDate = (date) => {
         year: "numeric",
     });
 };
+
+// Formatter for timezone raw
+export const formatTimeStamp = (isoString) => {
+    if (!isoString) return ""
+    const date = new Date(isoString)
+    if (isNaN(date)) return ""
+
+    const pad = (n) => String(n).padStart(2, "0")
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+}

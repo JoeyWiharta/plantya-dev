@@ -19,6 +19,7 @@ const Notification = (props) => {
     const hasMoreNotification = notificationVisibleCount < notificationData.length
     const [flagHasOpened, setFlagHasOpened] = useState(false)
     const [flagLoadingNotif, setFlagLoadingNotif] = useState(false)
+    const [tickTime, setTickTime] = useState(0)
     // -------------------- Declare All State -------------------- //
 
     // -------------------- Fetch API -------------------- //
@@ -142,30 +143,17 @@ const Notification = (props) => {
     }, [notificationData, notificationUnread])
     // -------------------- Read All Notification -------------------- //
 
-
-    // Tinggal fix ke ISO timestamp mentah and buat useeffect agar update terus timenya just now, 5 minutes ago, / gimana sesuai Ui yg bagus
     // -------------------- Date Converter For Display -------------------- //
-    const formatNotifDate = (data) => {
-        const [time, day, month, year] = data.split(" ")
-        const [hour, minute] = time.split(":")
-
-        const monthList = {
-            Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-            Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
-        }
-        return new Date(year, monthList[month], day, hour, minute)
-    }
-
-    const formatNotifTime = (data) => {
-        const formattedNotifDate = formatNotifDate(data)
+    const formatNotifTime = (isoString) => {
+        const date = new Date(isoString)
         const now = new Date()
 
-        const diffMs = now - formattedNotifDate
+        const diffMs = now - date
         const diffMinutes = Math.floor(diffMs / 60000)
         const diffHours = Math.floor(diffMs / 3600000)
 
-        const isToday = now.toDateString() === formattedNotifDate.toDateString()
-        const isYesterday = new Date(now - 86400000).toDateString() === formattedNotifDate.toDateString()
+        const isToday = now.toDateString() === date.toDateString()
+        const isYesterday = new Date(now - 86400000).toDateString() === date.toDateString()
 
         if (isToday) {
             if (diffMinutes < 1) return "Just now"
@@ -175,13 +163,22 @@ const Notification = (props) => {
 
         if (isYesterday) return "Yesterday"
 
-        return formattedNotifDate.toLocaleDateString([], {
+        return date.toLocaleDateString([], {
             day: "2-digit",
             month: "short",
             year: "numeric"
         })
     }
     // -------------------- Date Converter For Display -------------------- //
+
+    // -------------------- Update Time Label Every Minute -------------------- //
+    useEffect(() => {
+        const interval = setInterval(() => setTickTime(t => t + 1), 60000)
+        return () => clearInterval(interval)
+    }, [])
+    // -------------------- Update Time Label Every Minute -------------------- //
+
+
 
     return (
         <Popover onOpenChange={(open) => {
@@ -274,7 +271,7 @@ const Notification = (props) => {
                                             {data.message}
                                         </p>
                                         <span className="text-xs text-muted-foreground/70 mt-1 block">
-                                            {formatNotifTime(data.time)}
+                                            {formatNotifTime(data.time, tickTime)}
                                         </span>
                                     </div>
                                     <div className="shrink-0 flex items-center">
