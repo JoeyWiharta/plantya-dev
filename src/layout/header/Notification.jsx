@@ -26,8 +26,9 @@ const Notification = (props) => {
     const fetchNotification = useCallback(async () => {
         try {
             const response = await getNotication()
-            setNotificationData(response?.data?.notifications ?? [])
-            setNotificationUnread(response?.data?.notifications?.filter((data) => !data.isRead).length)
+            const notifications = response?.data?.notifications ?? []
+            setNotificationData(notifications)
+            setNotificationUnread(notifications.filter((data) => !data.isRead).length)
         } catch (error) {
             ToasterCustom.error("System is unavailable, please try again later.")
         }
@@ -36,7 +37,6 @@ const Notification = (props) => {
 
     // -------------------- Hit API On First Render -------------------- //
     useEffect(() => {
-        // Hit API List Notification
         fetchNotification()
     }, [])
     // -------------------- Hit API On First Render -------------------- //
@@ -47,8 +47,7 @@ const Notification = (props) => {
         eventSource.addEventListener("notification", (event) => {
             try {
                 const jsonResponse = JSON.parse(event.data)
-                setNotificationUnread(jsonResponse?.unreadCount)
-                debugger
+                setNotificationUnread(jsonResponse?.unreadCount ?? 0)
                 if (jsonResponse?.notification) {
                     ToasterCustom.info(jsonResponse?.notification?.message, {
                         icon: jsonResponse?.notification?.notificationType === "BATTERY"
@@ -78,12 +77,15 @@ const Notification = (props) => {
         if (open) {
             if (!flagHasOpened) {
                 setFlagLoadingNotif(true)
-                await Promise.all([
-                    fetchNotification(),
-                    new Promise(res => setTimeout(res, 500))
-                ])
-                setFlagLoadingNotif(false)
-                setFlagHasOpened(true)
+                try {
+                    await Promise.all([
+                        fetchNotification(),
+                        new Promise(res => setTimeout(res, 500))
+                    ])
+                    setFlagHasOpened(true)
+                } finally {
+                    setFlagLoadingNotif(false)
+                }
             } else {
                 await fetchNotification()
             }
@@ -137,7 +139,7 @@ const Notification = (props) => {
             setNotificationUnread(previousUnread)
             ToasterCustom.error("Failed to read all notifications.")
         }
-    }, [])
+    }, [notificationData, notificationUnread])
     // -------------------- Read All Notification -------------------- //
 
     // -------------------- Date Converter For Display -------------------- //
