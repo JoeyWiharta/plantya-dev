@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { handleApiError } from "@/utils/ErrorHandler";
 
 const deviceTypeOption = [
     { value: "Actuator", label: "Actuator" },
@@ -166,7 +167,7 @@ const MasterDevice = () => {
             setApp004DeviceTotalData(response?.data?.totalElements ?? 0);
             app004SetTotalPage(response?.data?.totalPages ?? 0);
         } catch (error) {
-            ToasterCustom.error("System is unavailable, please try again later.")
+            if (handleApiError(error)) return
         } finally {
             setLoading(false);
         }
@@ -182,7 +183,7 @@ const MasterDevice = () => {
             const response = await getComboCluster();
             setClusterOption(response?.data?.list ?? []);
         } catch (error) {
-            console.log(error)
+            if (handleApiError(error)) return
         }
     }, []);
 

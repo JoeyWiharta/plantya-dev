@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { ToasterCustom } from "@/components/common/ToasterCustom";
+import { handleApiError } from "@/utils/ErrorHandler";
 
 const roleOptions = [
     { value: "ADMIN", label: "Admin" },
@@ -172,8 +173,8 @@ const MasterUser = () => {
             setApp002UserData(response?.data?.content ?? []);
             setApp002UserTotalData(response?.data?.totalElements ?? 0);
             app002SetTotalPage(response?.data?.totalPages ?? 0);
-        } catch {
-            ToasterCustom.error("System is unavailable, please try again later.")
+        } catch (error) {
+            if (handleApiError(error)) return
         } finally {
             setLoading(false);
         }

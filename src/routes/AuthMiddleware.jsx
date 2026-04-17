@@ -1,20 +1,22 @@
 import React from 'react';
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+const AuthMiddleware = ({ children }) => {
+    const { loginStatus } = useAuth()
+    const location = useLocation()
 
-const AuthMiddleware = (props) => {
-
-    const loginStatus = useAuth();
-
-    if (!loginStatus.loginStatus) {
+    if (!loginStatus) {
         return (
-            <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
-        )
-    } else {
-        return (
-            <React.Fragment>{props.children}</React.Fragment>
+            <Navigate
+                to="/login"
+                replace
+                state={{ from: location }}
+            />
         )
     }
+
+    return children
 }
+
 export default AuthMiddleware

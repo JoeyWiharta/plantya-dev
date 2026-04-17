@@ -6,10 +6,13 @@ import React, { useCallback, useEffect, useState, useRef } from "react"
 import { getNotication, subscribeNotificationSse, updateNotificationAll, updateNotificationOne } from "@/utils/ListApi";
 import { ToasterCustom } from "@/components/common/ToasterCustom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { handleApiError } from "@/utils/ErrorHandler";
+import { useAuth } from "@/context/AuthContext";
 
 const DEFAULT_NOTIF_SHOW = 5
 
 const Notification = (props) => {
+    const { loginStatus } = useAuth()
     // -------------------- Declare All State -------------------- //
     const notifIsOpenRef = useRef(false)
     const [notificationData, setNotificationData] = useState([])
@@ -31,7 +34,7 @@ const Notification = (props) => {
             setNotificationData(notifications)
             setNotificationUnread(notifications.filter((data) => !data.isRead).length)
         } catch (error) {
-            ToasterCustom.error("System is unavailable, please try again later.")
+            if (handleApiError(error)) return
         }
     }, [])
     // -------------------- Fetch API -------------------- //
@@ -44,6 +47,7 @@ const Notification = (props) => {
 
     // -------------------- Listen SSE Subscribe Notification -------------------- //
     useEffect(() => {
+        if (!loginStatus) return
         const eventSource = subscribeNotificationSse()
         eventSource.addEventListener("notification", (event) => {
             try {
@@ -68,9 +72,16 @@ const Notification = (props) => {
                 console.log(error)
             }
         })
-        eventSource.onerror = (error) => console.log(error)
+        eventSource.onerror = (error) => {
+            if (!loginStatus) {
+                eventSource.close()
+                return
+            }
+            console.log(error)
+        }
+
         return () => eventSource.close()
-    }, [])
+    }, [loginStatus])
     // -------------------- Listen SSE Subscribe Notification -------------------- //
 
     // -------------------- Open Modal and Load List Notif With Timer 500ms for Skeleton -------------------- //

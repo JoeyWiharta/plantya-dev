@@ -47,8 +47,9 @@ const RegisterForm = () => {
 
     const handleRegisterSuccess = (resetForm) => {
         setTimeout(() => {
-            ToasterCustom.info("Redirecting to login...")
+            const id = ToasterCustom.loading("Redirecting...")
             setTimeout(() => {
+                ToasterCustom.dismiss(id)
                 resetForm()
                 setShowPassword(false)
                 setShowConfirmPassword(false)
@@ -56,7 +57,7 @@ const RegisterForm = () => {
                 setIsPending(false)
                 navigate("/login")
             }, 1000)
-        }, 1500)
+        }, 2000)
     }
 
     const handleRegisterError = (setSubmitting) => {

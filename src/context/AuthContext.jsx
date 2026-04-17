@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { logoutApi } from "../utils/ListApi";
 import { setLogoutHandler } from "../utils/ApiHelper";
 import { ToasterCustom } from "@/components/common/ToasterCustom";
+import { toast, Toaster } from "sonner";
 
 export const AuthContext = createContext(null);
 
@@ -40,12 +41,22 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const isAuthExpiredRef = useRef(false)
     const clearAuthState = () => {
+        if (isAuthExpiredRef.current) return
+        isAuthExpiredRef.current = true
+
+        toast.dismiss()
+
         setUser(null);
         setLoginStatus(false);
+
         localStorage.removeItem("user");
         localStorage.removeItem("loginStatus");
-        ToasterCustom.error("Token expired, please login to continue.")
+
+        ToasterCustom.error("Token expired, please login to continue.", {
+            id: "auth-expired"
+        })
     }
 
     useEffect(() => {

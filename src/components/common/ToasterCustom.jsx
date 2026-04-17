@@ -7,6 +7,8 @@ const dismissAction = {
 }
 
 export const ToasterCustom = {
+    dismiss: (id) => toast.dismiss(id),
+    loading: (msg) => toast.loading(msg),
     error: (msg) => toast.error(msg, {
         action: dismissAction,
         icon: <AlertCircle size={16} className="text-red-500" />
@@ -32,10 +34,20 @@ export const ToasterCustom = {
             return result
         } catch (err) {
             toast.dismiss(loadingId)
-            toast.error(typeof msgs.error === "function" ? msgs.error(err) : msgs.error, {
+
+            const message =
+                typeof msgs.error === "function"
+                    ? msgs.error(err)
+                    : msgs.error
+
+            if (err?.isUnauthorized || message == null) {
+                throw err
+            }
+            toast.error(message, {
                 icon: <AlertCircle size={16} className="text-red-500" />,
                 action: dismissAction,
             })
+
             throw err
         }
     },

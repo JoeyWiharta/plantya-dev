@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { handleApiError } from "@/utils/ErrorHandler";
 
 const MasterCluster = () => {
     const [loading, setLoading] = useState(false)
@@ -131,7 +132,7 @@ const MasterCluster = () => {
             setApp003ClusterTotalData(response?.data?.countData ?? 0);
             app003SetTotalPage(response?.data?.totalPages ?? 0);
         } catch (error) {
-            ToasterCustom.error("System is unavailable, please try again later.")
+            if (handleApiError(error)) return
         } finally {
             setLoading(false);
         }
