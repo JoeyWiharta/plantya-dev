@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     const login = (userData) => {
+        isAuthExpiredRef.current = false
         setUser(userData);
         setLoginStatus(true);
         localStorage.setItem("user", JSON.stringify(userData));

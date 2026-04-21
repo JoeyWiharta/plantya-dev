@@ -31,7 +31,7 @@ const axiosInstance = (service = "management", additionalConfig = {}) => {
     })
 
     instance.interceptors.response.use((res) => res, unauthorizedInterceptor(service))
-    
+
     return instance
 }
 

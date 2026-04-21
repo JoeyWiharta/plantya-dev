@@ -70,15 +70,6 @@ const LoginForm = () => {
                     success: (res) => res?.data?.message || "Login successful.",
                     error: (err) => err?.response?.data?.message || "Service unavailable. Please try again later."
                 })
-
-                const hasCookie = document.cookie.length > 0;
-                if (!hasCookie) {
-                    ToasterCustom.dismiss()
-                    ToasterCustom.error("Login failed. Please contact support.")
-                    handleLoginError(setSubmitting)
-                    return
-                }
-
                 handleLoginSuccess(response.data.data, resetForm)
             } catch (error) {
                 console.log(error)
