@@ -37,3 +37,7 @@ export const getNotication = () => management.get("/notifications")
 export const updateNotificationOne = (notifId, res) => management.patch(`/notifications/${notifId}/read`, res);
 export const updateNotificationAll = () => management.patch(`/notifications/read-all`);
 export const subscribeNotificationSse = () => managementSse("/notifications/subscribe")
+
+// Dashboard
+export const subscribeDashboardSse = () => managementSse("/dashboard/subscribe")
+

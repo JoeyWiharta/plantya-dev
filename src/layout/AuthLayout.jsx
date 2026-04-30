@@ -20,7 +20,7 @@ const AuthLayout = (props) => {
             <AppSidebar userData={userData} />
 
             {/* Content  */}
-            <SidebarInset className="px-6 gap-4">
+            <SidebarInset className="flex flex-col min-h-screen px-6 gap-4">
                 <AppHeader />
                 <div className="flex flex-1 flex-col">
                     {props.children}

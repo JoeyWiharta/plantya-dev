@@ -273,7 +273,7 @@ const MasterDevice = () => {
             title={"Device Management"}
             desc={"Manage and monitor registered devices"}
         >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 flex-1">
                 <Card>
                     <CardContent>
                         <div className="flex flex-wrap items-center justify-end gap-2 mb-4">

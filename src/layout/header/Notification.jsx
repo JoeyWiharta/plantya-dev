@@ -49,7 +49,8 @@ const Notification = (props) => {
     useEffect(() => {
         if (!loginStatus) return
         const eventSource = subscribeNotificationSse()
-        eventSource.addEventListener("notification", (event) => {
+
+        const handleNotification = (event) => {
             try {
                 const jsonResponse = JSON.parse(event.data)
                 setNotificationUnread(jsonResponse?.unreadCount ?? 0)
@@ -67,11 +68,13 @@ const Notification = (props) => {
                         })
                     }
                 }
-            }
-            catch (error) {
+            } catch (error) {
                 console.log(error)
             }
-        })
+        }
+
+        eventSource.addEventListener("notification", handleNotification)
+
         eventSource.onerror = (error) => {
             if (!loginStatus) {
                 eventSource.close()
@@ -80,7 +83,10 @@ const Notification = (props) => {
             console.log(error)
         }
 
-        return () => eventSource.close()
+        return () => {
+            eventSource.removeEventListener("notification", handleNotification) // ✅ referensi sama
+            eventSource.close()
+        }
     }, [loginStatus])
     // -------------------- Listen SSE Subscribe Notification -------------------- //
 

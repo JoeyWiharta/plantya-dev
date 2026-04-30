@@ -213,7 +213,7 @@ const MasterPot = () => {
             setModalAddOpen={setModalAddOpen}
             buttonLabel={"Add Pot"}
         >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 flex-1">
                 <Card>
                     <CardContent>
                         <div className="flex items-center justify-end mb-4">

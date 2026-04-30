@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 const RootPageCustom = (props) => {
     return (
         <React.Fragment>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 flex-1">
                 <div className="flex justify-between items-center">
                     <div className="flex flex-col">
                         <h1 className="text-xl font-semibold">{props.title}</h1>
@@ -21,7 +21,7 @@ const RootPageCustom = (props) => {
                         </div>
                     )}
                 </div>
-                <div>
+                <div className="flex flex-1 flex-col">
                     {props.children}
                 </div>
             </div>

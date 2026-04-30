@@ -262,7 +262,7 @@ const MasterUser = () => {
             setModalAddOpen={setModalAddOpen}
             buttonLabel={selectedTab === "active" ? "Add User" : undefined}
         >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 flex-1">
                 <Card>
                     <CardContent>
                         <Tabs value={selectedTab} onValueChange={handleTabChange}>
