@@ -25,7 +25,8 @@ const PotCard = (props) => {
                 <BatteryMedium size={20} className="text-warning shrink-0" />
             </div>
         )
-        if (level <= 70) return (
+        debugger
+        if (level >= 70) return (
             <div className="rounded-lg bg-success/10 p-1.5">
                 <BatteryFull size={20} className="text-success shrink-0" />
             </div>
