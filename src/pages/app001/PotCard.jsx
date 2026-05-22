@@ -45,11 +45,7 @@ const PotCard = (props) => {
             }
         }
 
-        const diffMs = Date.now() - new Date(pot.lastUpdated).getTime()
-        const isTimeoutOffline = diffMs > 10 * 60 * 1000
-        const isOnline = pot.isOnline && !isTimeoutOffline
-
-        if (isOnline) {
+        if (pot.isOnline) {
             return {
                 text: "Online",
                 circleClass: "text-success fill-success",
@@ -63,7 +59,7 @@ const PotCard = (props) => {
             textClass: "text-danger",
         }
     }
-
+    
     return (
         <div className="flex flex-col h-full gap-3">
 
