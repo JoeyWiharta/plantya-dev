@@ -31,11 +31,6 @@ const chartConfig = {
     soilMoisture: { label: "Soil Moisture", color: "var(--color-success)", unit: "%" },
 };
 
-const parseTime = (timeStr) => {
-    const [timePart, datePart] = timeStr.split(" ");
-    return { timePart, datePart };
-};
-
 const formatXAxis = (timeStr) => {
     if (timeStr.includes(" ")) return timeStr.split(" ")[0];
     return timeStr;
@@ -47,8 +42,7 @@ const formatXAxis = (timeStr) => {
 const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
 
-    const is7d = label.includes(" "); // "20:00 19-05-2026" vs "20:00"
-
+    const is7d = label.includes(" ");
     let header;
     if (is7d) {
         const [timePart, datePart] = label.split(" ");
@@ -58,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         });
         header = `${formattedDate} (${timePart})`;
     } else {
-        header = label; // "20:00"
+        header = label;
     }
 
     return (
@@ -239,6 +233,8 @@ const GraphModal = (props) => {
                                                 tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
                                                 domain={["auto", "auto"]}
                                                 width={50}
+                                                tickCount={4}
+                                                tickFormatter={(value) => +value.toFixed(1) + ''}
                                             />
 
                                             <ChartTooltip content={<CustomTooltip />} />
