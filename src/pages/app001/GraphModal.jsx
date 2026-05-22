@@ -231,10 +231,16 @@ const GraphModal = (props) => {
                                                 axisLine={false}
                                                 tickMargin={16}
                                                 tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
-                                                domain={["auto", "auto"]}
+                                                domain={([dataMin, dataMax]) => {
+                                                    const padding = (dataMax - dataMin) < 1 ? 1 : (dataMax - dataMin) * 0.1;
+                                                    return [
+                                                        Math.max(0, Math.floor((dataMin - padding) * 10) / 10),
+                                                        Math.ceil((dataMax + padding) * 10) / 10,
+                                                    ];
+                                                }}
                                                 width={50}
-                                                tickCount={4}
-                                                tickFormatter={(value) => +value.toFixed(1) + ''}
+                                                allowDecimals={true}
+                                                tickFormatter={(value) => +value.toFixed(1) + ""}
                                             />
 
                                             <ChartTooltip content={<CustomTooltip />} />
