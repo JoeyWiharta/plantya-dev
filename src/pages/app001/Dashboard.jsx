@@ -5,7 +5,7 @@ import { subscribeDashboardSse } from "@/utils/ListApi";
 import { useAuth } from "@/context/AuthContext";
 import SummaryCard from "./SummaryCard";
 import GraphModal from "./GraphModal";
-import { initClockSkewEstimate, logSseReceived } from "@/utils/latencyDebug";
+import { initClockSkewEstimate, logSseReceived } from "@/utils/LatencyDebug";
 
 const Dashboard = () => {
     const { loginStatus } = useAuth()
