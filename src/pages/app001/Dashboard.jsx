@@ -5,6 +5,7 @@ import { subscribeDashboardSse } from "@/utils/ListApi";
 import { useAuth } from "@/context/AuthContext";
 import SummaryCard from "./SummaryCard";
 import GraphModal from "./GraphModal";
+import { initClockSkewEstimate, logSseReceived } from "@/utils/latencyDebug";
 
 const Dashboard = () => {
     const { loginStatus } = useAuth()
@@ -37,10 +38,11 @@ const Dashboard = () => {
     // -------------------- Listen SSE Subscribe Dashboard -------------------- //
     useEffect(() => {
         if (!loginStatus) return
-
+        initClockSkewEstimate()
         const eventSource = subscribeDashboardSse()
 
         const handleEvent = (event) => {
+          logSseReceived(event.data)
             try {
                 const jsonResponse = JSON.parse(event.data)
                 if (jsonResponse) {
